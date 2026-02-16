@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "EOY - 2025"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "be75fedc-3587-afce-4458-94f0b3c6e726"
+  }
+}

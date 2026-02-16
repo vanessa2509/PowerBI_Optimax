@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax Volume (2.0)"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0d50e696-d833-a2a9-4e7d-5bdb64780424"
+  }
+}

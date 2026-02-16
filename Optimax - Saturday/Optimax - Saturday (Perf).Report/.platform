@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Saturday (Perf)"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5129e24e-6676-8b75-4496-c80f48a18e94"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Unaddressed details ",
+    "description": ""
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c12896e3-57fa-bacb-4013-fab8c489ed7f"
+  }
+}

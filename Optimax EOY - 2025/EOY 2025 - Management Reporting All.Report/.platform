@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "EOY 2025 - Management Reporting All"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "0dff87f8-516e-9bc3-48fd-cc7f6d05828a"
+  }
+}

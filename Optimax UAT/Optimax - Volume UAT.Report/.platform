@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Volume UAT"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6970e8d3-e3ae-bf15-4d33-ad59c9b41b37"
+  }
+}
