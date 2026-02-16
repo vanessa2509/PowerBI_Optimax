@@ -1,0 +1,188 @@
+table V_PBI_DISTRIPOST
+	lineageTag: 0a215829-6dd5-44ad-abf5-4e02b6aaefa3
+
+	measure 'DAY+5ENACOM- zero instead of blank' =
+			
+			var _NBR5= [DAY_+5ENA]
+			return
+			IF(ISBLANK(_NBR5),0,_NBR5)
+		formatString: 0
+		isHidden
+		lineageTag: 12e5faa7-5f07-4444-9147-f03c50fcfb52
+
+		changedProperty = IsHidden
+
+	measure AVG_DAY_+5ENA = CALCULATE(DISTINCTCOUNT(V_PBI_DISTRIPOST[DATE_YYYYMMDD]),V_PBI_DISTRIPOST[NBR_ENA_TOTAL] >=5) / DISTINCTCOUNT(V_PBI_DISTRIPOST[DATE_YYYYMMDD])
+		lineageTag: 6a4b0a8f-379a-4072-89fb-5bc0d2f20da7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#AVG ENA Total ACTUALS' = CALCULATE(SUM(V_PBI_DISTRIPOST[NBR_ENA_TOTAL]) /  DISTINCTCOUNT(V_PBI_DISTRIPOST[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: af9ccac5-f9d6-4170-8070-58dd4df922a1
+
+	measure '#AVG ENA Total ORG' = CALCULATE(SUM(V_PBI_DISTRIPOST[ORG_ENA]) /  DISTINCTCOUNT(V_PBI_DISTRIPOST[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 35acd8fd-48fe-4fa3-acf3-b62eb9b06ea4
+
+	measure '#Avg_ENA % delta' =
+			
+			VAR __BASELINE_VALUE = [#AVG ENA Total ORG]
+			VAR __VALUE_TO_COMPARE = [#AVG ENA Total ACTUALS]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3f77028d-a198-4707-bf77-a937ef3cfbd3
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 4b6a953c-3e54-4e45-bb4f-75be1a16b2e1
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: ab9ec4fe-0b0d-4e36-a73c-f2ba150fe8b9
+		summarizeBy: count
+		sourceColumn: REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MASTER_REORG_ID
+		dataType: double
+		lineageTag: 0d1b0533-5d27-4b4d-8d13-c889864d59b2
+		summarizeBy: count
+		sourceColumn: MASTER_REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: 7b28ce3d-1375-4999-87b3-7c61581cc6d5
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROUND_NAME
+		dataType: string
+		lineageTag: b5110290-3fbc-4602-90bb-de892892f7aa
+		summarizeBy: none
+		sourceColumn: ROUND_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIENST
+		dataType: string
+		lineageTag: b00743d9-97d7-4dfb-8356-66e04fdd8faa
+		summarizeBy: none
+		sourceColumn: DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column NBR_ENA_TOTAL
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6811cf65-375a-4a6b-b040-92c81b335645
+		summarizeBy: sum
+		sourceColumn: NBR_ENA_TOTAL
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY
+		dataType: string
+		lineageTag: e7a3a0c0-9491-4e65-90d1-2c92c251b99f
+		summarizeBy: none
+		sourceColumn: KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_CP
+		dataType: string
+		lineageTag: a0647e8e-09f0-4cdf-9f38-0bada7533d60
+		summarizeBy: none
+		sourceColumn: KEY_CP
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ENA_COM
+		dataType: int64
+		formatString: #,0
+		lineageTag: 02c30c0b-e242-43d0-8071-93a63d162e60
+		summarizeBy: sum
+		sourceColumn: NB_ENA_COM
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ENA_INF
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2295287f-c6af-489d-a08b-9d437ff6264d
+		summarizeBy: sum
+		sourceColumn: NB_ENA_INF
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_ENA
+		dataType: double
+		lineageTag: 2509a701-c27f-4757-b654-4a0a63bb7863
+		summarizeBy: sum
+		sourceColumn: ORG_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_ENA
+		dataType: double
+		lineageTag: 3b4e8b46-2c3c-4c6b-a9ac-8c798c181074
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_ENA
+		dataType: double
+		lineageTag: 3e838c8b-8801-48af-8899-6732ec71c3c0
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition V_PBI_DISTRIPOST-23d11e98-a6e2-4b7c-9f79-d77ff1610c1b = m
+		mode: import
+		queryGroup: 'Actuals Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DISTRIPOST1 = PBI_VLT341{[Name="DISTRIPOST_HR_WLT"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(V_PBI_DISTRIPOST1, "KEY", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB"), [ROUND_NAME]}), type text),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Inserted Merged Column", "KEY_CP", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB")}), type text),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Merged Column1",{{"NBR_ENA_TOTAL", Int64.Type}, {"NB_ENA_INF", Int64.Type}, {"NB_ENA_COM", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

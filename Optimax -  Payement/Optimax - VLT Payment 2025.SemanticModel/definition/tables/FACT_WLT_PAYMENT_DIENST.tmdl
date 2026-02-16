@@ -1,0 +1,119 @@
+table FACT_WLT_PAYMENT_DIENST
+	lineageTag: 028b161a-66e7-4a41-9ba1-4cf37f9976e5
+
+	column MASTER_REORG_ID
+		dataType: int64
+		lineageTag: a23a3154-66d7-4507-9f34-75a206d4f83d
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_ID
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DIENST
+		dataType: string
+		lineageTag: 4e59f383-7b15-4fa8-ab15-1917247bf8d3
+		summarizeBy: none
+		sourceColumn: DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column POSTAL_CODE
+		dataType: int64
+		lineageTag: a1987fce-8fc8-4c89-bc1a-52b5af93a5fe
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ENA
+		dataType: double
+		lineageTag: f52b7c48-693a-46f3-b0a2-d6136084118f
+		summarizeBy: sum
+		sourceColumn: WLT_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_FNGF
+		dataType: double
+		lineageTag: 46561628-5887-4dcb-8167-8a76d1ddbed3
+		summarizeBy: sum
+		sourceColumn: WLT_FNGF
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_EE
+		dataType: double
+		lineageTag: 1b1b9be4-f359-4199-a532-eb13c0b1da96
+		summarizeBy: sum
+		sourceColumn: WLT_EE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_PRIME
+		dataType: double
+		lineageTag: a59488c4-bd9b-435b-9861-4405af5f83a4
+		summarizeBy: sum
+		sourceColumn: WLT_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_PAK
+		dataType: double
+		lineageTag: 47111d2c-14e8-4c99-8fdb-8dc52e1510e6
+		summarizeBy: sum
+		sourceColumn: WLT_PAK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DV_BALANCE
+		dataType: double
+		lineageTag: f5f1fc85-f920-441a-bb20-01825e7b7828
+		summarizeBy: sum
+		sourceColumn: DV_BALANCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOTAL
+		dataType: double
+		lineageTag: 5a4ace91-a9b4-4570-ae39-c4d620c55555
+		summarizeBy: sum
+		sourceColumn: TOTAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FACT_WLT_PAYMENT_DIENST = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database("mm8p1", [HierarchicalNavigation=true]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    FACT_WLT_PAYMENT_DIENST1 = LAB_SR5210{[Name="FACT_WLT_PAYMENT_DIENST"]}[Data]
+				in
+				    FACT_WLT_PAYMENT_DIENST1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

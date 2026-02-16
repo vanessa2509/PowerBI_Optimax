@@ -1,0 +1,1300 @@
+table FACT_HR_OFFICE_DAILY
+	lineageTag: e985e13b-ecea-4229-a217-bfe76790a5b1
+
+	measure '#workload ENA' = CALCULATE([#workload ENA_hours]/3600)/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 7abb016a-cf0f-4e76-8fcf-845fa4515ff2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload GF' = CALCULATE([#workload GF_hours]/3600)/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 21b80fbf-9b2d-44eb-84e4-ef03af59dc0a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload ENA_hours' = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_ENA])-SUM(FACT_HR_WLT[WLT_ORG_ENA]))
+		lineageTag: 3158898b-a5f5-4541-bb44-ade3d7652765
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload FN' = CALCULATE([#workload FN_hours]/3600)/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 311ecd58-a534-4347-b801-5d4f8b08c4f0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload GF_hours' = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_GF])-SUM(FACT_HR_WLT[WLT_ORG_GF]))
+		lineageTag: 607776f9-4e3b-4d38-b667-83daf33c5fd9
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload renfort time' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_DISTRI_TIME_H])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: a7e1446b-7f0b-4d14-a8e9-a66a4cc92d2c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload subco time' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_NB])*6)/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 4d978230-7e14-46db-b305-301d484bd3fa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload FN_hours' = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_FN])-SUM(FACT_HR_WLT[WLT_ORG_FN]))
+		lineageTag: 491ad49d-ecf3-4e40-b59e-c1b6d242cefa
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload EE+PRIME_hours' = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_EE])-SUM(FACT_HR_WLT[WLT_ORG_EE]))
+		lineageTag: 5461827d-8cd8-4147-af78-79705e4b59d8
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload EE+PRIME' = CALCULATE([#workload EE+PRIME_hours]/3600)/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 494d7a3d-1bc7-44b8-85b9-d7e97fe8f940
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload PAK_hours' = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_PAK])-SUM(FACT_HR_WLT[ORG_PAK]))
+		lineageTag: efaa3dd5-716c-402f-b76c-3fdc70909577
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#workload PAK' = CALCULATE(([#Avg_WLT_PAK_REEL])-([#Avg_WLT_PAK_ORG])+[Workload Subco + RENF])
+		lineageTag: 7a8727ca-6a25-4fd5-89c6-1be9a2edb91f
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Workload RENF+SUB Hours' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PARCELS])+SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PARCELS]))
+		lineageTag: 33bc1b4c-65ca-4dae-9615-effebfe0cf6b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Workload Subco + RENF' = [Workload RENF+SUB Hours]/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])*100/3600
+		lineageTag: 70041d62-910b-4f31-a125-17d2e8cbe2f0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Reinforcement in hours' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_DISTRI_TIME_H])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: a956cac5-fd64-424c-8c09-a407f8e01ad2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #EE_ORG_TOTAL = CALCULATE(Sum(FACT_HR_OFFICE_DAILY[ORG_EE])+ SUM(FACT_HR_OFFICE_DAILY[ORG_EE_NBR]))
+		formatString: #,0
+		lineageTag: 6fdb1f34-f36c-4ec3-a1d9-f2415d151596
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #ORG_EE_AVERAGE = CALCULATE([#EE_ORG_TOTAL]/ DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: f8119758-68ca-46cf-8adc-10f4eb01b675
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #ORG_EE_INDIV_AVERAGE = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[ORG_EE])/ DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: 1762be55-4d9f-4b87-bc1a-5d3610a54ce8
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #ORG_EE_NBR_AVERAGE = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[ORG_EE_NBR])/ DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: 3228007f-6acd-4477-af0b-e748c097279b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #ORG_EE_NBR_AVERAGE_LAST_ORG = CALCULATE(FACT_HR_OFFICE_DAILY[#ORG_EE_NBR_AVERAGE],FACT_HR_OFFICE_DAILY[FLAG_MAX_DATE] = "YES")
+		formatString: #,0
+		lineageTag: 63bed674-a9fa-49ab-812a-9ddf295df69b
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_DV_BALANCE = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[DV_BALANCE]) /3600 /DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) / 7.6)
+		formatString: 0.0
+		lineageTag: e576de72-885c-4bca-ab68-3702006ea9b9
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_JE = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SERVICE_JE_DURATION]) /60 /DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) / 7.6)
+		lineageTag: 5c07b2a9-8efa-4b1d-9b27-ad426b09def2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_WLT_DELTA_REINFORCEMENT_STRUC = ([AVG_WLT_DELTA_JE] + [AVG_WLT_DELTA_DV_BALANCE]) * -1
+		formatString: 0.0
+		lineageTag: 4c27e87b-9868-4ebb-a0dc-af7cee352bb6
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure Worload_Growth_POT_AB = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[GROWTH_POT_AB] ) /2 /60 /DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: 8c6ea00e-2272-4094-af49-5e9498c801bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_NBR% delta with Last ORG_null' = IF([#Avg_EE_NBR% delta with Last ORG] = 1.0, "Null",[#Avg_EE_NBR% delta with Last ORG])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b4ce2dc4-a9cb-4cfb-ae4d-35d82c9b9d21
+
+		changedProperty = FormatString
+
+	measure '#Avg_Krant % delta with Last ORG_null' = IF([#Avg_Krant % delta with Last ORG] = -1.00, "null", [#Avg_Krant % delta with Last ORG])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cce4d4e1-61d5-4e5a-9c5c-fe73d3cdad80
+
+		changedProperty = FormatString
+
+	measure '#Avg_PAK_EOY % Delta' =
+			
+			VAR __BASELINE_VALUE = Sum(OPTIMAX_EOY_ORG[EOY_ORG_2023])
+			VAR __VALUE_TO_COMPARE = Sum(FACT_HR_OFFICE_DAILY[CORRECTED_PRIME_CALCULATION])
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a792c04a-a33e-4064-81a8-b9229670ece7
+
+	measure '#Avg_PAK_EOY % Delta Saturday' =
+			
+			VAR __BASELINE_VALUE = Sum(FACT_HR_OFFICE_DAILY[AVERAGE_WK_REEL_PARCELS])
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL_DISTRI]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 21cb4e87-161a-4890-bbc7-4a8e4f12a53e
+
+	measure PRIME_ESTIMATION_4 = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME4]) * 20 )
+		formatString: #,0
+		lineageTag: 42eb4ac5-b23d-430d-85c8-748341e978bc
+
+	measure PRIME_ESTIMATION_6 = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME6]) * 30)
+		formatString: #,0
+		lineageTag: 04e594d5-d2a8-4a99-9e05-b9501188abee
+
+	measure PRIME_ESTIMATION_TOTAL = CALCULATE([PRIME_ESTIMATION_4] + [PRIME_ESTIMATION_6])
+		formatString: #,0
+		lineageTag: 5cb8f3b8-ff24-405c-96d2-73c2c7fb9895
+
+	measure '#Avg_PAK_EOY_MO % Delta' =
+			
+			VAR __BASELINE_VALUE = SUM(OPTIMAX_EOY_VOLUME_BY_MO_DELTA[EOY_ORG_2023])
+			VAR __VALUE_TO_COMPARE = Sum(OPTIMAX_EOY_VOLUME_BY_MO_DELTA[CORRECTION_PRIME])
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 7a5496df-01e2-42c0-912e-9bad916164f1
+
+	measure PRIME_ESTIMATION_4_DIS = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME4_DIS]) * 20 )
+		formatString: #,0
+		lineageTag: 3cda28c8-94c4-411f-a670-ee8547b47f49
+
+	measure PRIME_ESTIMATION_6_DIS = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME6_DIS]) * 30)
+		formatString: #,0
+		lineageTag: 57bba087-4ed7-40a3-ac07-5513f9324c04
+
+	measure PRIME_ESTIMATION_TOTAL_DIS = CALCULATE([PRIME_ESTIMATION_4_DIS] + [PRIME_ESTIMATION_6_DIS])
+		formatString: #,0
+		lineageTag: e4dbae6e-7382-440c-a191-afdb4c59b51b
+
+	measure '#Avg_PAK_EOY % Delta REAL' =
+			
+			VAR __BASELINE_VALUE = Sum(OPTIMAX_EOY_ORG[EOY_ORG_2023])
+			VAR __VALUE_TO_COMPARE = Sum(FACT_HR_OFFICE_DAILY[AVERAGE_WK_REEL_PARCELS])
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 74f4c54e-0c81-427b-b112-d426b8390d36
+
+	measure '#Avg_PAK_EOY_MO REAL % Delta' =
+			
+			VAR __BASELINE_VALUE = SUM(OPTIMAX_EOY_VOLUME_BY_MO_DELTA[EOY_ORG_2023])
+			VAR __VALUE_TO_COMPARE = Sum(OPTIMAX_EOY_VOLUME_BY_MO_DELTA[AVERAGE_WK_REEL_PARCELS])
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f4990a93-4788-4934-a5bf-6f4aae24b81d
+
+	measure #Avg_ENA_REEL_CORRECTION = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[ZZA_CORRECTION])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: 63611fb6-a4b8-47b9-a7be-35d48b5e444d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_ENA_REEL_NO_ELECT = CALCULATE([#Avg_ENA_REEL] - [#Avg_ENA_REEL_CORRECTION])
+		lineageTag: ea13d25f-8fef-49ee-97b1-eae93e683a64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#NAT - AVG REEL PARCELS'
+		lineageTag: 60016e37-1e65-4e3e-a264-e0b9fb7ec352
+
+	column DATE_YYYYMMDD
+		dataType: int64
+		lineageTag: a297991e-2d7e-4956-bbc1-221d8ef2601b
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: c3742ccf-610e-43aa-ad4f-adf61cc8d745
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_NB
+		dataType: double
+		lineageTag: d4d18a17-012e-429c-83b8-d8de21cd3b15
+		summarizeBy: sum
+		sourceColumn: SUBCO_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 11e99954-3a15-4ee1-a99b-1dc5591af412
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MASTER_REORG_ID
+		dataType: double
+		lineageTag: 3b7670d2-b027-4249-b76f-7cff2a2b443c
+		summarizeBy: count
+		sourceColumn: MASTER_REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_PARCELS
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7c99b29d-bdb1-4f40-8182-90707ae48de3
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_PARCELS
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REINFORCEMENT_PRIME
+		dataType: int64
+		lineageTag: d696c040-a982-4ce6-88aa-9ae18d96c6fb
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Key
+		dataType: string
+		lineageTag: e9f6a924-b623-4e2a-8eff-7eaa4d08dddc
+		summarizeBy: none
+		sourceColumn: Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBCO_PARCELS
+		dataType: double
+		lineageTag: 476e74e2-b9d1-494b-bbe5-60eccc527397
+		summarizeBy: sum
+		sourceColumn: SUBCO_PARCELS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_PRIME
+		dataType: double
+		lineageTag: 424eca91-846f-4682-8ba6-8067cf5dca96
+		summarizeBy: sum
+		sourceColumn: SUBCO_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GROWTH_POT_AB
+		dataType: double
+		lineageTag: 96ca2100-b298-4344-8486-165b1e9182e0
+		summarizeBy: sum
+		sourceColumn: GROWTH_POT_AB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KEY_REORG
+		dataType: string
+		lineageTag: dd5e14ad-2473-4e75-b20b-52a38e999787
+		summarizeBy: none
+		sourceColumn: KEY_REORG
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_CENTRA
+		dataType: string
+		lineageTag: d8ed436b-150e-47de-a591-9a478c6c8fcb
+		summarizeBy: none
+		sourceColumn: KEY_CENTRA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FORMATION_TIME
+		dataType: double
+		lineageTag: c30be4f6-6415-4dab-9984-a3d07d53ef17
+		summarizeBy: sum
+		sourceColumn: FORMATION_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_GF
+		dataType: double
+		lineageTag: 4b8c43db-6c65-44c7-8d83-abfe7c53cef0
+		summarizeBy: sum
+		sourceColumn: NBACO_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_P1
+		dataType: double
+		lineageTag: 018b3f32-013e-49cf-be90-ea6124fb68f9
+		summarizeBy: sum
+		sourceColumn: NBACO_P1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_P2
+		dataType: double
+		lineageTag: c537bc35-c06a-4e2d-859e-953fe182de4e
+		summarizeBy: sum
+		sourceColumn: NBACO_P2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_TOT
+		dataType: double
+		lineageTag: b4417bda-80fa-4c0c-82b2-aa7774581de6
+		summarizeBy: sum
+		sourceColumn: NBACO_TOT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAR_CENTRA_TIME
+		dataType: double
+		lineageTag: 2444fc0d-8a6f-44a7-83d7-585dcc4319ee
+		summarizeBy: sum
+		sourceColumn: PAR_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAR_NO_CENTRA_TIME
+		dataType: double
+		lineageTag: 88b68502-1fd6-4fb2-8dfe-e7bc3a2d0fce
+		summarizeBy: sum
+		sourceColumn: PAR_NO_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAR_PLA_TIME
+		dataType: double
+		lineageTag: c7513578-a767-44ca-ae2a-04e30f9e0677
+		summarizeBy: sum
+		sourceColumn: PAR_PLA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_COLLECT_NB
+		dataType: int64
+		lineageTag: 046f8400-a27f-4ed9-bed6-6bc97ba0e685
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_COLLECT_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_DISTRI_NB
+		dataType: int64
+		lineageTag: 0cc7e82d-90bb-4857-be56-b4387ead88a0
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_DISTRI_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_EMP_NB
+		dataType: int64
+		lineageTag: 15a67089-affa-46a7-bb37-b057a5de6c5b
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_EMP_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_OTHER_NB
+		dataType: int64
+		lineageTag: 283e80a0-dfed-4894-afc4-38fd0f4a8823
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_OTHER_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REPARTITION_CENTRA_TIME
+		dataType: double
+		lineageTag: 84bc7699-0f54-4153-88ba-a95deab2732c
+		summarizeBy: sum
+		sourceColumn: REPARTITION_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REPARTITION_NO_CENTRA_TIME
+		dataType: double
+		lineageTag: 4fa70ea4-0bab-48cc-9a21-8b1fab2af4f9
+		summarizeBy: sum
+		sourceColumn: REPARTITION_NO_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WP_CENTRA_TIME
+		dataType: double
+		lineageTag: 15c80118-a18f-4625-b9f7-6bbf175dd744
+		summarizeBy: sum
+		sourceColumn: WP_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WP_NO_CENTRA_TIME
+		dataType: double
+		lineageTag: 80ad12ce-b0d8-4cc5-89b8-c4d3ede1261a
+		summarizeBy: sum
+		sourceColumn: WP_NO_CENTRA_TIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_REGISTERED
+		dataType: int64
+		lineageTag: a79e2db3-a832-4791-942f-73262e7c7c0e
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_REGISTERED
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_REGISTERED
+		dataType: double
+		lineageTag: ea9f385f-2e9f-491b-a584-c9f5a2694b7d
+		summarizeBy: sum
+		sourceColumn: SUBCO_REGISTERED
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_COLLECT_TIME_H
+		dataType: int64
+		lineageTag: e9c4134a-0fbc-4475-b67d-7f31dea9fff5
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_COLLECT_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_DISTRI_TIME_H
+		dataType: int64
+		lineageTag: 4a3aa0ab-efc3-42d4-860d-ba519e655fde
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_DISTRI_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_EMP_TIME_H
+		dataType: int64
+		lineageTag: 3e2c94cb-ec53-46af-9349-000b71fbc750
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_EMP_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_OTHER_TIME_H
+		dataType: int64
+		lineageTag: 6d97bbde-6e39-4eaa-aef9-434c58be1220
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_OTHER_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_COLLECT_TIME_M
+		dataType: int64
+		lineageTag: 34b683be-ed3b-43a1-a90c-958029bf2e62
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_COLLECT_TIME_M
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_DISTRI_TIME_M
+		dataType: int64
+		formatString: #,0
+		lineageTag: 77ba581b-4df2-4542-b8ee-2af9a9062894
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_DISTRI_TIME_M
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REINFORCEMENT_EMP_TIME_M
+		dataType: int64
+		lineageTag: 28015381-620a-42af-afcb-097f7b350e2a
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_EMP_TIME_M
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REINFORCEMENT_OTHER_TIME_M
+		dataType: int64
+		lineageTag: a53f7b68-3872-4f85-bf49-8a002273bbc4
+		summarizeBy: sum
+		sourceColumn: REINFORCEMENT_OTHER_TIME_M
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ULI_DISTRI_NB
+		dataType: double
+		lineageTag: 01f600c0-d7d4-47bb-9b89-a12db221248b
+		summarizeBy: sum
+		sourceColumn: ULI_DISTRI_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ULI_EMP_NB
+		dataType: double
+		lineageTag: 452dcb56-8c11-4d06-8a90-48cacc1832e8
+		summarizeBy: sum
+		sourceColumn: ULI_EMP_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ULI_DISTRI_TIME_H
+		dataType: double
+		lineageTag: 2050cc2c-a5b9-46bc-a031-106f6e29943d
+		summarizeBy: sum
+		sourceColumn: ULI_DISTRI_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ULI_EMP_TIME_H
+		dataType: double
+		lineageTag: a5bdbfae-7a4d-420c-8ab1-9690f810bfe7
+		summarizeBy: sum
+		sourceColumn: ULI_EMP_TIME_H
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_ULI_DISTRI
+		dataType: string
+		lineageTag: 9bfeb761-2193-4927-96fb-620cb599aa38
+		summarizeBy: none
+		sourceColumn: FLAG_ULI_DISTRI
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_
+		dataType: string
+		lineageTag: 8c791e22-ca1c-4f2c-80b7-5d36f35bd08f
+		summarizeBy: none
+		sourceColumn: KEY_
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_MAX_DATE
+		dataType: string
+		lineageTag: 062dc4bd-b34b-4c75-91f3-d9788145032a
+		summarizeBy: none
+		sourceColumn: FLAG_MAX_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column STRIKE_DURATION
+		dataType: double
+		lineageTag: f6d86ed0-1369-4b7f-824e-58722817b1b3
+		summarizeBy: sum
+		sourceColumn: STRIKE_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column STRIKE_NBAGENTS
+		dataType: double
+		lineageTag: 8802d7f9-4ef4-4314-b44f-b2184f09a953
+		summarizeBy: sum
+		sourceColumn: STRIKE_NBAGENTS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_GF
+		dataType: double
+		lineageTag: d29940e5-6e09-435d-8567-b55229326a99
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LVR_GF
+		dataType: double
+		lineageTag: f68e5bb6-ac62-4378-90d7-baebb6403101
+		summarizeBy: sum
+		sourceColumn: LVR_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LVR_NF
+		dataType: double
+		lineageTag: b3c2c776-e48d-43d7-982d-8d848f9aba8c
+		summarizeBy: sum
+		sourceColumn: LVR_NF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_EE
+		dataType: double
+		lineageTag: e42f24e1-3e4e-43d7-a3d5-784c8511e595
+		summarizeBy: sum
+		sourceColumn: ORG_EE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_EE_NBR
+		dataType: double
+		lineageTag: 4cad05db-b789-4c35-b410-321d36bfabbf
+		summarizeBy: sum
+		sourceColumn: ORG_EE_NBR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_COLLECTIF_PAK
+		dataType: double
+		lineageTag: 599f2737-b23f-432e-8933-72989ce9821b
+		summarizeBy: sum
+		sourceColumn: WLT_COLLECTIF_PAK
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_COLLECTIF_REGISTERED
+		dataType: double
+		lineageTag: 1299fb91-003b-4867-97ad-3544ffaa5711
+		summarizeBy: sum
+		sourceColumn: WLT_COLLECTIF_REGISTERED
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_COLLECTIF_PRIME
+		dataType: double
+		lineageTag: 57922d3f-3d9a-4407-b598-fd74913622b5
+		summarizeBy: sum
+		sourceColumn: WLT_COLLECTIF_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_COLLECTIF_ENA
+		dataType: double
+		lineageTag: ffda0d8c-5e56-41ec-889f-7c14097b38d5
+		summarizeBy: sum
+		sourceColumn: WLT_COLLECTIF_ENA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEL_WORKLOAD_PAK
+		dataType: double
+		lineageTag: 88f12057-6c4d-48ef-ae2e-ef9a7a5897b4
+		summarizeBy: sum
+		sourceColumn: REEL_WORKLOAD_PAK
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOT_WORKLOAD_KRANTEN
+		dataType: double
+		lineageTag: f7623a06-dc42-40f0-adde-d91224e72523
+		summarizeBy: sum
+		sourceColumn: TOT_WORKLOAD_KRANTEN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DV_BALANCE
+		dataType: double
+		lineageTag: d8d7ae15-520f-4a09-ab02-fc45d701c28a
+		summarizeBy: sum
+		sourceColumn: DV_BALANCE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SERVICE_JE_DURATION
+		dataType: double
+		lineageTag: 86f4988e-05e6-413f-ae6e-efc607af6fc8
+		summarizeBy: sum
+		sourceColumn: SERVICE_JE_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_COLLECTIF_FNGF
+		dataType: double
+		lineageTag: 51c45fb7-24f8-4886-a9ae-598538f23ba7
+		summarizeBy: sum
+		sourceColumn: WLT_COLLECTIF_FNGF
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KEY_PS
+		dataType: string
+		lineageTag: 34de50c1-522a-4bd0-bc93-fd10a8c6d1d5
+		summarizeBy: none
+		sourceColumn: KEY_PS
+
+		annotation SummarizationSetBy = Automatic
+
+	column REEL_PARCELS
+		dataType: double
+		lineageTag: 284d4401-26a7-4d87-adcf-625110ed7ec9
+		summarizeBy: sum
+		sourceColumn: REEL_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AVERAGE_WK_REEL_PARCELS
+		dataType: double
+		formatString: #,0
+		lineageTag: 731e1bca-5ad7-49d3-8bea-d314f7ed1cef
+		summarizeBy: sum
+		sourceColumn: AVERAGE_WK_REEL_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+	column AVERAGE_WK_ORG_PARCELS
+		dataType: double
+		formatString: 0
+		lineageTag: 25260305-b95a-4ba0-9188-1140f71d69b6
+		summarizeBy: sum
+		sourceColumn: AVERAGE_WK_ORG_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column AVERAGE_WK_COUNT_WD
+		dataType: double
+		formatString: 0
+		lineageTag: d8e96beb-ef1c-4381-a8e3-70bd9f3d64d8
+		summarizeBy: sum
+		sourceColumn: AVERAGE_WK_COUNT_WD
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRIME_CALCULATION = SWITCH(TRUE(), [#Avg_PAK_EOY % Delta] >= 1.149 && [#Avg_PAK_EOY % Delta] <1.249, 4, [#Avg_PAK_EOY % Delta] >= 1.249, 6,0)
+		formatString: 0
+		lineageTag: 0985cc0b-bf80-4343-9f6c-68ddf8e77064
+		summarizeBy: none
+
+		annotation SummarizationSetBy = User
+
+	column NB_ACTUALS_PRIME6 = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 6 ,[Total PLA EOY],0)
+		formatString: #,0
+		lineageTag: 3bfc7a83-5419-4fb1-808d-1fd08a91006a
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME4 = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 4 ,[Total PLA EOY],0)
+		formatString: #,0
+		lineageTag: 1f255bc2-65e2-40e1-b105-f5b8f1696f08
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME0 = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 0 ,[Total PLA EOY],0)
+		formatString: #,0
+		lineageTag: eebe5ad4-1600-46c2-82e4-f4f1dc1c2f5e
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_TOTAL = CALCULATE([Total PLA EOY])
+		formatString: #,0
+		lineageTag: 9dd4b449-745c-4f02-be8c-4f8949122f64
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column GROWTH_POTENTIAL_BY_ROUND
+		dataType: double
+		lineageTag: 476a6233-72c3-4a63-86f8-cf7304e98b1e
+		summarizeBy: sum
+		sourceColumn: GROWTH_POTENTIAL_BY_ROUND
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_ACTUALS_PRIME0_DIS = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 0 ,[Total PLA EOY - DIS RED COL],0)
+		formatString: #,0
+		lineageTag: e5bf77a7-5192-406a-a512-375280855638
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME4_DIS = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 4 ,[Total PLA EOY - DIS RED COL],0)
+		formatString: #,0
+		lineageTag: adf2c24e-db8e-4183-bfd0-a8cb8cb87df8
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME6_DIS = SWITCH(TRUE(), FACT_HR_OFFICE_DAILY[PRIME_CALCULATION] = 6 ,[Total PLA EOY - DIS RED COL],0)
+		formatString: #,0
+		lineageTag: 766c1bf7-89b8-43fb-99c0-73f7bff5ebca
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME_ALL = FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME4] + FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME6]
+		formatString: #,0
+		lineageTag: 34902595-d59c-42fa-8667-3198ead615af
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_PRIME_ALL_DIS = FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME4_DIS] + FACT_HR_OFFICE_DAILY[NB_ACTUALS_PRIME6_DIS]
+		formatString: #,0
+		lineageTag: 484bfb0b-f5ce-4bc4-9bb8-efaee18f9599
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTUALS_TOTAL_DIS = CALCULATE([Total PLA EOY - DIS RED COL])
+		formatString: #,0
+		lineageTag: 3da97b93-6f17-4068-bb4d-cf3eb28d600d
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column EOY_ORG_2023
+		dataType: double
+		formatString: #,0
+		lineageTag: 4aeebeb0-a505-4304-85bf-f1d675e45e9f
+		summarizeBy: sum
+		sourceColumn: EOY_ORG_2023
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_DELTA
+		dataType: double
+		lineageTag: 50f431f1-745e-4ff3-bebf-0f8047970efc
+		summarizeBy: sum
+		sourceColumn: PERC_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CORRECTED_PRIME_CALCULATION
+		dataType: double
+		lineageTag: 0d7af779-334a-4dfd-8dfc-89b1c6a7d10e
+		summarizeBy: sum
+		sourceColumn: CORRECTED_PRIME_CALCULATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMMENT
+		dataType: string
+		lineageTag: f263614d-1cb6-4210-88d3-07f8e1e91945
+		summarizeBy: none
+		sourceColumn: COMMENT
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_PARCELS_PC
+		dataType: double
+		lineageTag: 401ab9fd-880a-4570-86eb-63adc7a9391e
+		summarizeBy: sum
+		sourceColumn: ORG_PARCELS_PC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_PARCELS
+		dataType: double
+		lineageTag: 916379c1-5c54-47f9-ac9e-915b951078d8
+		summarizeBy: sum
+		sourceColumn: ORG_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ZZA_CORRECTION
+		dataType: double
+		lineageTag: d80d9318-8769-42f7-a826-b1b6b3abe04e
+		summarizeBy: sum
+		sourceColumn: ZZA_CORRECTION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MO_AC_CODE
+		dataType: double
+		lineageTag: 37c7758f-1959-4c23-8f4e-ee3d56fd7e0b
+		summarizeBy: sum
+		sourceColumn: MO_AC_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_SUBCO_FTE
+		dataType: double
+		lineageTag: 10def604-42fc-4adc-8dd3-07b33c5a9279
+		summarizeBy: sum
+		sourceColumn: NB_SUBCO_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOT_WORKLOAD_KRANTE_ADAPTED
+		dataType: double
+		lineageTag: d2edec92-cbf3-41ce-9f7f-f2e888903e9e
+		summarizeBy: sum
+		sourceColumn: TOT_WORKLOAD_KRANTE_ADAPTED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEL_KRANTEN
+		dataType: double
+		lineageTag: 0fef1777-c6e3-43f1-b298-32053aeccce1
+		summarizeBy: sum
+		sourceColumn: REEL_KRANTEN
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_KRANT
+		dataType: double
+		lineageTag: 33e33b38-a26a-49f0-8f99-02bfa3070bdf
+		summarizeBy: sum
+		sourceColumn: ORG_KRANT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RFT_DISTRI_W
+		dataType: double
+		formatString: 0.00
+		lineageTag: bb542b1f-97c1-4c47-bd51-81069f939597
+		summarizeBy: none
+		sourceColumn: RFT_DISTRI_W
+
+		annotation SummarizationSetBy = User
+
+	partition FACT_HR_OFFICE_DAILY-fb409b95-ef6d-4138-aa0b-bd52a88d5640 = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_SECOND, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_HR_OFFICE_DAILY1 = PBI_VLT341{[Name="OPTIMAX_HR_OFFICE_DAILY2"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_HR_OFFICE_DAILY1,{{"REINFORCEMENT_COLLECT_NB", Int64.Type}, {"REINFORCEMENT_COLLECT_TIME_M", Int64.Type}, {"REINFORCEMENT_COLLECT_TIME_H", Int64.Type}, {"REINFORCEMENT_DISTRI_NB", Int64.Type}, {"REINFORCEMENT_DISTRI_TIME_M", Int64.Type}, {"REINFORCEMENT_DISTRI_TIME_H", Int64.Type}, {"REINFORCEMENT_EMP_NB", Int64.Type}, {"REINFORCEMENT_EMP_TIME_M", Int64.Type}, {"REINFORCEMENT_EMP_TIME_H", Int64.Type}, {"REINFORCEMENT_OTHER_NB", Int64.Type}, {"REINFORCEMENT_OTHER_TIME_M", Int64.Type}, {"REINFORCEMENT_OTHER_TIME_H", Int64.Type}, {"REINFORCEMENT_PARCELS", Int64.Type}, {"REINFORCEMENT_PRIME", Int64.Type}, {"REINFORCEMENT_REGISTERED", Int64.Type}}),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Changed Type", "Key", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB")}), type text),
+				    #"Renamed Columns" = Table.RenameColumns(#"Inserted Merged Column",{{"ORG_REGISTERED_INDIV", "ORG_EE"}, {"ORG_REGISTERED_NB", "ORG_EE_NBR"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"TOT_WORKLOAD_KRANTE_ADAPTED", type number}})
+				in
+				    #"Changed Type1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

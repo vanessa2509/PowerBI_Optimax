@@ -1,0 +1,40 @@
+table V_PBI_PRS_ACCOUNT_ID_PREVIOUS
+	lineageTag: 5ef39eec-c40b-4d46-b1c1-1dd82ca0823a
+
+	column PRS_ID
+		dataType: string
+		lineageTag: ad71c774-06f9-494e-b7e7-abf9a585b7b0
+		summarizeBy: none
+		sourceColumn: PRS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ULTIMATE_PRS_ID
+		dataType: string
+		lineageTag: 8bbb5726-f1cb-4131-a833-bcaeb41e2bcb
+		summarizeBy: none
+		sourceColumn: ULTIMATE_PRS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT_NAME
+		dataType: string
+		lineageTag: 011f2615-2e4e-4edd-818a-5d458375812e
+		summarizeBy: none
+		sourceColumn: ACCOUNT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PRS_ACCOUNT_ID_PREVIOUS = m
+		mode: import
+		queryGroup: 'Actuals Queries'
+		source =
+				let
+				    Source = V_PBI_PRS_ACCOUNT_ID_FUTUR
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

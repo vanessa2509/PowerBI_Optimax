@@ -1,0 +1,67 @@
+table KNIME_NEUTRALIZATION
+	lineageTag: f3ee8491-ee95-4a19-bd16-0da0cc51220d
+
+	column DATE_YYYYMMDD
+		dataType: int64
+		formatString: 0
+		lineageTag: 2f73df76-370e-402a-acf5-6b555fcb9683
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NEUTRALIZATION_FNGF
+		dataType: int64
+		formatString: 0
+		lineageTag: 55439fdc-253d-4431-aaec-35211bea2d51
+		summarizeBy: none
+		sourceColumn: NEUTRALIZATION_FNGF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NEUTRALIZATION_KRANTEN
+		dataType: double
+		formatString: 0
+		lineageTag: 8325c0a8-58f0-40bc-a618-7fb55bc1cfbf
+		summarizeBy: none
+		sourceColumn: NEUTRALIZATION_KRANTEN
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column NEUTRALIZATION_PAK
+		dataType: double
+		lineageTag: 6644cd71-a99f-485b-bf35-6eb5cc5a23d0
+		summarizeBy: none
+		sourceColumn: NEUTRALIZATION_PAK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition KNIME_NEUTRALIZATION-eb76507d-0503-4455-9623-9d148b9fcb1d = m
+		mode: import
+		queryGroup: KNIME
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    KNIME_NEUTRALIZATION1 = LAB_SR5210{[Name="KNIME_NEUTRALIZATION"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(KNIME_NEUTRALIZATION1,{{"DATE_YYYYMMDD", Int64.Type}, {"NEUTRALIZATION_FNGF", Int64.Type}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Changed Type", {"DATE_YYYYMMDD"})
+				in
+				    #"Removed Duplicates"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

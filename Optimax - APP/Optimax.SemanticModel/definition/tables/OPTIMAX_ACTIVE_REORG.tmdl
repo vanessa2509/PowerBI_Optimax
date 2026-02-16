@@ -1,0 +1,46 @@
+table OPTIMAX_ACTIVE_REORG
+	lineageTag: 0fd2dd9b-b6d5-4410-be44-38ffcd776311
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 4f8d3448-24f7-4845-aa16-9a6d7a22d656
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: e880f8ea-c1d9-4785-87a6-0f99470750ce
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_LAST_MASTER_REORG_ID
+		dataType: string
+		lineageTag: 41d42877-57ab-490e-be7c-97a4e6c374c3
+		summarizeBy: none
+		sourceColumn: IS_LAST_MASTER_REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	partition OPTIMAX_ACTIVE_REORG = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    OPTIMAX_ACTIVE_REORG1 = PBI_VLT341{[Name="OPTIMAX_ACTIVE_REORG"]}[Data]
+				in
+				    OPTIMAX_ACTIVE_REORG1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,564 @@
+table VW_EOY_2025_AGG
+	lineageTag: 2e831dde-b192-44af-a509-64ee5bfcdbeb
+
+	measure '#Parcels / FTE dif.' = CALCULATE(SUM(VW_EOY_2025_AGG[RATIO_REEL_FTE]) - SUM(VW_EOY_2025_AGG[RATIO_EOY_FTE]))
+		lineageTag: 5eb89cc1-1aec-4697-ab2c-3196594a5d58
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WEEK_ISO
+		dataType: string
+		lineageTag: 9a4c476b-da62-43ec-9ec0-cb4724621f98
+		summarizeBy: none
+		sourceColumn: WEEK_ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_DAYS
+		dataType: double
+		lineageTag: c5cf9643-1c4b-4597-9d27-29ad3d5aa498
+		summarizeBy: sum
+		sourceColumn: NB_DAYS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: f156c0c4-42d8-44d6-9e80-f0acdba0b698
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DIST_DURATION
+		dataType: double
+		lineageTag: 7fd9e1d5-9071-4df6-8148-0b514f9ff632
+		summarizeBy: sum
+		sourceColumn: DIST_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column H_DIENST_DURATION
+		dataType: double
+		lineageTag: 8cd94536-3fb9-4eaa-a0ad-d6b9d96d6cb8
+		summarizeBy: sum
+		sourceColumn: H_DIENST_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_DURATION
+		dataType: double
+		lineageTag: 7590cd31-d6ef-4e0f-b09e-cc831a0259da
+		summarizeBy: sum
+		sourceColumn: SUBCO_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_REEL_FTE
+		dataType: double
+		lineageTag: 2873a2c0-88a0-4967-bdcc-173e8f62267b
+		summarizeBy: sum
+		sourceColumn: RATIO_REEL_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DO
+		dataType: string
+		lineageTag: 8aa385c2-fc8c-40ef-b89f-98767b5283f8
+		summarizeBy: none
+		sourceColumn: DO
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO
+		dataType: string
+		lineageTag: 4dfd5678-1e6e-4618-b492-4d99e7750d96
+		summarizeBy: none
+		sourceColumn: MO
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC
+		dataType: string
+		lineageTag: b65c51b8-2511-4ff6-bbd9-c0afb0f5e560
+		summarizeBy: none
+		sourceColumn: MC
+
+		annotation SummarizationSetBy = Automatic
+
+	column DM
+		dataType: string
+		lineageTag: cedbf5e8-6b60-41ad-bf0d-e48bf137d6b9
+		summarizeBy: none
+		sourceColumn: DM
+
+		annotation SummarizationSetBy = Automatic
+
+	column REGION
+		dataType: string
+		lineageTag: 6d6e7f35-6366-4f36-893c-a08b0e16ad5a
+		summarizeBy: none
+		sourceColumn: REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOL_PAK_REEL
+		dataType: double
+		lineageTag: 8455573b-25a9-4dcd-b629-39495c656294
+		summarizeBy: sum
+		sourceColumn: VOL_PAK_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_PRIME_REEL
+		dataType: double
+		lineageTag: d6113506-94db-4928-9a0e-8c8c89dfad17
+		summarizeBy: sum
+		sourceColumn: VOL_PRIME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_TOTAL_REEL
+		dataType: double
+		lineageTag: 3a36baf3-afaf-4218-8888-457235d6905e
+		summarizeBy: sum
+		sourceColumn: VOL_TOTAL_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_TOTAL_ORG
+		dataType: double
+		lineageTag: 791d37e3-811d-4b23-ad74-6aadde596147
+		summarizeBy: sum
+		sourceColumn: VOL_TOTAL_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOTAL_DURATION
+		dataType: double
+		lineageTag: bea516dc-708b-4196-abeb-cbd50b7370d0
+		summarizeBy: sum
+		sourceColumn: TOTAL_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_REEL
+		dataType: double
+		lineageTag: 16e12e25-ee11-441b-9ed8-a31fd4f389de
+		summarizeBy: sum
+		sourceColumn: FTE_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_ORG
+		dataType: double
+		lineageTag: d159f32a-6ca7-47a5-b4da-79c1b8398e77
+		summarizeBy: sum
+		sourceColumn: FTE_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_EOY_FTE
+		dataType: double
+		lineageTag: fac56df1-6146-4226-a4a4-ce0c54feee39
+		summarizeBy: sum
+		sourceColumn: RATIO_EOY_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_VOL_ORG_FTE
+		dataType: double
+		lineageTag: c3127b17-1790-41f8-9f7e-1053ba1c9288
+		summarizeBy: sum
+		sourceColumn: RATIO_VOL_ORG_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column %_ratio_reel_vs_org
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: adb6ba17-7922-44e8-8ee9-f5cda9f90034
+		summarizeBy: sum
+		sourceColumn: %_ratio_reel_vs_org
+
+		annotation SummarizationSetBy = Automatic
+
+	column CATÉGORIE
+		dataType: string
+		lineageTag: 6fde96ca-d1e1-4e94-badb-685968eb34d4
+		summarizeBy: none
+		sourceColumn: CATÉGORIE
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_CAPPING_ENV_SOCIALE
+		dataType: string
+		lineageTag: c1af9ebb-3d35-463b-b198-2a8b216a6aac
+		summarizeBy: none
+		sourceColumn: IS_CAPPING_ENV_SOCIALE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEUIL_ELIGIBILITÉ_LIÉ_A_CATÉGORIE
+		dataType: double
+		lineageTag: 2dfd6235-024c-494c-bac6-50885846bc1b
+		summarizeBy: sum
+		sourceColumn: SEUIL_ELIGIBILITÉ_LIÉ_A_CATÉGORIE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEUIL_ELIGIBILITÉ_FINAL_PC
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8c3af9a3-9be9-4e73-a5b5-0966f63c0745
+		summarizeBy: sum
+		sourceColumn: SEUIL_ELIGIBILITÉ_FINAL_PC
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOLUME_ORGA_PAQUET_PRIME
+		dataType: double
+		lineageTag: af22e83e-dc91-4583-9a52-539907ebfb24
+		summarizeBy: sum
+		sourceColumn: VOLUME_ORGA_PAQUET_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEUIL_ELIGIBILITE_FINAL_EN_VOLUME
+		dataType: double
+		lineageTag: 7445d309-4e75-4cfb-be1e-41450db31b90
+		summarizeBy: sum
+		sourceColumn: SEUIL_ELIGIBILITE_FINAL_EN_VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSATION_THEORIE
+		dataType: string
+		lineageTag: 2f86887c-67fe-4a1a-bfbb-80d4bd508968
+		summarizeBy: none
+		sourceColumn: COMPENSATION_THEORIE
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPENSATION_SUGGESTION
+		dataType: string
+		lineageTag: 0a86e511-e0c3-4ad8-b25a-e31bcd15ac7b
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPENSATION_THEORIE_MO
+		dataType: string
+		lineageTag: 1da59a2f-7bb4-42eb-ba68-ca7b11706949
+		summarizeBy: none
+		sourceColumn: COMPENSATION_THEORIE_MO
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPENSATION_SUGGESTION_MO
+		dataType: string
+		lineageTag: 1cfb47bc-9eb7-41be-9c96-affbf3d6f12c
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION_MO
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_EOY
+		dataType: string
+		lineageTag: be8c9c7e-a044-4e04-aa6e-459211e89856
+		summarizeBy: none
+		sourceColumn: KEY_EOY
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO_W_KEY
+		dataType: string
+		lineageTag: 8c59bc75-dc64-4b35-8c74-fe7fb40817ab
+		summarizeBy: none
+		sourceColumn: MO_W_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column Cat_Target =
+			
+			VAR ratio = VW_EOY_2025_AGG[SEUIL_ELIGIBILITÉ_FINAL_PC]
+			RETURN
+			SWITCH(
+			    TRUE(),
+			    ratio < 1.15, " <115",
+			    ratio < 1.20, "115–120",
+			    ratio < 1.25, "120–125",
+			    ratio < 1.30, "125–130",
+			    ratio < 1.35, "130–135",
+			    ratio < 1.40, "135–140",
+			    "≥140"
+			)
+		lineageTag: 21bc0c1a-e984-4f2d-b306-0355e0b23d9d
+		summarizeBy: none
+		sortByColumn: SEUIL_ELIGIBILITÉ_FINAL_PC
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column '#DC Y' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(VW_EOY_2025_AGG[POSTAL_CODE]),
+			    VW_EOY_2025_AGG[COMPENSATION_SUGGESTION] = "Y"
+			)
+		formatString: 0
+		lineageTag: 31c04b7a-7089-4480-a96f-24019897096f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column RATIO_REEL_SEPT
+		dataType: double
+		lineageTag: c5624b6d-6672-4ea1-b1e5-2c5960412932
+		summarizeBy: sum
+		sourceColumn: RATIO_REEL_SEPT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_REEL_OCT
+		dataType: double
+		lineageTag: 8d2252f9-19d6-4655-82c0-1701f6ef172c
+		summarizeBy: sum
+		sourceColumn: RATIO_REEL_OCT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSATION_PROPOSAL_MPO
+		dataType: string
+		lineageTag: f426cd14-2885-41a9-8f74-61c53124f40e
+		summarizeBy: none
+		sourceColumn: COMPENSATION_PROPOSAL_MPO
+
+		annotation SummarizationSetBy = Automatic
+
+	column RATIO_REEL_JEU_VEN
+		dataType: double
+		lineageTag: 91d19bde-e209-4cde-bfa0-d5ee040e9208
+		summarizeBy: sum
+		sourceColumn: RATIO_REEL_JEU_VEN
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSATION_SUGGESTION_JEU_VEN
+		dataType: string
+		lineageTag: 53f96fbe-03cb-46c2-a600-e1191bfb275d
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION_JEU_VEN
+
+		annotation SummarizationSetBy = Automatic
+
+	column CAPPING_PERCENTAGE
+		dataType: double
+		lineageTag: d220d566-7b00-4f77-94ff-ca6c0342d71e
+		summarizeBy: sum
+		sourceColumn: CAPPING_PERCENTAGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column END_MOBI
+		dataType: string
+		lineageTag: 8400d5af-459c-425e-91d3-fb61bf2a3dfa
+		summarizeBy: none
+		sourceColumn: END_MOBI
+
+		annotation SummarizationSetBy = Automatic
+
+	column END_DIENST
+		dataType: string
+		lineageTag: ea7f36e5-3487-4078-9f0f-d72bce988b70
+		summarizeBy: none
+		sourceColumn: END_DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column END_BADGE
+		dataType: string
+		lineageTag: c3e6e714-c99d-4851-a28e-c66c94499612
+		summarizeBy: none
+		sourceColumn: END_BADGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column MOBI_DIENST_DELTA
+		dataType: string
+		lineageTag: 03962d97-2113-4c30-a57d-6119cd9acb12
+		summarizeBy: none
+		sourceColumn: MOBI_DIENST_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+	column BADGE_DIENST_DELTA
+		dataType: string
+		lineageTag: 7e92080f-b75f-4aac-bafc-78b4f794906f
+		summarizeBy: none
+		sourceColumn: BADGE_DIENST_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+	column MOBI_DELTA_MINUTES
+		dataType: double
+		lineageTag: a85858e3-41ba-4816-9341-b203b5d33589
+		summarizeBy: sum
+		sourceColumn: MOBI_DELTA_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BADGE_DELTA_MINUTES
+		dataType: double
+		lineageTag: 3958223a-7bdd-4f0b-96d2-0b661d8891a2
+		summarizeBy: sum
+		sourceColumn: BADGE_DELTA_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_DO
+		dataType: double
+		lineageTag: 7ce252da-cecf-4a28-b936-bd25d5bf2107
+		summarizeBy: sum
+		sourceColumn: NB_DO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSATION_SUGGESTION_MO_SOLO
+		dataType: string
+		lineageTag: 7d1e8ec4-c7cd-4ecf-b5bb-276911e8d240
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION_MO_SOLO
+
+		annotation SummarizationSetBy = Automatic
+
+	column RATIO_REEL_LUN_MER
+		dataType: string
+		lineageTag: acf5966d-6a86-44e6-8569-d595db606837
+		summarizeBy: none
+		sourceColumn: RATIO_REEL_LUN_MER
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPENSATION_SUGGESTION_LUN_MER
+		dataType: string
+		lineageTag: f6fe7b26-2964-42d3-8ac7-8190a5c1abb0
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION_LUN_MER
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VW_EOY_2025_AGG = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source = ```
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true, CommandTimeout=#duration(0, 1, 30, 0)]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    VW_EOY_2025 = LAB_SR5210{[Name="VW_EOY_2025_BY_DO"]}[Data],
+				    #"Added Conditional Column" = Table.AddColumn(VW_EOY_2025, "Custom", each if [NB_DO] = 1 then "SOLO" else [COMPENSATION_SUGGESTION_MO]),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Conditional Column",{{"Custom", "COMPENSATION_SUGGESTION_MO_SOLO"}}),
+				
+				    #"Inserted Merged Column" =
+				        Table.AddColumn(
+				            #"Renamed Columns",
+				            "KEY_EOY",
+				            each Text.Combine({[DO], "_", [WEEK_ISO]}),
+				            type text
+				        ),
+				
+				    #"Inserted Merged Column1" =
+				        Table.AddColumn(
+				            #"Inserted Merged Column",
+				            "MO_W_KEY",
+				            each Text.Combine({[MO], "_", [WEEK_ISO]}),
+				            type text
+				        ),
+				    // 👉 MOBI avec try / otherwise null
+				    #"Added MOBI Minutes Column" =
+				        Table.AddColumn(
+				            #"Inserted Merged Column1",
+				            "MOBI_DELTA_MINUTES",
+				            each 
+				                let
+				                    txt = Text.Trim([MOBI_DIENST_DELTA]),
+				                    safe = try Duration.From(txt) otherwise null
+				                in
+				                    if safe = null then null else Duration.TotalMinutes(safe),
+				            type number
+				        ),
+				    // 👉 BADGE avec try / otherwise null
+				    #"Added BADGE Minutes Column" = Table.AddColumn(
+				            #"Added MOBI Minutes Column",
+				            "BADGE_DELTA_MINUTES",
+				            each 
+				                let
+				                    txt = Text.Trim([BADGE_DIENST_DELTA]),
+				                    safe = try Duration.From(txt) otherwise null
+				                in
+				                    if safe = null then null else Duration.TotalMinutes(safe),
+				            type number
+				        ),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added BADGE Minutes Column",{{"RATIO_REEL_LUN_MER", type text}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type",null,"n.a",Replacer.ReplaceValue,{"RATIO_REEL_LUN_MER"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,"n.a",Replacer.ReplaceValue,{"COMPENSATION_SUGGESTION_LUN_MER"})
+				in
+				    #"Replaced Value1"
+				```
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "User_guide - Optimax_series (NL)"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6589e789-dd3d-bd15-43b5-f36546dfafff"
+  }
+}

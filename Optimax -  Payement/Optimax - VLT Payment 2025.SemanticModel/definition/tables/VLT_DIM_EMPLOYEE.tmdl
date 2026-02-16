@@ -1,0 +1,223 @@
+table VLT_DIM_EMPLOYEE
+	lineageTag: 5bbef79b-4950-47ad-8e5c-b7b703a529bc
+
+	column FULL_NAME
+		dataType: string
+		lineageTag: b226c619-c9c8-4ed9-8405-4d4cf63fd3f3
+		summarizeBy: none
+		sourceColumn: FULL_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column HUMAN_RESOURCE_KEY
+		dataType: double
+		lineageTag: c0798136-06d7-47ca-83ce-35ca3ecb028d
+		summarizeBy: none
+		sourceColumn: HUMAN_RESOURCE_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_NAME
+		dataType: string
+		lineageTag: bce0e5b3-dc35-4378-8964-ef6c591c3fab
+		summarizeBy: none
+		sourceColumn: LAST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRST_NAME
+		dataType: string
+		lineageTag: 68ea6d7e-2312-4fa8-a634-744a5c089613
+		summarizeBy: none
+		sourceColumn: FIRST_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column HR_NUMBER
+		dataType: string
+		lineageTag: 8f945539-9343-4653-acf9-384b1da53a8c
+		summarizeBy: none
+		sourceColumn: HR_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ENTRY_DATE
+		dataType: double
+		lineageTag: aa6ec2d8-0e54-413e-80d8-b79a22e8d129
+		summarizeBy: none
+		sourceColumn: LAST_ENTRY_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EXIT_DATE
+		dataType: double
+		lineageTag: 4d9ec831-48a1-4794-acb3-ccb9aa5bbc15
+		summarizeBy: none
+		sourceColumn: EXIT_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ENTRY_DAYS
+		dataType: double
+		lineageTag: d96f5e92-300a-4d3b-a8a0-7e19cd159873
+		summarizeBy: none
+		sourceColumn: LAST_ENTRY_DAYS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPLOYMENT_STATUS
+		dataType: string
+		lineageTag: 3321e88d-5262-4360-a0ac-4f64e2a0dd02
+		summarizeBy: none
+		sourceColumn: EMPLOYMENT_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMPLOYEE_CLASS
+		dataType: string
+		lineageTag: 7217645b-316a-4c83-8e9c-0ea0d85ed6e0
+		summarizeBy: none
+		sourceColumn: EMPLOYEE_CLASS
+
+		annotation SummarizationSetBy = Automatic
+
+	column JOB_ENTRY_DATE
+		dataType: double
+		lineageTag: 4da2b705-1a2f-47db-b34c-3087b3a10c52
+		summarizeBy: none
+		sourceColumn: JOB_ENTRY_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CONTRACT_DAYS
+		dataType: double
+		lineageTag: d350848f-b964-4f6e-8a97-662582187ff4
+		summarizeBy: none
+		sourceColumn: CONTRACT_DAYS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HR_STATUS
+		dataType: string
+		lineageTag: 705c617a-ee12-4da9-956c-7bf1a0b5b5f6
+		summarizeBy: none
+		sourceColumn: HR_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column JOB_STATUS
+		dataType: string
+		lineageTag: edc38edf-f7fa-47e4-8dc5-e3b300a1923a
+		summarizeBy: none
+		sourceColumn: JOB_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRST_HIRE_DATE
+		dataType: double
+		lineageTag: 9630a34a-f730-4f89-bb3f-5930bf829947
+		summarizeBy: none
+		sourceColumn: FIRST_HIRE_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BIRTHDAY
+		dataType: double
+		lineageTag: 63dacee2-889a-4246-aff8-9b50ca8bec74
+		summarizeBy: none
+		sourceColumn: BIRTHDAY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DEPT_ENTRY_DATE
+		dataType: double
+		lineageTag: 3184baa4-1232-46a4-9eab-9dabf83af23a
+		summarizeBy: none
+		sourceColumn: DEPT_ENTRY_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CLUSTER_AGE_ID
+		dataType: double
+		lineageTag: d330123a-c116-44f8-95b6-e58ac915acc0
+		summarizeBy: none
+		sourceColumn: CLUSTER_AGE_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CLUSTER_AGE_DESC
+		dataType: string
+		lineageTag: ce7067f6-05c3-4e98-9889-b618def5b625
+		summarizeBy: none
+		sourceColumn: CLUSTER_AGE_DESC
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_EXP_ID
+		dataType: double
+		lineageTag: 40dfb843-058d-495a-8254-46da1f1e9787
+		summarizeBy: none
+		sourceColumn: CLUSTER_EXP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CLUSTER_EXP_DESC
+		dataType: string
+		lineageTag: c768669d-8b12-45b2-9738-40a8be899f57
+		summarizeBy: none
+		sourceColumn: CLUSTER_EXP_DESC
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONTRACT_DURATION
+		dataType: string
+		lineageTag: 0e195a84-6c9d-488a-9ae4-a9c5538ceab1
+		summarizeBy: none
+		sourceColumn: CONTRACT_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_SALARY_GRADE_CD
+		dataType: string
+		lineageTag: e4f1d31e-2116-4f1f-9339-e70e3babee86
+		summarizeBy: none
+		sourceColumn: LAST_SALARY_GRADE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VLT_DIM_EMPLOYEE = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database("MM8P1", [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    VLT_DIM_EMPLOYEE1 = PBI_VLT341{[Name="VLT_DIM_EMPLOYEE"]}[Data]
+				in
+				    VLT_DIM_EMPLOYEE1
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

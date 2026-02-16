@@ -1,0 +1,72 @@
+table DISTRIPOST_IRN_PLANNED_AGG_PBI
+	lineageTag: a27deb97-d457-4193-91aa-60003046bff9
+
+	column KEY_DISTRIPOST
+		dataType: string
+		lineageTag: a3320b6e-ada3-42d0-b1b7-bb2a533c5681
+		summarizeBy: none
+		sourceColumn: KEY_DISTRIPOST
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_DATE
+		dataType: string
+		lineageTag: 7ef59cd2-7843-4f58-99f2-0b85b87f71a2
+		summarizeBy: none
+		sourceColumn: WEEK_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column REQ_DISTR_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 7e8a83eb-ada9-4b2f-b582-1b804501ba3d
+		summarizeBy: sum
+		sourceColumn: REQ_DISTR_START_DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_ENA
+		dataType: double
+		lineageTag: 611c8ad2-25f6-4f06-a7db-20b089600f1a
+		summarizeBy: sum
+		sourceColumn: ORG_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: 4680ee0d-4628-4fe3-b821-10acb354f0fc
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TOTAL_MAILBOX_VOLUME
+		dataType: double
+		lineageTag: 1fe2ad13-35c7-40f9-9ff0-9fbecbbeb515
+		summarizeBy: sum
+		sourceColumn: TOTAL_MAILBOX_VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DISTRIPOST_IRN_PLANNED_AGG_PBI = m
+		mode: import
+		queryGroup: 'Forecast Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    DISTRIPOST_IRN_PLANNED_AGG_PBI1 = PBI_VLT341{[Name="DISTRIPOST_IRN_PLANNED_AGG_PBI"]}[Data]
+				in
+				    DISTRIPOST_IRN_PLANNED_AGG_PBI1
+
+	annotation PBI_ResultType = Table
+

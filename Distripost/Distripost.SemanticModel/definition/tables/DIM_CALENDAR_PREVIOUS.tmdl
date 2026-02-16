@@ -1,0 +1,260 @@
+table DIM_CALENDAR_PREVIOUS
+	lineageTag: 648ac270-2af0-4663-bc05-69cf82c2aa37
+
+	column PIC_KEY
+		dataType: string
+		lineageTag: 8a9915df-49b4-4202-89ea-4cc6f06f8ee4
+		summarizeBy: none
+		sourceColumn: PIC_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 59f3a6a9-6e3e-4827-a844-91b508988e96
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date tooltip'
+		dataType: string
+		lineageTag: 8fc941f2-887d-4fa6-8e9e-0991a3e86940
+		summarizeBy: none
+		sourceColumn: Date tooltip
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date YYYYMMDD'
+		dataType: int64
+		formatString: 0
+		lineageTag: 036a9799-e4a9-41c5-b74a-62af31037bcb
+		summarizeBy: none
+		sourceColumn: Date YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f4d0c76-58c2-40fa-bbc7-06ba7fdc0cea
+		summarizeBy: sum
+		sourceColumn: Day Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c816566-599a-4486-a67f-cb6e2c842612
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Number'
+		dataType: int64
+		formatString: 0
+		lineageTag: 93404dc2-ac87-4dca-aad3-dfb160c75fc5
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+	column Day
+		dataType: int64
+		formatString: 0
+		lineageTag: 75cc6dd5-e76a-4c1b-ab0b-5e77418b7582
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month -'
+		dataType: int64
+		formatString: 0
+		lineageTag: adef2a51-faf8-460c-b287-956e5195b9a6
+		summarizeBy: sum
+		sourceColumn: Month -
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter_
+		dataType: int64
+		formatString: 0
+		lineageTag: eb509b9e-93f5-48df-a137-d0210d06174e
+		summarizeBy: sum
+		sourceColumn: Quarter_
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name EN'
+		dataType: string
+		lineageTag: 16922495-c1a8-4391-9f04-887a49919f4f
+		summarizeBy: none
+		sourceColumn: Day Name EN
+		sortByColumn: 'Day Number'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Range'
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 3fe5b623-84f2-4a71-a231-cab75755beb0
+		summarizeBy: none
+		sourceColumn: Date Range
+
+		variation Variation
+			isDefault
+			relationship: a9bc8235-d10b-4f49-9163-080b96f54bff
+			defaultHierarchy: LocalDateTable_b5841ffa-cf3f-4099-9b21-a1667a1e67fb.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: cfbc09cf-215a-49a7-b0fd-f763d5906b7c
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Legal Holiday'
+		dataType: string
+		lineageTag: 02f17505-7c2a-40ec-8151-4fc6ad32769d
+		summarizeBy: none
+		sourceColumn: Legal Holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Day'
+		dataType: string
+		lineageTag: c99036b8-18af-4469-a079-1c8bb6eb23e7
+		summarizeBy: none
+		sourceColumn: Work Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Number ISO'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1f04e421-c31a-4c77-9177-5da5a39a5731
+		summarizeBy: sum
+		sourceColumn: Week Number ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_NUMBER_YYYYWWW_ISO
+		dataType: string
+		lineageTag: c1243d62-d163-4339-80a2-c19392b2657f
+		summarizeBy: none
+		sourceColumn: WEEK_NUMBER_YYYYWWW_ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADAPTED_SERVICE_HOLIDAY
+		dataType: string
+		lineageTag: e8211005-8f2c-4a4b-9834-c0852b25641c
+		summarizeBy: none
+		sourceColumn: ADAPTED_SERVICE_HOLIDAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEKEND_EOY
+		dataType: string
+		lineageTag: af11f30c-8f4b-4388-98b0-862a12b9f098
+		summarizeBy: none
+		sourceColumn: WEEKEND_EOY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name First  EN'
+		dataType: string
+		lineageTag: c2a32c6d-0a66-449f-883d-f11c25821a15
+		summarizeBy: none
+		sourceColumn: Day Name First  EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year - value'
+		dataType: string
+		lineageTag: 5a3df6ec-cf60-4e0b-a51f-005eb2aec870
+		summarizeBy: none
+		sourceColumn: Year - value
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IsInRanges Previous' = IF('DIM_CALENDAR_PREVIOUS'[Date YYYYMMDD] <= [Max Date Past] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 2a8216c2-eb0f-4f2b-8aae-5ee0a376d20c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week = DIM_CALENDAR_PREVIOUS[Year] & "-" & CONCATENATE("W",IF(LEN('DIM_CALENDAR_PREVIOUS'[Week Number ISO])=1,CONCATENATE("0",'DIM_CALENDAR_PREVIOUS'[Week Number ISO]),'DIM_CALENDAR_PREVIOUS'[Week Number ISO]))
+		lineageTag: 2e0f7ed3-d076-449c-a9ea-f0ec784d6fa9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month = CONCATENATE(CONCATENATE(IF(LEN('DIM_CALENDAR_PREVIOUS'[Month Number])=1,CONCATENATE("0",'DIM_CALENDAR_PREVIOUS'[Month Number]),'DIM_CALENDAR_PREVIOUS'[Month Number])," - "),CONCATENATE('DIM_CALENDAR_PREVIOUS'[Month Name]," "))
+		lineageTag: 7fa46d44-5984-46c4-9440-ecf40933e391
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter = CONCATENATE("Quarter ",'DIM_CALENDAR_PREVIOUS'[Quarter_])
+		lineageTag: 9063a4d7-12d1-47e0-8b3e-a00253122307
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Year Hierarchy'
+		lineageTag: a2814221-73a1-4f07-b754-442ffcf0c578
+
+		level Year
+			lineageTag: 051b9af6-60f9-4fc9-ab66-294f28f92a6f
+			column: Year
+
+		level Quarter
+			lineageTag: 17300713-85bb-4a5d-b1c7-31000a6fa80a
+			column: Quarter
+
+		level Month
+			lineageTag: c8b721f9-ac16-43bd-9f3b-d12d89925ede
+			column: Month
+
+		level Week
+			lineageTag: ababe0cc-852a-4583-8b83-6f40bdc22544
+			column: Week
+
+		level 'Date Range'
+			lineageTag: 90994a32-874b-4f2d-986c-5fdce4d87ce3
+			column: 'Date Range'
+
+	partition DIM_CALENDAR_PREVIOUS = m
+		mode: import
+		queryGroup: 'Actuals Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DIM_CALENDAR1 = PBI_VLT341{[Name="DISTRIPOST_DIM_CALENDAR"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_DIM_CALENDAR1,{{"Week Number ISO", Int64.Type}, {"Quarter_", Int64.Type}, {"Month", Int64.Type}, {"Day", Int64.Type}, {"Month Number", Int64.Type}, {"Date YYYYMMDD", Int64.Type}, {"Day Number", Int64.Type}, {"Year", Int64.Type}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [Date YYYYMMDD] > 20210101),
+				    #"Inserted First Characters" = Table.AddColumn(#"Filtered Rows", "Day Name First  EN", each Text.Start([Day Name EN], 2), type text),
+				    #"Reordered Columns" = Table.ReorderColumns(#"Inserted First Characters",{"PIC_KEY", "Day Name", "Date tooltip", "Date YYYYMMDD", "Day Number", "Year", "Month Number", "Day", "Month", "Quarter_", "Day Name EN", "Date Range", "Month Name", "Legal Holiday", "Work Day", "Week Number ISO", "WEEK_NUMBER_YYYYWWW_ISO", "ADAPTED_SERVICE_HOLIDAY", "Day Name First  EN"}),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Reordered Columns", "Year", "Year - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Year - Copy", "Year - value"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Year - value", type text}}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Changed Type1", each [Date YYYYMMDD] >= 20230101),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Filtered Rows1",{{"Month", "Month -"}})
+				in
+				    #"Renamed Columns1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

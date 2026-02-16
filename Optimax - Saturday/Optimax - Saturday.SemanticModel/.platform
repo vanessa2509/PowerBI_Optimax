@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Optimax - Saturday"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "03fd8523-98a7-ac78-488d-f1fd3fe29507"
+  }
+}

@@ -1,0 +1,62 @@
+relationship c07ec6d7-b7a2-4aa8-9d47-29c781ffc521
+	joinOnDateBehavior: datePartOnly
+	fromColumn: 'Refresh date'.'Last Refresh Date Time'
+	toColumn: LocalDateTable_0069999b-6fe3-4b45-8422-4c1a67cb6134.Date
+
+relationship c85dc122-6337-44b9-9bc0-fe749966e373
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG START dateFormatted'
+	toColumn: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.Date
+
+relationship e7b42fee-cb1f-4198-8e89-023592a4a641
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG END dateFormatted'
+	toColumn: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.Date
+
+relationship 6e0d848b-6dbe-a911-e903-bc7f185296eb
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025.DATE_YYYYMMDD
+	toColumn: DIM_CALENDAR.'Date YYYYMMDD'
+
+relationship 45270585-175d-fbb9-285d-44f1fda6c128
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025.POSTAL_CODE
+	toColumn: DIM_REORG_VLT.POSTAL_CODE
+
+relationship 8160c5d2-08bf-19cf-741d-e40e03efac36
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: Dataflow_DIM_VIP_USER.POSTAL_CODE
+	toColumn: VW_EOY_2025.POSTAL_CODE
+
+relationship a54a62b2-3f44-e8bb-48b3-6477fbcadd4f
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025.DO_W_KEY
+	toColumn: VW_EOY_2025_AGG.KEY_EOY
+
+relationship AutoDetected_b7ceccc9-188f-4d4c-ace8-6c761cf8dd92
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025_AGG.MO_W_KEY
+	toColumn: VW_EOY_2025_BY_MO.MO_W_KEY
+
+relationship a246af33-c0b7-bafc-69a6-d40f07f45355
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025_WITH_EMPLID_FLAG.KEY_DATE
+	toColumn: VW_EOY_2025.key
+
+relationship 0d7fced4-c3ea-4a46-80a7-144d9525c5ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VW_EOY_2025_WITH_EMPLID_FLAG.START_HOUR
+	toColumn: LocalDateTable_73fd9c41-aaa0-4748-b66c-3d9e32f9ee9b.Date
+
+relationship 5e27be71-b557-46db-87f9-a629b4e2585d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VW_EOY_2025_WITH_EMPLID_FLAG.END_HOUR
+	toColumn: LocalDateTable_dc4aae04-f494-4d36-9800-4617efeac418.Date
+
+relationship ffc6e983-0217-1174-3806-ba3dc4a2ad59
+	crossFilteringBehavior: bothDirections
+	fromColumn: VW_EOY_2025_PLA_2.DATE_YYYYMMDD
+	toColumn: DIM_CALENDAR.'Date YYYYMMDD'
+

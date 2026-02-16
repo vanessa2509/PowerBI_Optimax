@@ -1,0 +1,170 @@
+table FORECAST_PARCELS
+	lineageTag: 223aa1f6-9a4d-4050-9605-f102364fc56a
+
+	measure '#Avg Week 4' = CALCULATE(SUM(FORECAST_PARCELS[WEEK_4]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: fd4555a6-2607-4160-8557-742b1a8501eb
+
+	measure '#Avg Org Parcels' = CALCULATE(SUM(FORECAST_PARCELS[ORG_PARCELS]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 0b5d511a-f697-4cf9-8bff-2259b33bd62a
+
+	measure '#Avg Week 3' = CALCULATE(SUM(FORECAST_PARCELS[WEEK_3]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: fa65cc2c-75f8-43d0-a28b-32277e8a5504
+
+	measure '#Avg Week 2' = CALCULATE(SUM(FORECAST_PARCELS[WEEK_2]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 8f04a728-16ad-40ee-af16-b82e6d2e6f31
+
+	measure '#Avg Week 1' = CALCULATE(SUM(FORECAST_PARCELS[WEEK_1]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 34f49136-5c3c-4592-a1d6-5600970121c4
+
+	measure '#Avg Week 0' = CALCULATE(SUM(FORECAST_PARCELS[WEEK_0]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 7be13df2-c012-4a79-b9c0-b8055d133e75
+
+	measure '#Avg Actuals Parcels' = CALCULATE(SUM(FORECAST_PARCELS[NB_PARCELS]) / DISTINCTCOUNT(FORECAST_PARCELS[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: a99051fb-3707-4655-bb8f-c4eb456ddb66
+
+	measure 'Mape W4' = CALCULATE(ABS([#Avg Actuals Parcels] - [#Avg Week 4]) / [#Avg Actuals Parcels] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a68711b7-0d4f-48f9-aefd-bfbf38ad1ade
+
+	measure 'Mape W3' = CALCULATE(ABS([#Avg Actuals Parcels] - [#Avg Week 3]) / [#Avg Actuals Parcels] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 50a28cc7-964a-45a1-9ebf-3ff2cd4ba4f6
+
+	measure 'Mape W2' = CALCULATE(ABS([#Avg Actuals Parcels] - [#Avg Week 2]) / [#Avg Actuals Parcels] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0cc87f2c-782f-4686-92d6-ab6bf233a8db
+
+	measure 'Mape W1' = CALCULATE(ABS([#Avg Actuals Parcels] - [#Avg Week 1]) / [#Avg Actuals Parcels] )
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 901119b2-8b3e-4c5e-9ac8-bac12673d19f
+
+	measure MAPE = CALCULATE([Mape W1]+ [Mape W2] + [Mape W3] + [Mape W4]) / 4
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 053e1977-15af-405b-94de-38c31870c83a
+
+	column POSTAL_CODE
+		dataType: string
+		lineageTag: 15fcd5e4-f704-438a-a9bb-f05eac95bea8
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_FCST_PAK
+		dataType: string
+		lineageTag: 824b12e2-ebbd-496b-87cb-924e1dbc44c9
+		summarizeBy: none
+		sourceColumn: KEY_FCST_PAK
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 617a5b6a-6add-47c1-98ee-5ecb21978315
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WEEK_0
+		dataType: double
+		formatString: #,0
+		lineageTag: 015470ac-6f80-4fec-8881-e4161091c2ea
+		summarizeBy: sum
+		sourceColumn: WEEK_0
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_1
+		dataType: double
+		formatString: #,0
+		lineageTag: 34cf3204-3ff7-4591-b2e7-8118f48522c1
+		summarizeBy: sum
+		sourceColumn: WEEK_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_2
+		dataType: double
+		formatString: #,0
+		lineageTag: 02432e6b-be57-497f-a67e-158394e644a9
+		summarizeBy: sum
+		sourceColumn: WEEK_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_3
+		dataType: double
+		formatString: #,0
+		lineageTag: e5cc55d3-5b26-47e4-8070-ce14364df281
+		summarizeBy: sum
+		sourceColumn: WEEK_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_4
+		dataType: double
+		formatString: #,0
+		lineageTag: cde466b0-6490-4bbf-b80d-a4be4d04fd2d
+		summarizeBy: sum
+		sourceColumn: WEEK_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_PARCELS
+		dataType: double
+		formatString: #,0
+		lineageTag: ffd75e35-f63d-4cc7-8c81-e0bc37e9d6a6
+		summarizeBy: sum
+		sourceColumn: ORG_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_PARCELS
+		dataType: double
+		lineageTag: af1668a8-3b96-487c-84e8-b62d586e7a72
+		summarizeBy: sum
+		sourceColumn: NB_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'dateFormatted parcels forecast' = Date(Left([DATE_YYYYMMDD],4),Right(left([DATE_YYYYMMDD],6),2),right([DATE_YYYYMMDD],2))
+		formatString: General Date
+		lineageTag: 57841b7b-7114-4c55-b8f0-e141b2ed9f04
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 9d659207-12f9-43b6-8f51-792ffcd5eeaa
+			defaultHierarchy: LocalDateTable_d0f50a9c-eeb9-4bd5-97b7-6986de63df22.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FORECAST_PARCELS = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    FORECAST_PARCELS1 = PBI_VLT341{[Name="FORECAST_PARCELS"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(FORECAST_PARCELS1, each not Text.Contains([POSTAL_CODE], "PC")),
+				    #"Inserted Merged Column" = Table.AddColumn(#"Filtered Rows", "KEY_FCST_PAK", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-BE"), "_", [POSTAL_CODE]}), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

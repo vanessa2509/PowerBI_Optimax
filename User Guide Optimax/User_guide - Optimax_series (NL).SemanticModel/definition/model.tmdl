@@ -1,0 +1,17 @@
+model Model
+	culture: fr-FR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-BE
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["Table1","DirectQuery à AS – User_guide - Optimax_series (NL)"]
+
+ref table Table1
+ref table 'Table1 2'
+
+ref cultureInfo fr-FR
+

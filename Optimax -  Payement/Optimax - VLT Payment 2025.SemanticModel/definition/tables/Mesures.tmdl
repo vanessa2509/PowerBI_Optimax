@@ -1,0 +1,332 @@
+table Mesures
+	lineageTag: 5e9604de-63dc-4885-b8e2-3907c0b59d9d
+
+	measure 'Count Distinct Agent total (>0) NON ACTIVE' = CALCULATE( DISTINCTCOUNT('FACT_WLT_PAYMENT'[KEY_REORG_HR]),FACT_WLT_PAYMENT[WLT]>0,VLT_DIM_EMPLOYEE[HR_STATUS]="INACTIVE")
+		formatString: 0
+		lineageTag: c1728d44-aa5a-43fd-ae14-8ae4cba4de2d
+
+	measure 'Count Distinct Agent total (VLT<0)' = CALCULATE( DISTINCTCOUNT(FACT_WLT_PAYMENT[KEY_REORG_HR]),FACT_WLT_PAYMENT[WLT]<=0,VLT_DIM_EMPLOYEE[HR_STATUS]="ACTIVE")
+		formatString: 0
+		lineageTag: 4cfc194a-3b2f-4911-9b25-3333127fd486
+
+	measure 'Count Distinct Agent total (VLT>0)' = CALCULATE( DISTINCTCOUNT(FACT_WLT_PAYMENT[KEY_REORG_HR]),FACT_WLT_PAYMENT[WLT]>0,VLT_DIM_EMPLOYEE[HR_STATUS]="ACTIVE")
+		formatString: 0
+		lineageTag: 069c8ae9-0691-4086-8f5b-f6c44d8df955
+
+	measure 'Count Distinct Agent total ACTIVE' =
+			CALCULATE(DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]), VLT_DIM_EMPLOYEE[HR_STATUS] = "ACTIVE"
+			)
+		formatString: 0
+		lineageTag: 9d3e1091-377b-42c1-b14f-a5b0b57e469f
+
+	measure 'Count Distinct Agent total other (VLT>0)' =
+			CALCULATE(
+			    DISTINCTCOUNT(FACT_WLT_PAYMENT[KEY_REORG_HR]),
+			    FACT_WLT_PAYMENT[WLT] > 0,
+			    VLT_DIM_EMPLOYEE[HR_STATUS] = BLANK(),
+			    ALLSELECTED(VLT_DIM_EMPLOYEE),
+			    ALLSELECTED(FACT_WLT_PAYMENT),
+			    ALLSELECTED(VLT_DIM_REORGANIZATION)
+			)
+		formatString: 0
+		lineageTag: 7b6b3f4d-3885-4fc1-aa8d-ca837ff6196c
+
+	measure MsCurrentMonth = format(NOW(), "MMMM - YYYY")
+		lineageTag: cf78d0f5-f68e-4201-8639-3a6d88d95df7
+
+	measure 'Nombre d''agents actifs' =
+			CALCULATE(
+			    DISTINCTCOUNT('FACT_WLT_PAYMENT'[WLT]), 'FACT_WLT_PAYMENT'[WLT]>0,
+			    'VLT_DIM_EMPLOYEE'[HR_STATUS] = "ACTIVE"
+			)
+		formatString: 0
+		lineageTag: 7b157902-c484-48fe-bd37-f25e2eff46b2
+
+	measure 'Somme de WLT pour Y' =
+			
+			CALCULATE(
+				SUM('FACT_WLT_PAYMENT'[WLT]),
+				'VLT_DIM_REORGANIZATION'[IS_LAST_MASTER_REORG] IN { "Y" }
+			)
+		lineageTag: 69f84d15-6766-4746-b8c4-b815fdbd4574
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "FilteredMeasure"
+				}
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure NombrePaiements = ```
+			
+			CALCULATE(
+			    COUNTROWS('FACT_WLT_PAYMENT'),
+			    FACT_WLT_PAYMENT[WLT] > 0,
+			    ALLEXCEPT(VLT_DIM_EMPLOYEE, VLT_DIM_EMPLOYEE[FULL_NAME])
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 77c2d140-3690-410f-89d4-0ed1c0d046a6
+
+	measure SommePaiementsParPersonne = ```
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    ALLEXCEPT(VLT_DIM_EMPLOYEE, VLT_DIM_EMPLOYEE[FULL_NAME])
+			)
+			
+			
+			
+			```
+		formatString: 0
+		lineageTag: decf54c7-1948-4ca2-a1db-6d394d1c3fe2
+
+	measure NombrePersonnesAvecSommePaiementsSuperieureAZero = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			    FILTER(
+			        SUMMARIZE(
+			            VLT_DIM_EMPLOYEE,
+			            VLT_DIM_EMPLOYEE[FULL_NAME],
+			            "SumPayment", SUM(FACT_WLT_PAYMENT[WLT])
+			        ),
+			        [SumPayment] > 0
+			    ),
+			    ALLSELECTED(VLT_DIM_EMPLOYEE)
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 0a68e8a3-4e86-463d-92e9-4d2d3ee683fb
+
+	measure NberOfAGENT =
+			CALCULATE(
+			    DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			    FILTER(
+			        VLT_DIM_EMPLOYEE,
+			        VLT_DIM_EMPLOYEE[HR_STATUS] = "ACTIVE" &&
+			        VLT_DIM_EMPLOYEE[HR_NUMBER] IN
+			            CALCULATETABLE(
+			                VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			                FACT_WLT_PAYMENT[MASTER_REORG_ID] IN VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			            )
+			    )
+			)
+		formatString: 0
+		lineageTag: 5dfcfbc5-02d5-4f5f-af7b-8bdaa0493336
+
+	measure NombrePersonnesAvecSommePaiementsInferieurOuAZero =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			    FILTER(
+			        SUMMARIZE(
+			            VLT_DIM_EMPLOYEE,
+			            VLT_DIM_EMPLOYEE[FULL_NAME],
+			            "SumPayment", SUM(FACT_WLT_PAYMENT[WLT])
+			        ),
+			        [SumPayment] <= 0
+			    ),
+			    ALLSELECTED(VLT_DIM_EMPLOYEE)
+			)
+		formatString: 0
+		lineageTag: 82225c62-49c5-48d6-93b0-4f9bf841f8f1
+
+	measure 'Count Distinct Inactive Agents with Positive WLT' =
+			
+			IF(
+			    ISBLANK(
+			        CALCULATE(
+			            DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			            FILTER(
+			                VLT_DIM_EMPLOYEE,
+			                VLT_DIM_EMPLOYEE[HR_STATUS] = "INACTIVE" &&
+			                VLT_DIM_EMPLOYEE[HR_NUMBER] IN
+			                    CALCULATETABLE(
+			                        VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			                        FACT_WLT_PAYMENT[WLT] > 0 &&
+			                        FACT_WLT_PAYMENT[MASTER_REORG_ID] IN VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			                    )
+			            )
+			        )
+			    ),
+			    BLANK(),
+			    CALCULATE(
+			        DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			        FILTER(
+			            VLT_DIM_EMPLOYEE,
+			            VLT_DIM_EMPLOYEE[HR_STATUS] = "INACTIVE" &&
+			            VLT_DIM_EMPLOYEE[HR_NUMBER] IN
+			                CALCULATETABLE(
+			                    VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			                    FACT_WLT_PAYMENT[WLT] > 0 &&
+			                    FACT_WLT_PAYMENT[MASTER_REORG_ID] IN VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			                )
+			        )
+			    )
+			)
+		formatString: 0
+		lineageTag: 3c9f9e8b-4ceb-429c-b0c7-56a30b52193e
+
+	measure 'Count Distinct active Agents with NEGATIEVE or NULL WLT' =
+			
+			VAR Result =
+			    CALCULATE(
+			        DISTINCTCOUNT(VLT_DIM_EMPLOYEE[FULL_NAME]),
+			        FILTER(
+			            VLT_DIM_EMPLOYEE,
+			            VLT_DIM_EMPLOYEE[HR_STATUS] = "ACTIVE" &&
+			            VLT_DIM_EMPLOYEE[HR_NUMBER] IN
+			                CALCULATETABLE(
+			                    VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			                    FACT_WLT_PAYMENT[WLT] <= 0 &&
+			                    FACT_WLT_PAYMENT[MASTER_REORG_ID] IN VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			                )
+			        )
+			    )
+			RETURN
+			    IF(ISBLANK(Result), BLANK(), Result)
+		formatString: 0
+		lineageTag: d02fd8db-d4d5-4079-bab0-f34cc6f2c82a
+
+	measure CountOfNoPO =
+			
+			VAR Result =
+			    'Mesures'[NberOfAGENT] - 'Mesures'[NombrePersonnesAvecSommePaiementsSuperieureAZero]
+			VAR MaxResult = MAX(0, Result)
+			RETURN
+			    IF(ISBLANK(Result) || MaxResult = 0, BLANK(), MaxResult)
+		formatString: 0
+		lineageTag: 44687d52-7acb-4609-bb91-1532ff8dec0a
+
+	measure MsCurrentMonthMaj =
+			
+			VAR MonthName = FORMAT(NOW(), "MMMM")
+			VAR FirstLetter = UPPER(LEFT(MonthName, 1))
+			VAR RestOfMonth = MID(MonthName, 2, LEN(MonthName) - 1)
+			RETURN
+			    FirstLetter & RestOfMonth & " - " & FORMAT(NOW(), "YYYY")
+		lineageTag: f2751bf2-5a64-45d6-b164-e3d73976ad74
+
+	measure SommePaiementsParPersonneSuperieur0 =
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    ALLEXCEPT(VLT_DIM_EMPLOYEE, VLT_DIM_EMPLOYEE[FULL_NAME]),
+			    FACT_WLT_PAYMENT[WLT] > 0
+			)
+		lineageTag: b02aa41f-6575-4f63-afcb-6ff13f18ee61
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SommeWLTEMPLIDTotalPositif =
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    FILTER(
+			        VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			        CALCULATE(
+			            SUM(FACT_WLT_PAYMENT[WLT])
+			        ) >0
+			    )
+			)
+		lineageTag: 665f5d79-cefd-45de-b04f-2885a81c4937
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SommePaiementsParRegionActive =
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    FACT_WLT_PAYMENT[WLT] > 0,
+			    FILTER(
+			        FACT_WLT_PAYMENT,
+			        FACT_WLT_PAYMENT[MASTER_REORG_ID] IN
+			            CALCULATETABLE(
+			                VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID]),
+			                VLT_DIM_REORGANIZATION[REGIO_NAME] IN {"NORTH", "SOUTH", "CENTRAL"}
+			            )
+			    ),
+			    FILTER(
+			        FACT_WLT_PAYMENT,
+			        FACT_WLT_PAYMENT[EMPLID] IN
+			            SELECTCOLUMNS(
+			                FILTER(
+			                    VLT_DIM_EMPLOYEE,
+			                    VLT_DIM_EMPLOYEE[HR_STATUS] = "ACTIVE"
+			                ),
+			                "EMPLID", VLT_DIM_EMPLOYEE[HR_NUMBER]
+			            )
+			    ),
+			    ALLSELECTED(FACT_WLT_PAYMENT),
+			    ALLSELECTED(VLT_DIM_REORGANIZATION),
+			    ALLSELECTED(VLT_DIM_EMPLOYEE)
+			)
+		lineageTag: 4af33e19-7ad3-48b1-835e-9316031c64d9
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SommeWLTEMPLIDTotalPositifTousDCName =
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    FILTER(
+			        VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			        CALCULATE(
+			            SUM(FACT_WLT_PAYMENT[WLT])
+			        ) > 0
+			    )
+			)
+		lineageTag: 263b8246-2eb1-4eb8-95d4-1c09356eecd3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SommeWLTEMPLIDTotalPositifLiaisonDCName =
+			
+			CALCULATE(
+			    SUM(FACT_WLT_PAYMENT[WLT]),
+			    FILTER(
+			        VALUES(FACT_WLT_PAYMENT[EMPLID]),
+			        CALCULATE(
+			            SUM(FACT_WLT_PAYMENT[WLT]),
+			            FACT_WLT_PAYMENT[MASTER_REORG_ID] IN
+			                CALCULATETABLE(
+			                    VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			                )
+			        ) > 0
+			    ),
+			    FACT_WLT_PAYMENT[MASTER_REORG_ID] IN
+			        CALCULATETABLE(
+			            VALUES(VLT_DIM_REORGANIZATION[MASTER_REORG_ID])
+			        )
+			)
+		lineageTag: 883b685f-b141-441d-838d-122f6941e7ab
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MsCurrentYEARMONTH = ```
+			
+			    FORMAT(NOW(), "YYYYMM")
+			```
+		lineageTag: 2ed95c92-a4fb-4cf3-b99a-f8fa7ceea262
+
+	column Column
+		formatString: 0
+		lineageTag: e6b25b2d-6264-4cda-bf2c-63d61f455332
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Column]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Mesures = calculated
+		mode: import
+		source = Row("Column", BLANK())
+
+	annotation PBI_Id = 63ffc29111ca44b1847a0369b4331321
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

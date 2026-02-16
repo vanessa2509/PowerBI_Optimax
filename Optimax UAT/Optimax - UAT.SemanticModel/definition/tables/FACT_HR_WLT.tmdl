@@ -1,0 +1,2585 @@
+table FACT_HR_WLT
+	lineageTag: c74f2fee-f7cb-442f-8fec-9ff157c90b88
+
+	measure #Avg_FN_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_FN]),KNIME_NEUTRALIZATION[NEUTRALIZATION_FNGF]<>1)/ [Neutralization_date]
+		formatString: #,0
+		lineageTag: 1c267430-42e7-4270-976c-ef4e9de26519
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_PRIME])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: e98b21fa-d95e-4a62-81e2-05b232eb6529
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_INDIV_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_REGISTERED])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 0bbefdb7-b62a-4aa7-8fa8-b11c8c816764
+
+		changedProperty = IsHidden
+
+	measure #Avg_GF_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_GF]),KNIME_NEUTRALIZATION[NEUTRALIZATION_FNGF]<>1)/ [Neutralization_date]
+		formatString: #,0
+		lineageTag: dcf9a3fc-03fb-43b9-8cf7-f76912fee325
+
+		changedProperty = IsHidden
+
+	measure #Avg_FN_ORG = ([ORG_FN + LVR])    /DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		lineageTag: 48b26dbe-1931-47e1-a270-22377bcb4efd
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_ENA_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_ENA])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 1573dd04-414c-49c8-9a3c-3863f9a2e077
+
+		changedProperty = IsHidden
+
+	measure #Avg_PAK_ORG = CALCULATE([ORG_PAk + GP]/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: f20f634e-126e-4fc7-9e48-612782c81dc4
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_EE_PRIME])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: d07af6cb-04a3-4bbc-970e-afb6558a40e5
+
+		changedProperty = IsHidden
+
+	measure #Avg_GF_ORG = ([ORG_GF + LVR])    /DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		lineageTag: aa2cae2f-71c2-410a-8f99-4d0d20193d99
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_INDIV % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_IND ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_INDIV_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 09200db3-4931-4185-88fb-005946422e2c
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalPercentageDifference"
+				}
+
+		changedProperty = IsHidden
+
+	measure '#Avg_GF % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_GF_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_GF_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a2cb9c83-9ad2-4f09-9560-1d811e3303dd
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PRIME % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PRIME_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 48e60bab-ef82-4e5f-a061-18cbcecaebb7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK % delta' =
+			
+			VAR __BASELINE_VALUE = [#AVG_ORG_PAk + GP]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6076559d-ae58-4de8-956b-3718060a4feb
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FN % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FN_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FN_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3f158685-ff8d-4881-b214-0c404230cc63
+
+		changedProperty = IsHidden
+
+	measure '#Avg_ENA % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_ENA_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 826ade5f-6c64-4c44-869f-93a9c168a171
+
+		changedProperty = IsHidden
+
+	measure #Avg_ENA_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_ENA])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 91ac937d-ec65-4e96-86ca-e954f26fa84c
+
+		changedProperty = IsHidden
+
+	measure #NB_OTHER_EE = CALCULATE([#EE_IND+PRIME_REEL]-(FACT_HR_WLT[#RENF_SUBCO_EE_PRIME])-FACT_HR_WLT[#RENF_EE_PRIME])
+		lineageTag: ffd317e4-b412-4a19-ae94-b23a2fc49f57
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #EE+PRIME_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_EE_INDIV])+ SUM(FACT_HR_WLT[ORG_EE_PRIME]))
+		lineageTag: b61a75fe-e3be-47ff-a828-34c2965d7bce
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #RENF_EE_PRIME = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PRIME])+SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_REGISTERED]))
+		lineageTag: 542075b7-f9ec-478b-9694-c83e9e9e3750
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #SUBCO_EE = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PRIME])+SUM(FACT_HR_OFFICE_DAILY[SUBCO_REGISTERED]))
+		lineageTag: 81a2e8df-5f33-458c-a2d5-c785e47b5b6c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_Other_EE = CALCULATE([#NB_OTHER_EE])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		lineageTag: 9b9cd788-ca4d-410e-9e78-fc08ef8dbdce
+
+		changedProperty = IsHidden
+
+	measure #RENF_SUBCO_EE_PRIME = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PRIME])+SUM(FACT_HR_OFFICE_DAILY[SUBCO_REGISTERED]))
+		lineageTag: 63816823-3265-4858-9e0f-e0144c70c1b5
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_EE_RENF = CALCULATE(FACT_HR_WLT[#RENF_EE_PRIME])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: 0
+		lineageTag: c2a24a41-d024-40f3-a0e3-f178af1f2f29
+
+		changedProperty = IsHidden
+
+	measure #AVG_EE_SUBCO = CALCULATE(FACT_HR_WLT[#SUBCO_EE])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: 0
+		lineageTag: 5c2d6745-702d-4f8a-a816-24b0d49a497d
+
+		changedProperty = IsHidden
+
+	measure #AVG_PAK_RENF = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PARCELS])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 5db47a37-2df5-4fba-a319-b1bb1cf5c38b
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #AVG_PAK_SUBCO = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PARCELS])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 78d908e7-e3f0-4d4b-97f8-933a35286b42
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #NB_OTHER_PAK = CALCULATE(SUM(FACT_HR_WLT[NB_PARCELS])-SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PARCELS])-SUM(FACT_HR_OFFICE_DAILY[SUBCO_PARCELS]))
+		lineageTag: 230bcc3a-3d77-42ca-b385-b71973d7c67d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_Other_PAK = [#NB_OTHER_PAK]/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: #,0
+		lineageTag: a242783d-58d9-4d79-9a56-636d1ef53388
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_PAK = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_PAK])+SUM(FACT_HR_OFFICE_DAILY[WLT_COLLECTIF_PAK])) - SUM(FACT_HR_WLT[WLT_ORG_PAK])
+		lineageTag: 86438537-ccdf-4c97-a552-05795e8945a0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_EE = (SUM(FACT_HR_WLT[WLT_REEL_EE]) + SUM(FACT_HR_OFFICE_DAILY[WLT_COLLECTIF_REGISTERED]) -SUM(FACT_HR_WLT[WLT_ORG_EE]))
+		lineageTag: aa88fd42-1a19-4fbe-a29e-cbb54733e074
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_WLT_DELTA_SUBCO = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PARCELS])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])*100)/3600 / 7.6
+		formatString: 0.0
+		lineageTag: bd8b6045-1b77-45e7-988b-67549a3d033a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_EE_SUBCO = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[SUBCO_PRIME])+SUM(FACT_HR_OFFICE_DAILY[SUBCO_REGISTERED])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])*100)/3600
+		lineageTag: ec1af8d0-cecd-44e5-b3af-906c723aec3c
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_ENA = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_ENA])+ SUM(FACT_HR_OFFICE_DAILY[WLT_COLLECTIF_ENA])) -SUM(FACT_HR_WLT[WLT_ORG_ENA])
+		lineageTag: 7e5468f5-deb6-49f6-a2e8-fab6dce903ab
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG_WLT_DELTA ENA' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_ENA])/3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) / 7.6
+		formatString: 0.0
+		lineageTag: 9047ffed-da82-41f2-9d3c-4111ccde9a64
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_PAK = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REEL_WORKLOAD_PAK])/3600/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) / 7.6)
+		formatString: 0.0
+		lineageTag: 2b15eddd-f4fc-48b9-9258-9857c931ab4e
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_FN = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_FN])-SUM(FACT_HR_WLT[WLT_ORG_FN]))
+		lineageTag: 6a326d96-2503-4128-9257-2b8ee6477ab8
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG_WLT_DELTA FN' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_FN]) /3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0.0
+		lineageTag: aa09b3a5-8e9b-4c94-a820-cc16c63a6f49
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_GF = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_GF])-SUM(FACT_HR_WLT[WLT_ORG_GF]))
+		lineageTag: 0df66eb4-a476-4850-a969-79a2bdba7a3d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG_WLT_DELTA GF' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_GF])/3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0.0
+		lineageTag: 741d2061-56f5-4b27-83ae-621b0860a5c8
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_RENF = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PARCELS])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])*100)/3600 / 7.6
+		formatString: 0.0
+		lineageTag: 5d2c2be2-711e-4f60-8ac4-4bb8421f739c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '∑ Delta Vol (H)' = ```
+			CALCULATE([AVG_WLT_DELTA EE]+[AVG_WLT_DELTA ENA]+[AVG_WLT_DELTA_PAK] + [AVG_WLT_DELTA PRIME] + [AVG_WLT_DELTA EE NBR] + [# AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_DATA] + [AVG_WLT_DELTA_FNGF_NEUTRALIZATION25] ) 
+			```
+		lineageTag: 12c71ff2-1130-4331-b1fd-1b2b9b32d57e
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Delta VLT Reel (FTE)' = [∑ Delta Vol (H) + RENF]
+		formatString: 0.0
+		lineageTag: 33282050-415c-4fb7-8754-eb6c43bdc3ad
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Total Reel FTE (Subco+Renfort)' = [#workload renfort time]+[#workload subco time]
+		lineageTag: 88bffff4-9129-421a-b3ab-33dc173416bc
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Renfort Reel (FTE)' = FACT_HR_WLT[Total Reel FTE (Subco+Renfort)]/7.6
+		formatString: 0.0
+		lineageTag: 276afc96-f20d-45ed-a604-5a26d5e5da44
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Excessive Workforce FTE' = [Renfort Reel (FTE)]-[Delta VLT Reel (FTE)]
+		formatString: 0
+		lineageTag: 7901ba52-3e95-40af-a815-21a92869f3c1
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure GRAPH = FACT_HR_WLT[Total Reel FTE (Subco+Renfort)]/7.6
+		lineageTag: 53d68ab0-2cb5-4699-aa2a-77cc421290df
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_FNGF % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FNGF_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FNGF_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: bf2414ba-e496-468d-8e72-d5f004ca25f5
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_INDIV_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_PRIME])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: f29d35d3-a42b-443c-8417-c75da275f635
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FNGF_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_FN])+ SUM(FACT_HR_WLT[NB_GF]))
+		lineageTag: fdfb944c-cfeb-4129-b62a-6350a8e57895
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_FNGF_REEL = CALCULATE([#FNGF_REEL],KNIME_NEUTRALIZATION[NEUTRALIZATION_FNGF]<>1)/ [Neutralization_date]
+		formatString: #,0
+		lineageTag: 880d7a34-a0a5-4f46-b801-8a83d6ab8172
+
+		changedProperty = IsHidden
+
+	measure #EE_IND+PRIME_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_REGISTERED])+ SUM(FACT_HR_WLT[NB_PRIME]))
+		lineageTag: 54449457-ac56-4893-8da2-9483a36d9e36
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_EE_IND+PRIME_REEL = CALCULATE([#EE_IND+PRIME_REEL]) /DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		lineageTag: b08d0f05-7b5d-475f-bca5-9578c433502c
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_IND+PRIME % delta' =
+			
+			VAR __BASELINE_VALUE = [#EE+PRIME_ORG]
+			VAR __VALUE_TO_COMPARE = [#EE_IND+PRIME_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 11904814-552c-48a6-afa9-bbe1e711b9d2
+
+		changedProperty = IsHidden
+
+	measure #FNGF_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_GF])+ SUM(FACT_HR_WLT[ORG_FN]))
+		lineageTag: 31c34268-e0c3-4aec-9167-9ea494c5e557
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_FNGF_ORG = CALCULATE([#FNGF_ORG])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		lineageTag: b684df85-7c90-46fd-89c8-af5c04fa4559
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_PAK_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_PAK])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0
+		lineageTag: aa58eb12-2c1f-4a33-a506-5f9044f2b07d
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_PAK_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_PAK])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0.00
+		lineageTag: c7a3eb0d-0395-46ef-80b2-d57cc2167a15
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_IND ORG' = CALCULATE(SUM(FACT_HR_WLT[ORG_EE_INDIV])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: ee5e41b6-ea89-4ee1-b786-68dc540cdc12
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_EE_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_EE])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0
+		lineageTag: 6ce4fe0b-dd0a-49c9-87f6-847f3517f526
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_EE_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_EE])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0.00
+		lineageTag: 9ea7b45c-f98e-49dd-abf8-8193ea3275e7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_FN_REEL = ```
+			CALCULATE(sum(FACT_HR_WLT[WLT_REEL_FN]),'KNIME_NEUTRALIZATION'[NEUTRALIZATION_FNGF]<> 1) / DIM_CALENDAR[Neutralization_date] / 3600 
+			```
+		lineageTag: d829695c-6c70-44f6-bdc3-c9819376a129
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_WLT_FN_ORG = ```
+			CALCULATE(sum(FACT_HR_WLT[WLT_ORG_FN]),'KNIME_NEUTRALIZATION'[NEUTRALIZATION_FNGF]<> 1) / DIM_CALENDAR[Neutralization_date] / 3600 
+			```
+		formatString: #,0.00
+		lineageTag: b190dc3b-d919-4f25-a529-370b925322e7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_GF_REEL = ```
+			CALCULATE(sum(FACT_HR_WLT[WLT_REEL_GF]), 'KNIME_NEUTRALIZATION'[NEUTRALIZATION_FNGF]<> 1) / DIM_CALENDAR[Neutralization_date] / 3600 
+			```
+		formatString: #,0.00
+		lineageTag: 2b576124-5a1e-4c21-ace9-0618987901b5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_GF_ORG = ```
+			CALCULATE(sum(FACT_HR_WLT[WLT_ORG_GF]),'KNIME_NEUTRALIZATION'[NEUTRALIZATION_FNGF]<> 1) / DIM_CALENDAR[Neutralization_date] / 3600 
+			```
+		formatString: #,0.00
+		lineageTag: f049b011-b86c-4eb7-8970-3d58f0d9462c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_ENA_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_ENA])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0
+		lineageTag: 0613ad08-0981-4cfd-a493-59030123fd72
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_ENA_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_ENA])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0.00
+		lineageTag: 1d63eadc-1373-4391-b591-71b101cfcfe0
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_KRANTEN = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_KRANT])-SUM(FACT_HR_WLT[WLT_ORG_KRANT]))
+		lineageTag: 0b7fe6bc-aa8f-425d-bc4b-72570aa54e3d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_KRANTEN_REEL = ```
+			CALCULATE(SUM(FACT_HR_WLT[NB_KRANT])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])) 
+			```
+		formatString: #,0
+		lineageTag: 69355fc1-7e2f-4dc2-a0ee-e3a2ac15b0ab
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_KRANTEN_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_KRANT])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 716bd571-8841-4628-9d38-706601268d14
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_KRANTEN % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_KRANTEN_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cf015672-064d-491b-9c71-61b595a01b65
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_KRANTEN_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_KRANT])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))/3600
+		lineageTag: dd4389ac-f8dc-4515-ab6b-5c08f4e95534
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_WLT_KRANTEN_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_KRANT]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])/3600)
+		lineageTag: 763b6e99-2d3f-4558-a88c-00df0ee37d83
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WLT_REEL =
+			CALCULATE(
+			SUM(FACT_HR_WLT[WLT_REEL_EE])
+			+SUM(FACT_HR_WLT[WLT_REEL_EE_NBR])
+			+SUM(FACT_HR_WLT[WLT_REEL_ENA])
+			+SUM(FACT_HR_WLT[WLT_REEL_FN])
+			+SUM(FACT_HR_WLT[WLT_REEL_FN])
+			+SUM(FACT_HR_WLT[WLT_REEL_KRANT])
+			+SUM(FACT_HR_WLT[WLT_REEL_PAK]))/3600
+		formatString: #,0
+		lineageTag: 21fd5436-c179-4cb2-bb39-c309a391e1c3
+
+		changedProperty = IsHidden
+
+	measure WLT_REEL_WIHTOUT_KRANTEN =
+			CALCULATE(
+			SUM(FACT_HR_WLT[WLT_REEL_EE])
+			+SUM(FACT_HR_WLT[WLT_REEL_ENA])
+			+SUM(FACT_HR_WLT[WLT_REEL_FN])
+			+SUM(FACT_HR_WLT[WLT_REEL_FN])
+			+SUM(FACT_HR_WLT[WLT_REEL_PAK]))/3600
+		formatString: #,0
+		lineageTag: ac2adaf4-c2e7-491f-b938-d37aec36ecbb
+
+		changedProperty = IsHidden
+
+	measure WLT_REEL_AVG = CALCULATE(FACT_HR_WLT[WLT_REEL])/ DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: e76cf0ba-176f-470d-8cb6-c60ffe111486
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WLT_WITHOUT_KRANTEN_AVG = CALCULATE(FACT_HR_WLT[WLT_REEL_WIHTOUT_KRANTEN])/ DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 6598b810-3888-4ae7-824d-cc8a1a384e03
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_EE_NBR_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_EE_NBR])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 4cb6a797-9e72-49d6-b43c-79d39000e5a7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_EE_NBR_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_EE_NBR])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		lineageTag: 7672c4b3-1576-4840-ba8f-228a3aff9d8b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_WLT_EE_NBR_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_EE_NBR])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		lineageTag: a07b4d91-8bd6-480c-ab51-0c4c654f61b2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_EE_REEL_Total = CALCULATE(FACT_HR_WLT[#Avg_EE_NBR_REEL]+FACT_HR_WLT[#Avg_EE_INDIV_REEL])
+		formatString: #,0
+		lineageTag: c89f9e11-e8dd-4329-ba4a-6a96d1f163d6
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_total % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_Total_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_REEL_Total]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2d4f14c2-30e8-4816-9f2b-e52c5e5cb5d0
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_GULIST_INDIV_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_PRIME_GULIST])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 998e599c-9adc-42d2-89f3-bc1253789a4d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#AVG_EE_REEL_Total-Prime GU' = CALCULATE([#Avg_EE_REEL_Total])- [#Avg_PRIME_GULIST_INDIV_REEL]
+		formatString: #,0
+		lineageTag: 9b98d312-b555-4d05-b6b5-ed3743ae50d7
+
+		changedProperty = IsHidden
+
+	measure #Avg_NBACO_GF = CALCULATE(SUM(FACT_HR_WLT[NBACO_GF])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 723b57e7-3f97-48de-8e40-effc36e0e57b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_NBACO_P1 = CALCULATE(SUM(FACT_HR_WLT[NBACO_P1])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 23bf4b3e-94c5-490b-a842-52d48bdf6f9d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_NBACO_P2 = CALCULATE(SUM(FACT_HR_WLT[NBACO_P2])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 395ccc28-7aa4-481e-89b6-d0f0f44f8ddf
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_NBACO_TOT = CALCULATE(SUM(FACT_HR_WLT[NBACO_TOT])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 618f2925-5458-48ed-a417-1df106f77e17
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Renfort Reel (FTE) ULI' = FACT_HR_WLT[Total Reel FTE (Subco+Renfort) ULI]/7.6
+		formatString: 0
+		lineageTag: c744e944-1615-434b-89f3-f2887aa58140
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Total Reel FTE (Subco+Renfort) ULI' = [#workload renfort time ULI]
+		lineageTag: b46c5909-4326-4da5-8af1-c3a119e01591
+
+		changedProperty = IsHidden
+
+	measure '#workload renfort time ULI' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[ULI_DISTRI_TIME_H])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: d2cd6a20-825d-4cc3-a7d3-7af2bd815266
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Excessive Workforce FTE  ULI' = [Renfort Reel (FTE) ULI]-[Delta VLT Reel (FTE)]
+		formatString: 0
+		lineageTag: 12d4061a-9637-483f-9e59-b3d70513054a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #AVG_ORG_PAk = [ORG_PAK + GP] / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 2a65f968-b378-4c31-afec-4c53301f2081
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Renfort Reel (FTE) without SUBCO' = CALCULATE([#workload renfort time]) / 7.36
+		formatString: 0.0
+		lineageTag: 6fc35de1-f422-4db7-84c5-86b143d6101c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Renfort Reel (FTE)  SUBCO' = CALCULATE([#workload subco time]) / 7.36
+		formatString: 0.0
+		lineageTag: 7af509e2-9624-47fb-8e9e-9e3b1dc830b7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Delta VLT Reel Valeur' = CALCULATE([Delta VLT Reel (FTE)] * -1)
+		lineageTag: 60351366-6432-4315-ba0c-31cd2ecbd399
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_PAK_REEL = CALCULATE(sum(FACT_HR_WLT[NB_PARCELS]) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 9254ba37-2f43-4107-8202-30a6c57ec155
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_EE_NBR = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_EE_NBR])-SUM(FACT_HR_WLT[WLT_ORG_EE_NBR]))
+		formatString: #,0
+		lineageTag: d782f919-7b56-43da-a962-d321ea3daf7f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'AVG_WLT_DELTA EE NBR' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_EE_NBR])/3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) /  7.6
+		formatString: #,0.0
+		lineageTag: 2d51c498-e3df-4233-945a-11dea937411a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK_REEL YTD' =
+			
+			TOTALYTD([#Avg_PAK_REEL], 'DIM_CALENDAR'[Date Range])
+		formatString: #,0
+		lineageTag: 5abd6f7a-5280-4dde-8b2e-5425d56e5f1c
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "YearToDate"
+				}
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'AVG_WLT_DELTA KRANTEN' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_KRANTEN])/3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) / 7.6
+		formatString: 0.0
+		lineageTag: 0c8384d3-3ed7-40d4-b45e-2cd8bdd52cbe
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Delta total Workload Reel' = ```
+			CALCULATE([Delta VLT Reel (FTE)]) 
+			```
+		formatString: 0.0
+		lineageTag: eb699d04-4b69-4390-80d7-32a2c9df5646
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_PRIME_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_PRIME])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0.00
+		lineageTag: 1feda645-0f32-4634-adb9-4b897861a84f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_PRIME_ORG = CALCULATE(sum(FACT_HR_WLT[WLT_ORG_PRIME])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))/3600
+		formatString: #,0
+		lineageTag: 69d8761a-6b39-4139-ba60-f84acaddc3b5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_PRIME = (SUM(FACT_HR_WLT[WLT_REEL_PRIME]) +  SUM(FACT_HR_OFFICE_DAILY[WLT_COLLECTIF_PRIME]) )-SUM(FACT_HR_WLT[WLT_ORG_PRIME])
+		lineageTag: 74d2d97f-d57c-4436-aa82-9340c1d5ef49
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG_WLT_DELTA PRIME' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_PRIME] /3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) /7.6)
+		formatString: 0.0
+		lineageTag: 491d4c63-7e61-4a77-8512-5caa94337445
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'ORG_PAk + GP' = CALCULATE(SUM(FACT_HR_WLT[ORG_PAK]) + SUM(FACT_HR_OFFICE_DAILY[GROWTH_POT_AB]) - SUM(FACT_HR_OFFICE_DAILY[ORG_PARCELS_PC]))
+		lineageTag: 094bbb88-565c-42d4-8d1c-41626eb55918
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#AVG_ORG_PAk + GP' = [ORG_PAK + GP] / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: #,0
+		lineageTag: 5543d976-6c9e-4622-b3a3-8ee1e56a2a09
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FN % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_FN])
+			VAR __VALUE_TO_COMPARE = [#Avg_FN_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: f107d5cb-5943-4890-9cb9-8bbd5cdfa6d9
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_GF % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_GF])
+			VAR __VALUE_TO_COMPARE = [#Avg_GF_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9289dbd7-2457-4a7c-818b-8224677411bf
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_PARCEL_GP])
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9f9acb04-ba60-4e40-82f1-36184cce1284
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_ENA % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_ENA])
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 974224bc-8760-4de8-bea4-bb798fff67da
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE% delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_REGISTERED_INDIV])
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_INDIV_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5fff4950-f9ed-4a0a-ae3f-89df9ddde32f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_NBR% delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_REGISTERED_NB])
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_NBR_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: efcdb82a-8bf3-482e-a04f-6749d825d737
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PRIME % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_PRIME])
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 83d44d76-c083-4a3c-ae61-a29fceff2194
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_EE_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_EE])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_EE])
+		lineageTag: e24b84e5-cec3-4914-8046-8f1ed401b1a9
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'AVG_WLT_DELTA EE' = CALCULATE(FACT_HR_WLT[#WLT_DELTA_EE])/3600/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) /7.6
+		formatString: 0.0
+		lineageTag: fdc579aa-b6a7-406a-9a26-33347a7dcb36
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #WLT_DELTA_EE_NBR_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_EE_NBR])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_EE_NBR])
+		lineageTag: 0d88127d-280e-4e5f-9fe0-879ea6f2f80a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_FN_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_FN])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_FN])
+		lineageTag: 6ed02910-d03e-4958-9053-5be94f4b1bca
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_GF_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_GF])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_GF])
+		lineageTag: 748e9765-017f-476b-ae0e-39d45e6a2291
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_PAK_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_PAK])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_PAK])
+		lineageTag: 67df307f-7e17-4e0f-8bdb-9b448bdfffff
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_ENA_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_ENA])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_ENA])
+		lineageTag: 2ef45f42-3ca5-4384-900d-908d957da273
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_PRIME_LAST_ORG = CALCULATE(SUM(FACT_HR_WLT[WLT_REEL_PRIME])/3600) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) - SUM(PBI_LAST_ORG[LAST_ORG_WLT_PRIME])
+		lineageTag: 92c0aa5e-ad0f-4009-8463-ed50c294fd2d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_NBR % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_NBR_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_NBR_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1ef8858c-8d79-47a4-91c8-26948a501f83
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_FNGF_REEL = CALCULATE(sum(FACT_HR_WLT[WLT_REEL_FN] )+ Sum(FACT_HR_WLT[WLT_REEL_GF] ))/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])/3600
+		lineageTag: 58c3e163-9439-45a8-8bb5-5ab86d2a80b2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_WLT_GF_LAST_ORG = CALCULATE(SUM(PBI_LAST_ORG[LAST_ORG_GF]))/3600
+		lineageTag: b18244ee-a5b8-463e-ac3c-5cd4b32d0cd1
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE%_TOTAL delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = PBI_LAST_ORG[LAST_ORG_EE_IND_EE_NBR]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_REEL_Total]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4586acfe-2d66-4e8c-9030-39eda040e00d
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION = ```
+			CALCULATE(FACT_HR_WLT[#Avg_WLT_KRANTEN_REEL]  - FACT_HR_WLT[#Avg_WLT_KRANTEN_ORG] ) 
+			```
+		formatString: 0.0
+		lineageTag: 73eaa2a0-7d2f-4cb2-99c3-7e697eee684a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'AVG_WLT_DELTA GF _NEUTRALIZATION' = ```
+			CALCULATE(FACT_HR_WLT[#Avg_WLT_GF_REEL]  - FACT_HR_WLT[#Avg_WLT_GF_ORG]) 
+			```
+		formatString: 0.0
+		lineageTag: b3c00f63-1295-461c-92fd-01ae4ec0c6dc
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'AVG_WLT_DELTA FN_NEUTRALIZATION' = (FACT_HR_WLT[#Avg_WLT_FN_REEL] ) - (FACT_HR_WLT[#Avg_WLT_FN_ORG] )
+		formatString: 0.0
+		lineageTag: 26de7d62-7b5d-441f-803d-3e7511b3cbe7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure SUBCO_RENFORT = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[REINFORCEMENT_PARCELS]) + SUM(FACT_HR_OFFICE_DAILY[SUBCO_PARCELS]) )
+		lineageTag: d17393fb-d2c0-4527-9f9a-b5565259ad65
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure SUBCO_RENFORT_AVG = CALCULATE([SUBCO_RENFORT]) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: 4be0ffd2-5da7-4b10-bfcb-3bb964c138cc
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_FNGF % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [LAST_ORG_FNGF]
+			VAR __VALUE_TO_COMPARE = [#Avg_FNGF_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 0809aa47-406a-4f54-90f7-0509eb91028e
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'ORG_GF + LVR' = CALCULATE(SUM(FACT_HR_WLT[ORG_GF] )) + SUM(FACT_HR_OFFICE_DAILY[LVR_GF])
+		lineageTag: 236495c3-0d1f-49ad-a815-e6ef7dd93383
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ORG_FN + LVR' = CALCULATE(SUM(FACT_HR_WLT[ORG_FN] )) + SUM(FACT_HR_OFFICE_DAILY[LVR_NF])
+		lineageTag: a2ae148e-3497-4302-b524-32f3facd0ac0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_Krant % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_KRANT])
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 61228b3d-6701-4397-a98e-0c4b5fbf7e0d
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_FNGF_NEUTRALIZATION = ```
+			[AVG_WLT_DELTA FN_NEUTRALIZATION] + [AVG_WLT_DELTA GF _NEUTRALIZATION] 
+			```
+		formatString: 0.0
+		lineageTag: 64641bc6-33dc-40aa-8875-3c9019f4c661
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_EE_TOT = [AVG_WLT_DELTA EE] + [AVG_WLT_DELTA EE NBR]
+		formatString: 0.0
+		lineageTag: 815f8151-4c55-4515-af95-2c16c7065e0a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #EE_TOTAL_REEL = CALCULATE(SUM(FACT_HR_WLT[NB_REGISTERED])+ SUM(FACT_HR_WLT[NB_EE_NBR]))
+		lineageTag: 876929dd-b793-41fb-8a51-9287d3557127
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_EE_NBR_ORG = CALCULATE(SUM(FACT_HR_WLT[ORG_REGISTERED_NB])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		lineageTag: 40ca66b2-9fae-4b0a-bb7f-73b336ac22ea
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_GF_25% = [AVG_WLT_DELTA GF _NEUTRALIZATION] * 0.25
+		lineageTag: 922286dd-e5dd-4543-a281-55f354b98e06
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_FN_25% = [AVG_WLT_DELTA FN_NEUTRALIZATION] *0.25
+		lineageTag: ad3751e6-1ed6-46b6-8330-a8acdaaf7e2d
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #WLT_DELTA_KRANTEN_25% = ```
+			[#Avg_WLT_KRANTEN_NEW_DELTA] * 0.25
+			
+			
+			```
+		lineageTag: 3ab5cba9-259c-445b-bd30-752735a165e0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25 = CALCULATE( [#Avg_WLT_KRANTEN_NEW_DELTA]) /7.6
+		lineageTag: 567ea1dd-882b-4093-9e10-a4eb2bc2139c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_WLT_DELTA_FNGF_NEUTRALIZATION25 = CALCULATE([AVG_WLT_NEUTRA_FNGF_NEW])
+		formatString: 0.0
+		lineageTag: 3ba8dcc9-3107-4f07-99cd-fcd00d2371ee
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_FN_NEUTRALIZATION25 = CALCULATE([#WLT_DELTA_FN_25%] + [AVG_WLT_DELTA FN_NEUTRALIZATION] ) /7.6
+		formatString: 0.0
+		lineageTag: 8ea7f636-7282-4e58-88e0-8cb8a3b926e9
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_DELTA_GF_NEUTRALIZATION25 = CALCULATE( [#WLT_DELTA_GF_25%]+ [AVG_WLT_DELTA GF _NEUTRALIZATION]) / 7.6
+		formatString: 0.0
+		lineageTag: a2032238-9165-41b8-9110-eb059a08dfc9
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_Total_ORG = [#Avg_EE_NBR_ORG] + [#Avg_EE_IND ORG]
+		formatString: #,0
+		lineageTag: 04738211-ba07-4237-9d94-1c266bdf4e12
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #Avg_PAK_REEL_ULI = CALCULATE(sum(FACT_HR_WLT[NB_PARCELS]), FACT_HR_WLT[ROUND_NAME] = "PaE" )/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]) +0
+		formatString: #,0
+		lineageTag: b539bbfd-9f7c-4d2c-b47e-3b7627ddafc7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #Avg_PAK_REEL_PCW = CALCULATE(sum(FACT_HR_WLT[NB_PARCELS]), FACT_HR_WLT[ROUND_NAME] = "PCW" )/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: #,0
+		lineageTag: 05d84829-b2e4-4eba-91b7-7227559c69b5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #Avg_PAK_REEL_DISTRI = CALCULATE([#Avg_PAK_REEL]- ([#Avg_PAK_REEL_ULI]) - ([#Avg_PAK_REEL_BULK] )-( [#Avg_PAK_REEL_PCW]))
+		lineageTag: d927374d-fe4d-4920-9518-180cb0678156
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_PAK_REEL_NO_DISTRI = CALCULATE(([#Avg_PAK_REEL_PCW] + [#Avg_PAK_REEL_ULI]) )
+		formatString: #,0
+		lineageTag: 4a086a22-78db-4dec-a1fb-d4d0c755ff9a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #%PAK_REEL_NO_DISTRI =
+			
+			DIVIDE([#Avg_PAK_REEL_NO_DISTRI],[#Avg_PAK_REEL])
+		formatString: #,0.0%;-#,0.0%;#,0.0%
+		lineageTag: 9424e62c-1b58-4154-a51e-e98d6da25491
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalDivision"
+				}
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #%PAK_REEL_DISTRI =
+			
+			DIVIDE([#Avg_PAK_REEL_DISTRI],[#Avg_PAK_REEL])
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 410e08e5-b085-44b0-987c-4a0f00e1b76f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PAK_REEL_PCW_0 = IF(ISBLANK([#Avg_PAK_REEL_PCW]), 0 , [#Avg_PAK_REEL_PCW])
+		formatString: #,0
+		lineageTag: 2b35ea5d-fb19-47d3-96c5-aa9d88810fc4
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PAK_REEL_ULI_0 = IF(ISBLANK([#Avg_PAK_REEL_ULI]), 0 , [#Avg_PAK_REEL_ULI])
+		formatString: #,0
+		lineageTag: 94a9c7ba-806f-4fe4-883e-978bed7fc8f3
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_FN_LVR_ORG = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[LVR_NF])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 7410d750-c864-4bd3-926a-d2c6d671efd5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #Avg_GF_LVR_ORG = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[LVR_GF])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 5fea4567-49f8-4733-9bd6-93940b0ddcbc
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '#Avg_PAK % delta with Last ORG DISTRI' = CALCULATE([#Avg_PAK % delta with Last ORG], FACT_HR_WLT[FLAG_DISTRI_VOLUME] ="Yes")
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2551a311-e1d4-452b-a8bb-10690d32959c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_WLT_KRANTEN_NEW_DELTA = CALCULATE(sum(FACT_HR_OFFICE_DAILY[TOT_WORKLOAD_KRANTEN])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))/3600
+		lineageTag: 60e6c300-fc3c-477e-a2f5-cc7743368615
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '∑ Delta Vol (H) + RENF' = ```
+			CALCULATE([AVG_WLT_DELTA EE]+[AVG_WLT_DELTA ENA]+[AVG_WLT_DELTA_PAK] + [AVG_WLT_DELTA PRIME] + [AVG_WLT_DELTA EE NBR] + [# AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_DATA] + [AVG_WLT_DELTA_FNGF_NEUTRALIZATION25] + [AVG_WLT_DELTA_REINFORCEMENT_STRUC] ) 
+			```
+		formatString: 0.0
+		lineageTag: 47ea675a-3617-4878-8890-50d9de1b9f5c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure AVG_WLT_NEUTRA_FNGF25 = CALCULATE([#WLT_DELTA_FN_25%] + [#WLT_DELTA_GF_25%] + [AVG_WLT_DELTA FN_NEUTRALIZATION] + [AVG_WLT_DELTA GF _NEUTRALIZATION]) /7.6
+		lineageTag: cd5aa19f-0478-4bd4-9cca-190fa860de68
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Remaining potential' = CALCULATE([Delta total Workload Reel] + [#DELTA_ACTUAL_ORG_BASELINE]  + [AVG_WLT_DELTA_REINFORCEMENT_STRUC Valeur] )
+		formatString: 0.0
+		lineageTag: ab8477c2-1919-4a5e-b150-55510b3d9c41
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Remaining Potential Valeur' = [Remaining potential] * -1
+		formatString: 0.0
+		lineageTag: 743c734b-724b-460f-8b84-4b3d49a268b0
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FNGF % delta with Last ORG_ Neutra' = SWITCH(TRUE(),[#Avg_FNGF_REEL] = BLANK(),BLANK(),[#Avg_FNGF % delta with Last ORG])
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 44619625-4f20-4673-ac8c-485eeb954c37
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure Org_efficiency = ( [AVG_WLT_DELTA_REINFORCEMENT_STRUC] + [∑ Delta Vol (H)] )
+		formatString: 0.0
+		lineageTag: a84eda96-fb6b-4d67-93d3-2e52da2c4510
+
+		changedProperty = FormatString
+
+	measure 'ORG_EFFICIENCY Valeur' = ([Org_efficiency] *-1)
+		lineageTag: f05a7b96-d01a-4921-a67d-f1fd4069323b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Total_efficiency = [#AVG_FTE_ORG_CENTRA_ADAPTED_DATA] - [ACTUALS]
+		formatString: 0.0
+		lineageTag: 519e9833-b321-420d-9846-fa12907d69c1
+
+		changedProperty = FormatString
+
+	measure 'Total_efficiency Valeur' = [Total_efficiency] *-1
+		formatString: 0.0
+		lineageTag: befe7180-34e4-461a-b978-71c2ee803d63
+
+		changedProperty = FormatString
+
+	measure #Avg_WLT_COLLECTIF_FNGF = ```
+			CALCULATE(sum(FACT_HR_OFFICE_DAILY[WLT_COLLECTIF_FNGF]),'KNIME_NEUTRALIZATION'[NEUTRALIZATION_FNGF]<> 1) / DIM_CALENDAR[Neutralization_date] / 3600 
+			```
+		formatString: 0.0
+		lineageTag: efc4d978-a765-44a9-9dbd-fe41f5109f23
+
+		changedProperty = FormatString
+
+	measure AVG_WLT_NEUTRA_FNGF_NEW = CALCULATE([#Avg_WLT_COLLECTIF_FNGF] + [AVG_WLT_DELTA FN_NEUTRALIZATION] + [AVG_WLT_DELTA GF _NEUTRALIZATION]) /7.6
+		formatString: 0.0
+		lineageTag: 112a1daa-de78-49fc-9514-e8583dc0745f
+
+		changedProperty = FormatString
+
+	measure '#Avg_PAK + PRIME' = [#Avg_PRIME_REEL] + [#Avg_PAK_REEL]
+		formatString: #,0
+		lineageTag: ecc7168e-a628-402c-a80e-5e14088ea94f
+
+	measure '#Avg_Pak + PRIME ORG' = [#Avg_PAK_ORG] + [#Avg_PRIME_ORG]
+		lineageTag: 96b8dad7-1b9f-49da-baf3-17df04043ecf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_Pak + Prime % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_Pak + PRIME ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK + PRIME]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 1f4a5b70-7878-4d44-bdeb-5a30e2169df4
+
+	measure '#Avg_PAK % delta with Last ORG PC' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_PARCEL_GP])
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL_PCW_0]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 3956069e-c0be-4e4b-8e56-eae0ffaa54cf
+
+	measure '#Avg_ENA % delta No elect' =
+			
+			VAR __BASELINE_VALUE = [#Avg_ENA_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REEL_NO_ELECT]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0%;-0%;0%
+		lineageTag: 2c08998a-5558-44a5-be47-2a92b42b2fe8
+
+	measure #Avg_KRANTEN_ORG_ADAPTED = ```
+			
+			IF(
+			    SELECTEDVALUE(FACT_HR_WLT[FLAG_NPP]) = "Yes",
+			    0,
+			    CALCULATE(
+			        SUM(FACT_HR_WLT[ORG_KRANT]) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+			    )
+			)
+			
+			```
+		lineageTag: 5351d12a-c93a-47ae-85f3-05a9c9d5a795
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_KRANTEN % delta Adapted' =
+			
+			VAR __BASELINE_VALUE = [#Avg_KRANTEN_ORG_ADAPTED]
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 5e810cc7-6654-420e-bace-89d230332e59
+
+	measure 'AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25 SWITCH' = ```
+			
+			IF(
+			    HASONEFILTER(CalcType[Data]),
+			    SWITCH(
+			        SELECTEDVALUE(CalcType[Data]),
+			        "Newspapers", CALCULATE([#Avg_WLT_KRANTEN_NEW_DELTA]) / 7.6,
+			        "Newspapers adapted", CALCULATE([#Avg_WLT_KRANTEN_NEW_DELTA]) / 7.6
+			    )
+			)
+			
+			```
+		lineageTag: 3c7a1e30-ca1c-4af5-9d26-698faa7b1e74
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_WLT_KRANTEN_NEW_DELTA_ADAPTED = CALCULATE(sum(FACT_HR_OFFICE_DAILY[TOT_WORKLOAD_KRANTE_ADAPTED])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))/3600
+		formatString: 0
+		lineageTag: 36e6a0ad-b5ea-4e9a-83ff-cfd904f5ec8d
+
+	measure '# AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_DATA' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Newspapers", [AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25],
+			        "Newspapers adapted", [AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_ADAPTED]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		lineageTag: dca397ea-f15b-4e5c-9e1c-5bbac940cc67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_ADAPTED = CALCULATE( [#Avg_WLT_KRANTEN_NEW_DELTA_ADAPTED]) /7.6
+		lineageTag: 2eafc051-92ec-478a-bd7a-d6bf027e0780
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ORG_CENTRA_ADAPTED_DATA = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Newspapers", [#AVG_FTE_ORG_CENTRA],
+			        "Newspapers adapted", [#AVG_FTE_ORG_CENTRA_ADAPTED_FLAG]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		lineageTag: a487461f-3940-4859-ad48-1a54ecbcbd7f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'ORG_PAk + GP NO BULK' = CALCULATE(SUM(FACT_HR_WLT[ORG_PAK]), FACT_HR_WLT[FLAG_DISTRI_VOLUME] ="Yes") + SUM(FACT_HR_OFFICE_DAILY[GROWTH_POT_AB]) - SUM(FACT_HR_OFFICE_DAILY[ORG_PARCELS_PC])
+		lineageTag: 864496dc-d451-489a-a010-bea0b797e3bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_PAK_REEL_BULK = CALCULATE(sum(FACT_HR_WLT[NB_PARCELS]), FACT_HR_WLT[ROUND_NAME] = "BUL" )/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		lineageTag: de2ad6b4-2ac9-4755-aaa2-fd162754d1b6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK % delta with Last ORG no Bulk' =
+			
+			VAR __BASELINE_VALUE = Sum(PBI_LAST_ORG[LAST_ORG_PARCEL_GP_NO_BULK])
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: aca65181-e6b5-4daa-bf15-b894d404ea8d
+
+	measure #Avg_PAK_ORG_NO_BULK = CALCULATE([ORG_PAk + GP NO BULK]/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		lineageTag: 889fcfb7-8684-4700-8efc-ee9237eefeff
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_PAK_REEL_BULK_0 = IF(ISBLANK([#Avg_PAK_REEL_BULK]), 0 , [#Avg_PAK_REEL_BULK])
+		lineageTag: 1e92de1f-8e46-4d77-adbf-ae79df7f36c6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MinGlobal = ```
+			
+			MIN (
+			    COALESCE ( [#AVG_PAK + PRIME], 0 ),
+			    COALESCE ( [#AVG_PAK + PRIME ORG], 0 )
+			)
+			
+			
+			```
+		lineageTag: 6f90fd7f-2e3c-4bd7-9de6-5bd7d885e763
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MaxGlobal =
+			
+			MAX (
+			    COALESCE ( [#AVG_PAK + PRIME], 0 ),
+			    COALESCE ( [#AVG_PAK + PRIME ORG], 0 )
+			)
+		lineageTag: 096e3680-159b-4ea1-a8c1-15b523256ee3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Min_AvgPakPrime = ```
+			
+			COALESCE ( [#AVG_PAK + PRIME], 0 )
+			
+			```
+		lineageTag: 1afb53b4-0f67-475d-bb2d-ea8f0e1454d1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MinY_PAK_Dynamique_PosOnly = ```
+			
+			VAR DatesSel =
+			    ALLSELECTED ( 'FACT_HR_WLT'[DATE_YYYYMMDD] )
+			VAR T =
+			    ADDCOLUMNS (
+			        DatesSel,
+			        "ValPAK", [#Avg_PAK_REEL_DISTRI]
+			    )
+			VAR MinPos =
+			    MINX (
+			        FILTER ( T, NOT ISBLANK ( [ValPAK] ) && [ValPAK] > 0 ),
+			        [ValPAK]
+			    )
+			RETURN
+			IF ( ISBLANK ( MinPos ), BLANK (), MinPos * 0.8 )   // -20 %
+			
+			```
+		lineageTag: 0b131476-5b68-4036-8fc6-54690ffd5068
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MinGlobal2 =
+			
+			VAR Axe =
+			    ALLSELECTED( 'DIM_CALENDAR'[Month_] )
+			RETURN
+			    MINX(
+			        Axe,
+			        MIN( [#AVG_PAK + PRIME], [#AVG_PAK + PRIME ORG] )
+			    )
+		lineageTag: 9161f590-0a2c-489d-9e7e-c79ab4dca3e7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MaxGlobal2 = ```
+			
+			VAR Axe =
+			    ALLSELECTED ( 'DIM_CALENDAR'[Month_] )
+			RETURN
+			    MAXX (
+			        Axe ,
+			        MAX ( [#AVG_PAK + PRIME] , [#AVG_PAK + PRIME ORG] )
+			    )
+			
+			```
+		lineageTag: e82f8b20-12b1-4645-a1a0-a3f30afdcf5b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WLT_REEL_FTE = ```
+			(FACT_HR_WLT[WLT_REEL] / 7.5) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+			
+			```
+		lineageTag: 2b2f0f22-6cd1-4cd9-a0bb-f1e80725faca
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WLT_ORG =
+			CALCULATE(
+			SUM(FACT_HR_WLT[WLT_ORG_EE])
+			+ SUM(FACT_HR_WLT[WLT_ORG_EE_NBR])
+			+SUM(FACT_HR_WLT[WLT_ORG_ENA])
+			+SUM(FACT_HR_WLT[WLT_ORG_FN])
+			+SUM(FACT_HR_WLT[WLT_ORG_FN])
+			+SUM(FACT_HR_WLT[WLT_ORG_KRANT])
+			+SUM(FACT_HR_WLT[WLT_ORG_PAK]))/3600
+		lineageTag: 024ab90d-b4c4-46a9-99d2-8e3fcaeae142
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure WLT_ORG_FTE = ```
+			(FACT_HR_WLT[WLT_ORG] / 7.5) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+			
+			```
+		lineageTag: 5d170321-be42-4b8b-8637-d761f81bf79e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_PARCEL_GP])
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 95
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: e89a7402-3af8-44f0-bc20-53556e5a7ef3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_Kranten # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_KRANT])
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 72
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: e74b6bc2-6e74-420f-a5f5-46884e227b3d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_INDIV # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_REGISTERED_INDIV])
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_INDIV_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 87.55
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: 965052cc-2ebb-482c-9057-2f4a35ae0e28
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PRIME # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_PRIME])
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 95
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: f94ebeb2-cc50-4623-9486-e429aa6fa69b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_ENA # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_ENA])
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 2.89
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: ab66c824-0ae7-4f2d-a70c-fd0e22de766a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_NBR # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_REGISTERED_NB])
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_NBR_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 14.31
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: 49b5890c-ec8a-4f32-9bf4-10b66e8b1440
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_total delta with last ORG (FTE)' = CALCULATE([#Avg_EE_INDIV # delta with Last ORG (FTE)]+ [#Avg_EE_NBR # delta with Last ORG (FTE)]+[#Avg_ENA # delta with Last ORG (FTE)] + [#Avg_FN # delta with Last ORG (FTE)] + [#Avg_GF # delta with Last ORG (FTE)]+[#Avg_Kranten # delta with Last ORG (FTE)]+ [#Avg_PAK # delta with Last ORG (FTE)] + [#Avg_PRIME # delta with Last ORG (FTE)])
+		lineageTag: 501eaf3d-cd73-4dc6-afdc-607555962df6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_total delta with last ORG (FTE) + Caping' = CALCULATE([#Avg_EE_INDIV # delta with Last ORG (FTE)]+ [#Avg_EE_NBR # delta with Last ORG (FTE)]+[#Avg_ENA # delta with Last ORG (FTE)] + [#Avg_FN # delta with Last ORG (FTE)] + [#Avg_GF # delta with Last ORG (FTE)] +[#Avg_Kranten # delta with Last ORG (FTE)]+ [#Avg_PAK # delta with Last ORG (FTE)] + [#Avg_PRIME # delta with Last ORG (FTE)] + [AVG_WLT_DELTA_REINFORCEMENT_STRUC])
+		lineageTag: 08e66d11-a721-4b14-9eb8-ac12730f860e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_FN # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_FN])
+			VAR __VALUE_TO_COMPARE = [#Avg_FN_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 5.79
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: 9d880d6f-ea37-4454-b8eb-715f22a88c62
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_GF # delta with Last ORG (FTE)' = ```
+			
+			VAR __BASELINE_VALUE = SUM(PBI_LAST_ORG[LAST_ORG_GF])
+			VAR __VALUE_TO_COMPARE = [#Avg_GF_REEL]
+			VAR __DELTA = __VALUE_TO_COMPARE - __BASELINE_VALUE
+			VAR __DELTA_SEC = __DELTA * 8.08
+			VAR __SEC_PER_FTE = 27360
+			VAR __FTE = DIVIDE(__DELTA_SEC, __SEC_PER_FTE)
+			RETURN
+			    IF(
+			        NOT ISBLANK(__VALUE_TO_COMPARE),
+			        __FTE
+			    )
+			
+			```
+		lineageTag: 6a83b419-0c28-46a7-996c-2e13a12c450c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Delta (FTE) Optimax' = CALCULATE([AVG_WLT_DELTA EE]+[AVG_WLT_DELTA ENA]+[AVG_WLT_DELTA_PAK] + [AVG_WLT_DELTA PRIME] + [AVG_WLT_DELTA EE NBR] + [# AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25_DATA] + [AVG_WLT_DELTA_FNGF_NEUTRALIZATION25] + [AVG_WLT_DELTA_REINFORCEMENT_STRUC])
+		lineageTag: da2870a7-3098-48ab-8689-c4f7d7e22b89
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: cb1e3740-75d3-45cd-a821-16dd1a2c5e72
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: int64
+		lineageTag: dfe0b3b2-12ed-48bb-a7ef-ac5c01f382e5
+		summarizeBy: count
+		sourceColumn: REORG_ID
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: int64
+		lineageTag: ba3b3a8e-9d45-4007-843b-5166d927d4e7
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_EE_INDIV
+		dataType: double
+		formatString: #,0
+		lineageTag: d3160057-0e65-4b38-b658-7bb26a075219
+		summarizeBy: sum
+		sourceColumn: ORG_EE_INDIV
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_FN
+		dataType: double
+		formatString: #,0
+		lineageTag: 8c7c720a-3035-4215-9e9e-f9ccb48831e1
+		summarizeBy: none
+		sourceColumn: ORG_FN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column ORG_GF
+		dataType: double
+		formatString: #,0
+		lineageTag: b3d0acb0-88c5-4ff8-bd33-f9180a83a55f
+		summarizeBy: sum
+		sourceColumn: ORG_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_ENA
+		dataType: double
+		formatString: #,0
+		lineageTag: 8381dfb0-6dce-4178-9363-6c77ae338a78
+		summarizeBy: sum
+		sourceColumn: ORG_ENA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_EE_PRIME
+		dataType: double
+		lineageTag: 9b2a6219-f3c9-4e14-8ae8-ec9d1958fc95
+		summarizeBy: sum
+		sourceColumn: ORG_EE_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_PAK
+		dataType: double
+		lineageTag: 43613069-7491-41df-bb3d-e5ff0709e7c5
+		summarizeBy: sum
+		sourceColumn: ORG_PAK
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_PAK
+		dataType: double
+		lineageTag: 4c1ad49b-337b-4a84-af9a-f6d1b49a1c12
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_PAK
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_PAK
+		dataType: double
+		lineageTag: b5d9da92-611f-42cb-b158-001b73f6623c
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_PAK
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_ENA
+		dataType: double
+		lineageTag: b8047337-80d1-4538-8fc1-ce28cf271ea4
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_ENA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_ENA
+		dataType: double
+		lineageTag: 6308cdcf-f0df-47f1-8627-ea7379881bf2
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_ENA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_GF
+		dataType: double
+		lineageTag: da319260-dfeb-48af-a905-0c1cdff321bd
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_GF
+		dataType: double
+		lineageTag: 070f2111-7dcc-4e4c-840f-5c53f8c953ba
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_FN
+		dataType: double
+		lineageTag: 1cc3d4b9-b6f7-41f2-9105-872e7a9bf317
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_FN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_FN
+		dataType: double
+		lineageTag: 7bb3cca3-4ffc-4a54-a0fa-7ea131a7e927
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_FN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_PRIME
+		dataType: double
+		lineageTag: 0780f47b-82f6-440d-b47c-8b9beef14ff2
+		summarizeBy: sum
+		sourceColumn: NB_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_PARCELS
+		dataType: double
+		lineageTag: 1129ccc7-31d5-497d-af38-e33e327c04bc
+		summarizeBy: sum
+		sourceColumn: NB_PARCELS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_REGISTERED
+		dataType: double
+		formatString: #,0
+		lineageTag: d5c9cc38-f522-4b2b-83bc-143a2a55d028
+		summarizeBy: sum
+		sourceColumn: NB_REGISTERED
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_FN
+		dataType: double
+		formatString: #,0
+		lineageTag: 1752e5fe-db46-4568-9d4e-ee5cb96d3417
+		summarizeBy: none
+		sourceColumn: NB_FN
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column NB_GF
+		dataType: double
+		formatString: #,0
+		lineageTag: c078a517-efdf-4f55-8ca7-e6c45ee39390
+		summarizeBy: sum
+		sourceColumn: NB_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ENA
+		dataType: double
+		formatString: #,0
+		lineageTag: ded41628-c32b-4f2b-8a4e-b0ed3d6b7a51
+		summarizeBy: sum
+		sourceColumn: NB_ENA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Key
+		dataType: string
+		lineageTag: a7739ec4-433b-4366-85d3-bee680477d76
+		summarizeBy: none
+		sourceColumn: Key
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_KRANT
+		dataType: double
+		lineageTag: e470b198-a50c-46e5-9c6a-84e6c56f0373
+		summarizeBy: sum
+		sourceColumn: NB_KRANT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ORG_KRANT
+		dataType: double
+		lineageTag: 748af32b-f37e-4646-b2eb-80c55d55a715
+		summarizeBy: sum
+		sourceColumn: ORG_KRANT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_KRANT
+		dataType: double
+		lineageTag: 49dce617-6f47-4f50-90da-a46f0e14d866
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_KRANT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROUND_NAME
+		dataType: string
+		lineageTag: e6a802c9-8c32-4ca5-87be-1789f76acdf6
+		summarizeBy: none
+		sourceColumn: ROUND_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_EE_NBR
+		dataType: double
+		lineageTag: 1234781b-a09f-4a93-9d8d-e4b36b85da9e
+		summarizeBy: sum
+		sourceColumn: NB_EE_NBR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_EE_NBR
+		dataType: double
+		lineageTag: 9887a2a9-92d8-471f-ba0e-67bf3ae086d0
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_EE_NBR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_EE_NBR
+		dataType: double
+		lineageTag: f9c3690f-2a65-405c-a950-11e7a01023d6
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_EE_NBR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_GF
+		dataType: double
+		lineageTag: a6e0726f-de3e-4aec-8ee1-bf9af44c4674
+		summarizeBy: sum
+		sourceColumn: NBACO_GF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_P1
+		dataType: double
+		lineageTag: a96820d4-4117-4a39-a0aa-74ef3a492439
+		summarizeBy: sum
+		sourceColumn: NBACO_P1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_P2
+		dataType: double
+		lineageTag: 2319e97e-6e55-4771-8b67-cab94abf2280
+		summarizeBy: sum
+		sourceColumn: NBACO_P2
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NBACO_TOT
+		dataType: double
+		lineageTag: 3914fb8f-8bb9-48ac-b492-cdb0b9f964d3
+		summarizeBy: sum
+		sourceColumn: NBACO_TOT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_PRIME_GULIST
+		dataType: double
+		lineageTag: 414db891-f871-42e9-ad52-8402ab295ec6
+		summarizeBy: sum
+		sourceColumn: NB_PRIME_GULIST
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_KRANT
+		dataType: double
+		lineageTag: 367fc9ae-2eed-4d54-93ad-e92d699a4660
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_KRANT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROUNDTYPE
+		dataType: string
+		lineageTag: 2bf8f457-c88d-48dc-a40b-c8b64894d309
+		summarizeBy: none
+		sourceColumn: ROUNDTYPE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIENST
+		dataType: string
+		lineageTag: 48fb1b74-8542-4a47-aa9b-1266e5fcfb67
+		summarizeBy: none
+		sourceColumn: DIENST
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WLT_ORG_PRIME
+		dataType: double
+		lineageTag: 09ca0f8a-d884-4466-adc7-c8e8e38c0e3e
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_PRIME
+		dataType: double
+		lineageTag: 3661caa0-c8b6-4ab2-a799-7e38c58f7f30
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_PRIME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ORG_EE
+		dataType: double
+		lineageTag: c8ad7da0-072c-4c0a-8958-5b9c444f7b85
+		summarizeBy: sum
+		sourceColumn: WLT_ORG_EE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_REEL_EE
+		dataType: double
+		lineageTag: e75c90d8-6ac8-4039-900c-1dfe75e32a3c
+		summarizeBy: sum
+		sourceColumn: WLT_REEL_EE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FULL_ROUND_NAME
+		dataType: string
+		lineageTag: 7c97ce51-22d2-48b1-853e-911ddac41b75
+		summarizeBy: none
+		sourceColumn: FULL_ROUND_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_PARCELS_CENTER_VOLUME
+		dataType: string
+		lineageTag: dbc5c539-b76f-4577-8f36-8828e55edc4d
+		summarizeBy: none
+		sourceColumn: FLAG_PARCELS_CENTER_VOLUME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_REGISTERED_NB
+		dataType: double
+		lineageTag: 957d030e-3355-49ad-86f3-61d697d5a720
+		summarizeBy: sum
+		sourceColumn: ORG_REGISTERED_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_LAST_REORG
+		dataType: string
+		lineageTag: 6673b775-b47f-486f-90be-c6cce5908d52
+		summarizeBy: none
+		sourceColumn: IS_LAST_REORG
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_ULI_VOLUME
+		dataType: string
+		lineageTag: ca4b845f-3257-482b-a97c-d065b2b6d63d
+		summarizeBy: none
+		sourceColumn: FLAG_ULI_VOLUME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_DISTRI_VOLUME
+		dataType: string
+		lineageTag: f83aecbd-fb95-4ab8-8718-f61ec736f354
+		summarizeBy: none
+		sourceColumn: FLAG_DISTRI_VOLUME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROUND_TYPE_PBI
+		dataType: string
+		lineageTag: 3281e7fd-2b1c-4418-9f94-9153a050f1b2
+		summarizeBy: none
+		sourceColumn: ROUND_TYPE_PBI
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_PAE_PC
+		dataType: double
+		lineageTag: b50eeec0-d135-4c8f-beff-c1a7ee281dc4
+		summarizeBy: sum
+		sourceColumn: NB_PAE_PC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_WITHOUT_PAE_PC
+		dataType: double
+		lineageTag: 95d85c43-bbcf-4c87-a9ee-786d84845f5f
+		summarizeBy: sum
+		sourceColumn: NB_WITHOUT_PAE_PC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_LAST_MASTER_REORG_ID
+		dataType: string
+		lineageTag: a412c408-3401-48f3-a1b0-274a50efbc08
+		summarizeBy: none
+		sourceColumn: IS_LAST_MASTER_REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOLUME_GROWTH
+		dataType: double
+		lineageTag: ab9bacca-72b1-4135-aa1c-f9b432c0a3df
+		summarizeBy: sum
+		sourceColumn: VOLUME_GROWTH
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_NPP
+		dataType: string
+		lineageTag: db9fad98-e88e-4f17-90c7-438dc55eb7f9
+		summarizeBy: none
+		sourceColumn: FLAG_NPP
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_WITHOUT_PAE_PC_BUL
+		dataType: double
+		lineageTag: 0a67ed2f-792c-4ff5-98f6-7d360fdbda24
+		summarizeBy: sum
+		sourceColumn: NB_WITHOUT_PAE_PC_BUL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_BULK_VOLUME
+		dataType: string
+		lineageTag: 37bbdc34-4022-438c-8e08-5f52c744d900
+		summarizeBy: none
+		sourceColumn: FLAG_BULK_VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_HR_WLT-e8cda3c7-7c8f-4c3f-8ef3-c3f002028dfb = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_HR_WLT1 = PBI_VLT341{[Name="OPTIMAX_HR_WLT2"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(V_PBI_HR_WLT1, "Key", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB")}), type text)
+				in
+				    #"Inserted Merged Column"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

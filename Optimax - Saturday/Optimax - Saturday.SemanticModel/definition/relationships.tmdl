@@ -1,0 +1,26 @@
+relationship c85dc122-6337-44b9-9bc0-fe749966e373
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG START dateFormatted'
+	toColumn: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.Date
+
+relationship e7b42fee-cb1f-4198-8e89-023592a4a641
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG END dateFormatted'
+	toColumn: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.Date
+
+relationship 7a1f08ae-87c7-49cd-b1ee-793aea9fdc40
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	fromColumn: Dataflow_DIM_VIP_USER_LAST_ORG.REORG_ID
+	toColumn: DIM_REORG_VLT.REORG_ID
+
+relationship 21548a77-a714-4ae2-93dc-1d8ee4097147
+	crossFilteringBehavior: bothDirections
+	fromColumn: PAKSAT_TBL_LOC_PAKSAT.CP_PAKSAT
+	toColumn: DIM_REORG_VLT.POSTAL_CODE
+
+relationship 6189ad14-df2b-4f85-9b77-1022815b9e6d
+	crossFilteringBehavior: bothDirections
+	fromColumn: PAKSAT_TBL_LOC_PAKSAT.DATE_YYYYMMDD
+	toColumn: DIM_CALENDAR.'Date YYYYMMDD'
+

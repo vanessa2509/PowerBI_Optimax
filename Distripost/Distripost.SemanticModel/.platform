@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Distripost"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "06196b7e-c6ab-a68c-4938-cd03c9e7acb7"
+  }
+}

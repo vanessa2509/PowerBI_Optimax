@@ -1,0 +1,25 @@
+table CalcType
+	lineageTag: 7680ff03-cb38-42b5-80ed-1c5d5accadc9
+
+	column Data
+		dataType: string
+		lineageTag: 307fd9eb-d5d6-4eb5-ac45-162688ed9f36
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CalcType = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8ivNTUotUshPU8gvSkktUorViVYKyS9JzFEoy88pzU1Vio0FAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Data", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

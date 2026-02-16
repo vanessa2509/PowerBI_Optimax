@@ -1,0 +1,77 @@
+model Model
+	culture: fr-BE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: nl-BE
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'FACT Queries'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'DIM Queries'
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup Parameter
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup DATAFLOW
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup KNIME
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'VLT Report'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 06/06/2023 08:18:26.
+queryGroup 'Query Errors - 06/06/2023 08:18:26'
+
+	annotation PBI_QueryGroupOrder = 7
+
+queryGroup 'Check Optimax'
+
+	annotation PBI_QueryGroupOrder = 4
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["DIM_REORG_VLT","DIM_CALENDAR","LAB_VLT341 CO6","PBI_VLT341_ONCE","PBI_VLT341_SECOND","Refresh date","DIM_EMPLOYEE","Dataflow_DIM_VIP_USER","FACT_HR_OFFICE_DAILY","FACT_HR_WLT","KNIME_NEUTRALIZATION","V_PBI_HR_OFFICE_SERVICES","PBI_LAST_ORG","Employee check","REORG_ORDER","Dataflow_DIM_VIP_USER_LAST_ORG","V_PBI_PAKSAT_TIME","OPTIMAX_ACTIVE_REORG","OPTIMAX_EOY_ORG","OPTIMAX_TBL_EOY_2023_MAPPING","OPTIMAX_EOY_VOLUME_BY_MO_DELTA","CHECK_OPTIMAX_DATA_NAT","CalcType","DIM_REORG_VLT_INFO"]
+
+ref table DateTableTemplate_c2035e78-79f5-49ec-a2be-8a9485ac2159
+ref table DIM_CALENDAR
+ref table 'Refresh date'
+ref table LocalDateTable_0069999b-6fe3-4b45-8422-4c1a67cb6134
+ref table Dataflow_DIM_VIP_USER
+ref table DIM_REORG_VLT
+ref table LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433
+ref table LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac
+ref table FACT_HR_OFFICE_DAILY
+ref table FACT_HR_WLT
+ref table KNIME_NEUTRALIZATION
+ref table DIM_EMPLOYEE
+ref table V_PBI_HR_OFFICE_SERVICES
+ref table PBI_LAST_ORG
+ref table 'Employee check'
+ref table REORG_ORDER
+ref table LocalDateTable_83a11ae4-ff95-403c-8c2f-5a6a74885c5a
+ref table LocalDateTable_d9f6ea50-460d-4e76-baca-acbe865e11f6
+ref table Dataflow_DIM_VIP_USER_LAST_ORG
+ref table V_PBI_PAKSAT_TIME
+ref table OPTIMAX_ACTIVE_REORG
+ref table OPTIMAX_EOY_ORG
+ref table OPTIMAX_EOY_VOLUME_BY_MO_DELTA
+ref table OPTIMAX_TBL_EOY_2023_MAPPING
+ref table CalcType
+ref table DIM_REORG_VLT_INFO
+
+ref role user
+
+ref cultureInfo fr-BE
+

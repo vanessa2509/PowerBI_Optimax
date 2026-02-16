@@ -1,0 +1,337 @@
+table DIM_REORG_VLT
+	lineageTag: 4e5e41fb-ef98-4f94-8e6e-7c718cdb9ea1
+
+	measure 0 = BLANK()
+		formatString: 0
+		lineageTag: dc33db1b-716a-4ded-94ad-5aae65475a88
+
+		changedProperty = IsHidden
+
+	measure 100% = 1
+		formatString: 0
+		lineageTag: 19ba5a00-0d66-4e45-972c-340053238a7d
+
+		changedProperty = IsHidden
+
+	measure BW = SWITCH(TRUE(), SELECTEDVALUE(DIM_REORG_VLT[POSTAL_CODE] ) = 1000 , [AVG_WLT_NEUTRA_FNGF25] - 1.15 ,SELECTEDVALUE(DIM_REORG_VLT[POSTAL_CODE] ) = 1030, [AVG_WLT_NEUTRA_FNGF25] - 0.6, SELECTEDVALUE(DIM_REORG_VLT[POSTAL_CODE] ) = 1070, [AVG_WLT_NEUTRA_FNGF25] - 0.7, [AVG_WLT_NEUTRA_FNGF25])
+		lineageTag: 04865b25-3b71-417b-b9db-e6db340ffdba
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '-DC Value' = SELECTEDVALUE(DIM_REORG_VLT[DC_NAME], "All DC")
+		lineageTag: 1777937e-bcb2-4b9e-8813-a4332095d063
+
+	measure 'Dienst Value' = SELECTEDVALUE(FACT_HR_WLT[DIENST], "All services")
+		lineageTag: 6f7f88ec-960a-4df4-89a2-a049328c6c44
+
+	column MASTER_REORG_ID
+		dataType: double
+		lineageTag: 61b9fd44-1169-4291-b390-2310f5a62880
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		formatString: 0
+		lineageTag: 3ccb9123-bd06-450a-ae76-6f59e941418e
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REGIO_NAME
+		dataType: string
+		lineageTag: 8833f04d-52e6-4a5f-88b7-69e8f874f950
+		summarizeBy: none
+		sourceColumn: REGIO_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_NAME
+		dataType: string
+		lineageTag: f6dc4798-a180-4b98-b79f-142f5564f841
+		summarizeBy: none
+		sourceColumn: DC_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC_NAME
+		dataType: string
+		lineageTag: 71277fbc-ec9b-46d9-911d-58b8c441bf77
+		summarizeBy: none
+		sourceColumn: MC_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DM_NAME
+		dataType: string
+		lineageTag: d52f0236-51bf-48b6-8ed8-9011bb3a39ab
+		summarizeBy: none
+		sourceColumn: DM_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REORG_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 808dd256-e983-4e24-81d4-7e7b243d5e90
+		summarizeBy: sum
+		sourceColumn: REORG_START_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_END_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 13e5d348-608e-4cf1-95f3-2c3d26025b3f
+		summarizeBy: sum
+		sourceColumn: REORG_END_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MSTR_REORG_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 69b44490-8001-4b55-9eb4-ad81c6173ae2
+		summarizeBy: sum
+		sourceColumn: MSTR_REORG_START_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RANK_REORG
+		dataType: int64
+		formatString: 0
+		lineageTag: 8b1211c9-f45d-4ae6-975a-3d6a45a6bcb6
+		summarizeBy: none
+		sourceColumn: RANK_REORG
+
+		changedProperty = DataType
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column 'REORG START dateFormatted' = Date(Left([REORG_START_DATE_YYYYMMDD],4),Right(left([REORG_START_DATE_YYYYMMDD],6),2),right([REORG_START_DATE_YYYYMMDD],2))
+		formatString: dd/mm/yyyy
+		lineageTag: 2587206b-5ab5-419a-aabd-1a7d3ecae648
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: c85dc122-6337-44b9-9bc0-fe749966e373
+			defaultHierarchy: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'REORG END dateFormatted' = Date(Left([REORG_END_DATE_YYYYMMDD],4),Right(left([REORG_END_DATE_YYYYMMDD],6),2),right([REORG_END_DATE_YYYYMMDD],2))
+		formatString: dd/mm/yyyy
+		lineageTag: 7c56501c-f726-4125-a4f8-ca8d2da9084b
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: e7b42fee-cb1f-4198-8e89-023592a4a641
+			defaultHierarchy: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 545eac8b-dd2d-488f-9aa1-920d6e667a79
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MSTR_REORG_END_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 9ccd4b29-f01e-4769-a3d3-2d5bc733c9b4
+		summarizeBy: sum
+		sourceColumn: MSTR_REORG_END_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PBI_DATE_NAME
+		dataType: string
+		lineageTag: a1744af7-4aa1-45f8-a76c-a19c9e4dd283
+		summarizeBy: none
+		sourceColumn: PBI_DATE_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column PBI_NAME
+		dataType: string
+		lineageTag: 743f39e4-b61c-43f2-9445-62f51d23a3b2
+		summarizeBy: none
+		sourceColumn: PBI_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO_NAME
+		dataType: string
+		lineageTag: c3b4d468-af60-4339-bff8-4fdab1d5a5b3
+		summarizeBy: none
+		sourceColumn: MO_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEARCH_POSTAL_CODE
+		dataType: string
+		lineageTag: 3aaa3751-2064-4812-a853-8736a9901605
+		summarizeBy: none
+		sourceColumn: SEARCH_POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG
+		dataType: string
+		lineageTag: e74b84bd-06c1-420b-86ef-2fbbf17e023d
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_LAST_REORG
+		dataType: string
+		lineageTag: f71f7453-3e64-4705-a646-e7c48367e606
+		summarizeBy: none
+		sourceColumn: IS_LAST_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_LAST_MASTER_REORG
+		dataType: string
+		lineageTag: ec628d14-5b28-455a-8b47-758c89d83df0
+		summarizeBy: none
+		sourceColumn: IS_LAST_MASTER_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG_PRIME
+		dataType: string
+		lineageTag: 96274bbe-e8b4-4e65-85d8-e8da31e2a97d
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG_EE
+		dataType: string
+		lineageTag: 000b7865-3efd-4b24-bba4-8c823bc9fda7
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG_EE
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG_FNGF
+		dataType: string
+		lineageTag: 78609d25-1fd6-44a4-a242-7506776cb270
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG_FNGF
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG_KRANT
+		dataType: string
+		lineageTag: a3be6d15-7786-4c89-91a4-da285e656b6b
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG_KRANT
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_CUR_ORG_ENA
+		dataType: string
+		lineageTag: 61f60533-789b-407a-afdb-353e8368051f
+		summarizeBy: none
+		sourceColumn: DC_CUR_ORG_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_REORG_VLT-b05846e7-3cf3-4d16-b1c8-17f1f867535c = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DIM_REORG_VLT1 = PBI_VLT341{[Name="OPTIMAX_DIM_REORGANIZATION"]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(V_PBI_DIM_REORG_VLT1,"AWANS MC","VISE MC",Replacer.ReplaceText,{"MC_NAME"}),
+				    #"Protected Key" = Table.SelectRows(#"Replaced Value", each [REORG_ID] <> null and [REORG_ID] <> ""),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Protected Key", "POSTAL_CODE", "POSTAL_CODE - Copy"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Duplicated Column",{{"POSTAL_CODE - Copy", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"POSTAL_CODE - Copy", "SEARCH_POSTAL_CODE"}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns", {"PBI_DATE_NAME"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each ([PBI_DATE_NAME] <> null)),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Filtered Rows","DISTR MANAG LIEGE","DM LIEGE",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","DISTR MANAGER  BXL & BW","DM BXL & BW",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","DISTR MANAGER  CENTRE","DM CENTRE",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","DIST MANAGER CENTRUM","DM CENTRUM",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","DISTR MANAG OOST","DM OOST",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","DISTR MANAG WEST","DM WEST",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","DISTR MANAG BR-VL BRAB","DM BR-VL BRAB",Replacer.ReplaceText,{"DM_NAME"})
+				in
+				    #"Replaced Value7"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

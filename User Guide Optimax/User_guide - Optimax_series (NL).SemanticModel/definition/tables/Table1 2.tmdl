@@ -1,0 +1,69 @@
+table 'Table1 2'
+	lineageTag: ac0c86e4-63c3-4356-adf1-3fda8946bc8a
+	sourceLineageTag: 0c071034-efe3-4155-aa06-4f6049db0a0f
+
+	measure 'TooltipMarker_TL 2' = EXTERNALMEASURE("TooltipMarker_TL", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: 86c5267b-2a6f-409e-836a-8c5d259485b5
+		sourceLineageTag: 85ff66c4-b91a-4861-b7e0-4e135a545bb9
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMaker_extract 2' = EXTERNALMEASURE("TooltipMaker_extract", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: cde2a5e4-28dd-4217-8b71-6c41657e5ebe
+		sourceLineageTag: 0d644674-59a5-47fe-9045-f122aec816dc
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMaker_return 2' = EXTERNALMEASURE("TooltipMaker_return", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: aa1ee722-8550-4ce7-833c-3a97481fba55
+		sourceLineageTag: c907132b-ae89-49a9-b6b5-a9dda10b0f46
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMaker_WLD1 2' = EXTERNALMEASURE("TooltipMaker_WLD1", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: 401d56f9-32b2-4bc3-979e-1c8bff567dfa
+		sourceLineageTag: 584d0168-5f38-47e6-8441-e6e0be343ba4
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMaker_WLD2 2' = EXTERNALMEASURE("TooltipMaker_WLD2", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: 210e40f0-a7e7-4284-9ebf-36d699036c43
+		sourceLineageTag: 7b1c1613-6522-4221-87ff-6bf6ccbdc932
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMkaer_extract 2' = EXTERNALMEASURE("TooltipMkaer_extract", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: d57fcd60-a7e2-4180-9cea-276062252061
+		sourceLineageTag: d86b0099-0497-46b2-a861-e28445a8ea53
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	measure 'TooltipMaker_expert 2' = EXTERNALMEASURE("TooltipMaker_expert", STRING, "DirectQuery à AS – User_guide - Optimax_series (NL)")
+		lineageTag: 6d6ad922-6706-4848-ac33-6d8492b00d90
+		sourceLineageTag: e42e51b4-7916-4ddc-9342-4fef42ff665f
+		dataCategory: Uncategorized
+
+		annotation PBI_FormatHint = {"isText":true}
+
+	column Table1
+		dataType: string
+		lineageTag: 984eff7d-2144-4ebc-89fc-3de31ea476ac
+		sourceLineageTag: c3459c75-813d-4710-9c61-23e1eb978fa0
+		dataCategory: Uncategorized
+		summarizeBy: none
+		sourceColumn: Table1
+
+		annotation SummarizationSetBy = User
+
+	partition 'Table1 2' = entity
+		mode: directQuery
+		source
+			entityName: Table1
+			expressionSource: 'DirectQuery à AS – User_guide - Optimax_series (NL)'
+
