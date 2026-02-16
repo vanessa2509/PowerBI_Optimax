@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Workload"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1d5db732-ddf1-91f5-45dd-489f90f66976"
+  }
+}

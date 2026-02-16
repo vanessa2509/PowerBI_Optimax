@@ -1,0 +1,618 @@
+table V_PBI_HR_OFFICE_SERVICES
+	lineageTag: f65717e2-b939-4ed6-b261-1e723101df97
+
+	measure '#Service_duration_in_centra (FTE)' = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]="Y") / DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])/436
+		formatString: #,0
+		lineageTag: b4eb177e-9c6e-4220-98ce-4da203cc1128
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Service_duration_not_in_centra (FTE)' = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]="N") / DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])/436
+		formatString: 0.0
+		lineageTag: fa68cbc4-53c9-46fa-9e85-79d511a14375
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#ORG Vs VLT' = CALCULATE([#Service_duration_in_centra (FTE)]- V_PBI_HR_OFFICE_SERVICES[DELTA_VLT_VALEUR_POS])
+		formatString: #,0
+		lineageTag: fb197d89-0a47-4bc9-bd44-581198af5468
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#ORG Vs Badging' = ([#Service_duration_in_centra (FTE)]-[DELTA_BADGE_VALEUR_POS])
+		formatString: #,0
+		lineageTag: 1fafc8ae-ced9-409e-847e-1844e97697b1
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure DELTA_VLT_VALEUR_POS = CALCULATE([Delta VLT Reel (FTE)]*-1)
+		lineageTag: 90675c94-8c4f-4002-b560-89758870c5c3
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_NON_ASSURED_NO_REPART = CALCULATE(sum(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION]),V_PBI_HR_OFFICE_SERVICES[ASSURED_BY] =BLANK() ,V_PBI_HR_OFFICE_SERVICES[REPARTITION_BY] = BLANK())/456
+		formatString: 0.0
+		lineageTag: 53e5717d-539d-433d-bad6-cd9bcb85700c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#PLA Baseline (- Renfort double )' = ```
+			( [#AVG_FTE_ASSURED_IN_CENTRA] + [#AVG_FTE_ASSURED_NO_CENTRA] )  - [#AVG_FTE_RENFORT + SUBCO] 
+			```
+		formatString: #,0.0
+		lineageTag: 93cafc47-ddf5-44c4-8920-45e035b15955
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #AVG_FTE_RENFORT_TOTAL = FACT_HR_WLT[Renfort Reel (FTE) without SUBCO]+ [#AVG_FTE_RENFORT_NA]
+		formatString: 0.0
+		lineageTag: 21677921-8131-47fe-810a-f891fb181ec0
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Repartition_total = V_PBI_HR_OFFICE_SERVICES[#AVG_FTE_REPARTITION_IN_CENTRA] + [#AVG_FTE_REPARTITION_NO_CENTRA]
+		formatString: 0.0
+		lineageTag: 56e288a5-7e8e-4f39-b62f-9890e78bfce2
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #FTE_ORG_CENTRA = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION])/ 456)
+		formatString: 0.0
+		lineageTag: 17fa0508-2d67-4910-a4e8-81408d1d61f3
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #AVG_FTE_ORG_CENTRA = CALCULATE([#FTE_ORG_CENTRA] /DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD]))
+		formatString: #,0.0
+		lineageTag: b6fb7f11-82fd-4803-aed1-d789319ec284
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #FTE_TRAINEE = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[TRAINEE_DURATION])/ 456)
+		lineageTag: a2489cbc-c426-4e9f-bede-3aadd3d7e6ca
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_RENFORT_OTHER = CALCULATE([#FTE_RENFORT_OTHER] ) / DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		formatString: 0.0
+		lineageTag: fd993d99-77ee-406f-803e-80b0df9ac26a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #FTE_RENFORT_OTHER = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION]),V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "REN" ) / 456
+		lineageTag: e7146e13-8936-4f77-b1f8-5928ada0fc10
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_RENFORT_DISTRI = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION]),V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] <> "NA"  &&  V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "RED") / 456
+		lineageTag: 6c8d223c-e179-4693-bd9f-f6f58422644a
+
+		changedProperty = IsHidden
+
+	measure #AVG_FTE_RENFORT_DISTRI = CALCULATE([#FTE_RENFORT_DISTRI] ) / DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		formatString: 0.0
+		lineageTag: 0e6adaf7-7673-4e91-8d76-fc6e8d364e48
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #AVG_FTE_RENFORT_NA_DISTRI = CALCULATE([#FTE_RENFORT_NA_DISTRI] ) / DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		formatString: 0.0
+		lineageTag: 3a3d6ed0-b670-4810-a349-9b9493a33ff5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #FTE_AVG_SUBCO = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[NB_SUBCO_FTE]) / DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: 0.0
+		lineageTag: cf143c44-3ca5-4c9b-aa3f-3c2c554ca71f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #DELTA_ACTUAL_ORG_BASELINE = [#AVG_FTE_ORG_CENTRA - Caping - Workload] - [Total PLA + RENF+SUBCO+REP]
+		formatString: 0.0
+		lineageTag: 613cd372-9cfa-42ce-9b91-25ea96182870
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Delta Actuals Total (Pla distri ) - ORG Baseline Adapted' = [Total PLA + RENF+SUBCO+REP] -[#ORG_CENTRA - Workload total (FTE)]
+		formatString: 0.0
+		lineageTag: 1c70f81b-58ff-4f9b-be3a-ef768bbcda95
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Actuals Total J' = calculate(V_PBI_HR_OFFICE_SERVICES[#PLA Baseline],V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "J" , LEFT(V_PBI_HR_OFFICE_SERVICES[DIENST],1) = "J")
+		formatString: #,0.0
+		lineageTag: f32cc801-3f71-42d7-9d33-9a8303897495
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Org Baseline J' = CALCULATE( [#AVG_FTE_ORG_CENTRA_ALL] ,V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "J")
+		formatString: #,0.0
+		lineageTag: 32c92aff-c2df-4435-a336-cd5d73607507
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#PLA Baseline' = ```
+			( [#AVG_FTE_ASSURED_IN_CENTRA] + [#AVG_FTE_ASSURED_NO_CENTRA] ) 
+			```
+		formatString: #,0.0
+		lineageTag: 410e5eac-6d2f-4b75-9877-46e653f5dc1f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Non assuré Non reparti' = [Delta ORG Baseline J & Actuals J] - [#Repartition_total]
+		lineageTag: 454de805-da44-47d1-85cf-d9e455da11d5
+
+		changedProperty = IsHidden
+
+	measure 'Delta ORG Baseline J & Actuals J' = [#Org Baseline J] - [#Actuals Total J]
+		lineageTag: 21e5344e-9d69-430f-b7b5-c4a90d7b0f7f
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ARI_MVD = CALCULATE([#PLA Baseline],V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "ARI" || V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "MVD" || V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "PRE")
+		lineageTag: 45ff2eee-8eaf-4edb-b316-8765e1f583cf
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#AVG_FTE_RENFORT + SUBCO' = ```
+			[#AVG_FTE_RENFORT_NA_DISTRI] + [#AVG_FTE_RENFORT_DISTRI] 
+			```
+		lineageTag: 6eddb067-cdf8-46ef-be6a-ece10f6fcc3b
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#AVG_FTE_ORG_CENTRA - Caping - Workload' = ```
+			CALCULATE([#AVG_FTE_ORG_CENTRA_ADAPTED_DATA]  - [ORG_EFFICIENCY Valeur]) 
+			```
+		formatString: 0.0
+		lineageTag: 508546ea-3cfd-4ec6-ae47-ed95aa899a9e
+
+		changedProperty = FormatString
+
+	measure ACTUALS = ```
+			[#AVG_FTE_ORG_CENTRA - Caping - Workload] - [#DELTA_ACTUAL_ORG_BASELINE] 
+			```
+		formatString: 0.0
+		lineageTag: 003ae2b5-aad4-4c79-8d22-9696a8d4eaf4
+
+		changedProperty = FormatString
+
+	measure '#DELTA_ACTUAL_ORG_BASELINE Valeur' = [#DELTA_ACTUAL_ORG_BASELINE] *-1
+		formatString: 0.0
+		lineageTag: 349d87b5-f0f6-40cd-8a95-62ea4fad3d45
+
+		changedProperty = FormatString
+
+	measure '#AVG_FTE_ORG_CENTRA- Caping' = CALCULATE([#FTE_ORG_CENTRA] /DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD]) - [AVG_WLT_DELTA_REINFORCEMENT_STRUC Valeur])
+		formatString: 0.0
+		lineageTag: 23d7a1b9-5bc8-4294-b730-8fd5e7d870f7
+
+		changedProperty = FormatString
+
+	measure 'Non Assured Optimax' = CALCULATE([Total PLA + RENF+SUBCO+REP] - [#PLA Baseline (- Renfort double )])
+		formatString: 0.0
+		lineageTag: 08055122-a6c7-45b8-8ad3-fc23a223be5a
+
+		changedProperty = FormatString
+
+	measure #FTE_ORG_CENTRA_+GP = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION])/ 456) + [Worload_Growth_POT_AB]
+		lineageTag: f8e682ca-d533-4100-b3f3-604dfe2875bc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ORG_CENTRA_+GP = ```
+			CALCULATE([#FTE_ORG_CENTRA] /DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])) 
+			```
+		formatString: 0.0
+		lineageTag: 95c44bac-049c-4838-b587-df399ca488eb
+
+		changedProperty = FormatString
+
+	measure '#Org Baseline JE' = CALCULATE( [#AVG_FTE_ORG_CENTRA_ALL] ,V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "JE")
+		formatString: 0.0
+		lineageTag: 35df19ff-46b8-44de-9ac9-7f336929f0eb
+
+	measure #FTE_ORG_CENTRA_ALL = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[SERVICE_DURATION])/ 456)
+		lineageTag: 8c2dba85-274f-4526-a8bb-8c6a7d1f03a1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ORG_CENTRA_ALL = CALCULATE([#FTE_ORG_CENTRA_ALL] /DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD]))
+		lineageTag: 77a411ab-ef2b-4533-abd8-a29ca452aeac
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		lineageTag: 4a725b1c-14a5-4b36-b7e9-b032cf711c37
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'AVG_WLT_DELTA_REINFORCEMENT_STRUC Valeur' = CALCULATE([AVG_WLT_DELTA_REINFORCEMENT_STRUC] *-1)
+		lineageTag: ed5dc1fd-a959-4db4-9c70-afff3fdd5a3a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_ASSURED_NO_CENTRA = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]= "N")/456
+		lineageTag: e4505972-fd2a-4d17-8bf3-07327b826c6c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_ASSURED_IN_CENTRA = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]= "Y")/456
+		lineageTag: ca2b2fe8-5569-4ea9-8146-9395d5c41ce0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ASSURED_NO_CENTRA = CALCULATE([#FTE_ASSURED_NO_CENTRA])/DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		lineageTag: 3eee327a-3a3a-4c36-b3f3-a9e3a942b1c3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ASSURED_IN_CENTRA = CALCULATE([#FTE_ASSURED_IN_CENTRA])/DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		lineageTag: 73858d81-09f7-4694-8b07-9185766c464c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Measure 3'
+		lineageTag: 014cc13e-3ab0-492d-8868-7c28538d686f
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure #FTE_RENFORT_NA_DISTRI = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION]),V_PBI_HR_OFFICE_SERVICES[WP_NAME_SHORT] = "NA"  &&  V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "RED") / 456
+		lineageTag: f80d894a-fbda-4d85-bf62-556740c82aa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_REPARTITION_IN_CENTRA = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[REPARTITION_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]= "Y")/456
+		lineageTag: 2c43336c-48f2-4115-ac54-e016b5df9e06
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FTE_REPARTITION_NO_CENTRA = CALCULATE(SUM(V_PBI_HR_OFFICE_SERVICES[REPARTITION_DURATION]),V_PBI_HR_OFFICE_SERVICES[IS_IN_CENTRA]= "N")/456
+		lineageTag: b7855432-cac5-4a7b-ade0-728d7f17bcaf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_REPARTITION_NO_CENTRA = CALCULATE([#FTE_REPARTITION_NO_CENTRA])/DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		lineageTag: ea73f138-0866-44ec-94b4-b9987effd543
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_REPARTITION_IN_CENTRA = CALCULATE([#FTE_REPARTITION_IN_CENTRA])/DISTINCTCOUNT(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD])
+		lineageTag: fedeb052-416e-4b97-9d0c-e7333cc1ac8f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#ORG_CENTRA - Workload total (FTE)' = CALCULATE([#AVG_FTE_ORG_CENTRA] - [Delta total Workload Reel])
+		lineageTag: 80f8fbed-7579-4f1e-91ad-b3c25331c988
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#FTE REP+RENF+SUBCO' = CALCULATE(V_PBI_HR_OFFICE_SERVICES[#Repartition_total]+[#FTE_AVG_SUBCO] ) + V_PBI_HR_OFFICE_SERVICES[#AVG_FTE_RENFORT_NA_DISTRI] + [#AVG_FTE_RENFORT_DISTRI]
+		lineageTag: 2e07e6eb-9699-4f0c-8f76-17b2424e3810
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total PLA + RENF+SUBCO+REP' = calculate([#PLA Baseline (- Renfort double )] +[#FTE REP+RENF+SUBCO])
+		lineageTag: 86e03ee7-b50c-46c3-bbd0-58ea56206141
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Total PLA EOY - DIS RED COL' = calculate([#PLA Baseline], V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "DIS" || V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "RED" ||  V_PBI_HR_OFFICE_SERVICES[ACTIVITY_TYPE] = "COL")
+		formatString: #,0
+		lineageTag: 2ea80d80-f1a1-4c86-8027-6c418c519feb
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure 'Total PLA EOY' = calculate([#PLA Baseline])
+		formatString: #,0
+		lineageTag: a8b56246-e529-45a3-afc7-d8a57a579d17
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure #AVG_FTE_ORG_CENTRA_ADAPTED = CALCULATE([#AVG_FTE_ORG_CENTRA] + [AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25])
+		lineageTag: 70833330-9f5f-4f60-84a9-6be3ff4fb947
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #AVG_FTE_ORG_CENTRA_ADAPTED_FLAG = ```
+			
+			IF(
+			    [FLAG_NPP] = "Yes",
+			    [#AVG_FTE_ORG_CENTRA] + [AVG_WLT_DELTA_KRANTEN_NEUTRALIZATION25],
+			    [#AVG_FTE_ORG_CENTRA]
+			)
+			
+			```
+		lineageTag: 08afd054-5d7c-4a01-922e-830406452247
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ACTIVITY_TYPE
+		dataType: string
+		lineageTag: 98a6ceaf-b679-46ff-bbb1-b24e55c80a42
+		summarizeBy: none
+		sourceColumn: ACTIVITY_TYPE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: a56e9d7e-1b0a-4e9f-bc4d-c10fb51270c7
+		summarizeBy: sum
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 9cb164b2-ae58-4b9c-a1aa-59b087e674d3
+		summarizeBy: count
+		sourceColumn: REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: int64
+		lineageTag: a3ec258a-b71c-473a-a9a0-d82892717715
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = DataType
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DIENST
+		dataType: string
+		lineageTag: bed5f397-ad0f-4ad9-bd15-b44cf7212e80
+		summarizeBy: none
+		sourceColumn: DIENST
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column SERVICE_DURATION
+		dataType: double
+		lineageTag: 7e00a197-4f6a-4b46-a949-5a4d2f8f3b4a
+		summarizeBy: sum
+		sourceColumn: SERVICE_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_IN_CENTRA
+		dataType: string
+		lineageTag: 77b19e72-8e72-4215-ab0c-4db1ac338519
+		summarizeBy: none
+		sourceColumn: IS_IN_CENTRA
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ASSURED_DURATION
+		dataType: double
+		lineageTag: b2b2b0a1-d3b7-464e-a8d3-702b354f44bc
+		summarizeBy: sum
+		sourceColumn: ASSURED_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REPARTITION_BY
+		dataType: string
+		lineageTag: 62d71cdb-ddd0-4e09-ad92-51dee68746b3
+		summarizeBy: none
+		sourceColumn: REPARTITION_BY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REPARTITION_DURATION
+		dataType: double
+		formatString: #,0
+		lineageTag: be3d4e9b-49f0-43ed-b9ba-f45346b56b6a
+		summarizeBy: sum
+		sourceColumn: REPARTITION_DURATION
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column KEY_POSTAL_CODE
+		dataType: string
+		lineageTag: 4f69311b-d350-4d32-8689-5cd85b6a1f44
+		summarizeBy: none
+		sourceColumn: KEY_POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ASSURED_BY
+		dataType: string
+		isHidden
+		lineageTag: 06febfb2-9234-4d54-ae37-394c13cceaca
+		summarizeBy: none
+		sourceColumn: ASSURED_BY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_EMPLOYEE_DATE
+		dataType: string
+		lineageTag: 95c932de-0e95-412c-8752-bc49184c2c46
+		summarizeBy: none
+		sourceColumn: KEY_EMPLOYEE_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TRAINEE_BY
+		dataType: string
+		lineageTag: a7fdbf3b-3625-45e6-8c23-959368d99e8c
+		summarizeBy: none
+		sourceColumn: TRAINEE_BY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column TRAINEE_DURATION
+		dataType: double
+		lineageTag: 659b913e-bf56-4c1c-a86c-2fcdf6a24cd9
+		summarizeBy: sum
+		sourceColumn: TRAINEE_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_NB
+		dataType: double
+		lineageTag: c79ae614-9d20-4d6b-b7eb-dfd31c1ebb83
+		summarizeBy: sum
+		sourceColumn: SUBCO_NB
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WP_NAME_SHORT
+		dataType: string
+		lineageTag: a53c8249-1eba-4d27-a042-f64675ba0c2f
+		summarizeBy: none
+		sourceColumn: WP_NAME_SHORT
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WLT_CATEGORY
+		dataType: double
+		lineageTag: 17f021c7-b505-40f0-8f7d-81d5c7dc2ed6
+		summarizeBy: sum
+		sourceColumn: WLT_CATEGORY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KEY_DIENST
+		dataType: string
+		lineageTag: 31f9b25a-972a-47ce-8714-6b6fd9e65dac
+		summarizeBy: none
+		sourceColumn: KEY_DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBCO_NB_CALCULATED
+		dataType: double
+		lineageTag: 779c56f7-9110-4a9b-a2e6-56c04c3e56fe
+		summarizeBy: sum
+		sourceColumn: SUBCO_NB_CALCULATED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition V_PBI_HR_OFFICE_SERVICES-f5827c30-f732-463d-9eae-5c134d844cc9 = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_HR_OFFICE_SERVICES1 = PBI_VLT341{[Name="OPTIMAX_HR_OFFICE_SERVICES"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(V_PBI_HR_OFFICE_SERVICES1, "KEY_POSTAL_CODE", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB")}), type text),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Inserted Merged Column", "KEY_EMPLOYEE_DATE", each Text.Combine({Text.From([DATE_YYYYMMDD], "en-GB"), [ASSURED_BY]}), type text)
+				in
+				    #"Inserted Merged Column1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

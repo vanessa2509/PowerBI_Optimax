@@ -1,0 +1,2500 @@
+table FACT_HR_WLT
+	lineageTag: c74f2fee-f7cb-442f-8fec-9ff157c90b88
+
+	measure #Avg_FN_REAL = CALCULATE(SUM(FACT_HR_WLT[nb_fn])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 1c267430-42e7-4270-976c-ef4e9de26519
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_REAL = CALCULATE(SUM(FACT_HR_WLT[nb_primes])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: e98b21fa-d95e-4a62-81e2-05b232eb6529
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_INDIV_REAL = CALCULATE(SUM(FACT_HR_WLT[nb_ee_indiv])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 0bbefdb7-b62a-4aa7-8fa8-b11c8c816764
+
+		changedProperty = IsHidden
+
+	measure #Avg_GF_REAL = CALCULATE(SUM(FACT_HR_WLT[NB_GF]) / DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: dcf9a3fc-03fb-43b9-8cf7-f76912fee325
+
+		changedProperty = IsHidden
+
+	measure #Avg_FN_ORG = CALCULATE(SUM(FACT_HR_WLT[org_fn])  /DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 48b26dbe-1931-47e1-a270-22377bcb4efd
+
+		changedProperty = IsHidden
+
+	measure #Avg_ENA_ORG = CALCULATE(SUM(FACT_HR_WLT[org_ena])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 1573dd04-414c-49c8-9a3c-3863f9a2e077
+
+		changedProperty = IsHidden
+
+	/// #Avg_PAK_ORG (BRUT) :  Without growth potential and Bulk and Bbox
+	/// 
+	/// 
+	measure '#Avg_PAK_ORG (All Growth Potential Included)' = CALCULATE(SUM(FACT_HR_WLT[org_pak])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: f20f634e-126e-4fc7-9e48-612782c81dc4
+
+		changedProperty = IsHidden
+
+	measure #Avg_PRIME_ORG = CALCULATE(SUM(FACT_HR_WLT[org_prime])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: d07af6cb-04a3-4bbc-970e-afb6558a40e5
+
+		changedProperty = IsHidden
+
+	measure #Avg_GF_ORG = CALCULATE(SUM(FACT_HR_WLT[org_gf]) /DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: aa2cae2f-71c2-410a-8f99-4d0d20193d99
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_INDIV % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_IND ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_INDIV_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: 09200db3-4931-4185-88fb-005946422e2c
+
+		extendedProperty MeasureTemplate =
+				{
+				  "version": 0,
+				  "daxTemplateName": "MathematicalPercentageDifference"
+				}
+
+		changedProperty = IsHidden
+
+	measure '#Avg_GF % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_GF_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_GF_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: a2cb9c83-9ad2-4f09-9560-1d811e3303dd
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PRIME % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PRIME_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: 48e60bab-ef82-4e5f-a061-18cbcecaebb7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_ORG (All Growth Potential Included)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 6076559d-ae58-4de8-956b-3718060a4feb
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FN % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FN_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FN_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: 3f158685-ff8d-4881-b214-0c404230cc63
+
+		changedProperty = IsHidden
+
+	measure '#Avg_ENA % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_ENA_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Unaddressed
+		lineageTag: 826ade5f-6c64-4c44-869f-93a9c168a171
+
+		changedProperty = IsHidden
+
+	measure #Avg_ENA_REAL = CALCULATE(SUM(FACT_HR_WLT[NB_ENA])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 91ac937d-ec65-4e96-86ca-e954f26fa84c
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FNGF % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FNGF_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FNGF_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: bf2414ba-e496-468d-8e72-d5f004ca25f5
+
+		changedProperty = IsHidden
+
+	measure #Avg_FNGF_REAL = CALCULATE([#Avg_FN_REAL] + [#Avg_GF_REAL])
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 880d7a34-a0a5-4f46-b801-8a83d6ab8172
+
+		changedProperty = IsHidden
+
+	measure #Avg_FNGF_ORG = CALCULATE([#Avg_FN_ORG] + [#Avg_GF_ORG])
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: b684df85-7c90-46fd-89c8-af5c04fa4559
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_IND ORG' = CALCULATE(SUM(FACT_HR_WLT[org_ee_indiv])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: ee5e41b6-ea89-4ee1-b786-68dc540cdc12
+
+		changedProperty = IsHidden
+
+	measure #Avg_KRANTEN_REAL = ```
+			CALCULATE(SUM(FACT_HR_WLT[nb_kranten])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])) 
+			```
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 69355fc1-7e2f-4dc2-a0ee-e3a2ac15b0ab
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_KRANTEN_ORG = CALCULATE(SUM(FACT_HR_WLT[org_krant])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 716bd571-8841-4628-9d38-706601268d14
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_KRANTEN % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_KRANTEN_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Newspapers
+		lineageTag: cf015672-064d-491b-9c71-61b595a01b65
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_NBR_REAL = CALCULATE(SUM(FACT_HR_WLT[nb_ee_nbr])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 4cb6a797-9e72-49d6-b43c-79d39000e5a7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_ALL % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_ALL_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_ALL_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: 2d4f14c2-30e8-4816-9f2b-e52c5e5cb5d0
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PAK_REAL = CALCULATE(sum(FACT_HR_WLT[nb_pak]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 9254ba37-2f43-4107-8202-30a6c57ec155
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FN % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FN_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FN_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: f107d5cb-5943-4890-9cb9-8bbd5cdfa6d9
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_GF % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_GF_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_GF_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: 9289dbd7-2457-4a7c-818b-8224677411bf
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_LAST_ORG (All Growth Potential Included)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 9f9acb04-ba60-4e40-82f1-36184cce1284
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_ENA % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_ENA_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_ENA_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Unaddressed
+		lineageTag: 974224bc-8760-4de8-bea4-bb798fff67da
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_ALL% delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_INDIV_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Registered
+		lineageTag: 5fff4950-f9ed-4a0a-ae3f-89df9ddde32f
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_NBR% delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_NBR_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_NBR_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: efcdb82a-8bf3-482e-a04f-6749d825d737
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PRIME % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PRIME_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: 83d44d76-c083-4a3c-ae61-a29fceff2194
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_EE_NBR % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_EE_NBR_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_EE_NBR_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: 1ef8858c-8d79-47a4-91c8-26948a501f83
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_FNGF % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_FNGF_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_FNGF_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Letters
+		lineageTag: 0809aa47-406a-4f54-90f7-0509eb91028e
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_KRANTEN % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_KRANTEN_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_KRANTEN_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Newspapers
+		lineageTag: 61228b3d-6701-4397-a98e-0c4b5fbf7e0d
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_NBR_ORG = CALCULATE(SUM(FACT_HR_WLT[org_ee_nbr])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 40ca66b2-9fae-4b0a-bb7f-73b336ac22ea
+
+		changedProperty = IsHidden
+
+	measure #Avg_EE_ALL_ORG = [#Avg_EE_NBR_ORG] + [#Avg_EE_IND ORG]
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 04738211-ba07-4237-9d94-1c266bdf4e12
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '#Avg_PAK_REAL (Uli/PaE)' = ```
+			CALCULATE(sum(FACT_HR_WLT[nb_pak]), FACT_HR_WLT[scenario_prefix] = "PaE" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) 
+			```
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: b539bbfd-9f7c-4d2c-b47e-3b7627ddafc7
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK_REAL (Parcels Center/PCW)' = CALCULATE(sum(FACT_HR_WLT[nb_pak]), FACT_HR_WLT[scenario_prefix] = "PCW" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 05d84829-b2e4-4eba-91b7-7227559c69b5
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK_REAL (Total Distri)' = ```
+			CALCULATE(sum(FACT_HR_WLT[nb_pak]), FACT_HR_WLT[scenario_prefix] = "D" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) 
+			```
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: d927374d-fe4d-4920-9518-180cb0678156
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK_REAL (Total Dynamic)' = CALCULATE(sum(FACT_HR_WLT[nb_pak]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) +0
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 4a086a22-78db-4dec-a1fb-d4d0c755ff9a
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure '#Avg_PAK % delta with Last ORG DISTRI' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_LAST_ORG (All Growth Potential Included)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Total Distri)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 2551a311-e1d4-452b-a8bb-10690d32959c
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #Avg_PAK_PRIME_REAL = [#Avg_PRIME_REAL] + [#Avg_PAK_REAL]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: ecc7168e-a628-402c-a80e-5e14088ea94f
+
+	measure '#Avg_PAK_PRIME_ORG (BRUT)' = [#Avg_PAK_ORG (All Growth Potential Included)] + [#Avg_PRIME_ORG]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 96b8dad7-1b9f-49da-baf3-17df04043ecf
+
+	measure '#Avg_PAK_PRIME % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_PRIME_ORG (BRUT)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_PRIME_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels & Primes
+		lineageTag: 1f4a5b70-7878-4d44-bdeb-5a30e2169df4
+
+	measure '#Avg_PAK % delta with Last ORG PC (FALSE )' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Parcels Center/PCW)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 3956069e-c0be-4e4b-8e56-eae0ffaa54cf
+
+	measure '#Avg_PAK_REAL (Bulk)' =
+			CALCULATE(
+			    SUM(FACT_HR_WLT[nb_pak]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]),
+			    FACT_HR_WLT[scenario_prefix] = "BUL",
+			    FACT_HR_OFFICE_DAILY[org_bulk] <> BLANK(),
+			    FACT_HR_OFFICE_DAILY[org_bulk]  > 0
+			)
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 999a11c6-7c9a-4eea-9bff-2dd1fd50758e
+
+	measure '#Avg_PAK % delta with Last ORG no Bulk (FALSE)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_LAST_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Bulk)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 457024dd-071f-468c-b88b-f3a4e4fd4e73
+
+	measure '#Avg_PAK_REAL (P1)' = CALCULATE(sum(FACT_HR_WLT[parcel_p1]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 153d1bf8-2a07-470f-b792-10dcac2f5d79
+
+	measure '#Avg_PAK_REAL (P2)' = CALCULATE(sum(FACT_HR_WLT[parcel_p2]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: acd53320-10f2-41dc-a788-0d49f2db3906
+
+	measure '#Avg_PAK_REAL (P3)' = CALCULATE(sum(FACT_HR_WLT[parcel_p3]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Parcels
+		lineageTag: a3bbf238-9dee-4412-8c43-3e4835858f8c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	/// Undelivered = Parcels we couldn’t deliver due to incorrect address, wrong delivery round, etc.
+	/// 
+	measure '#Avg_PAK_REAL (Undelivered)' = CALCULATE(sum(FACT_HR_WLT[undelivered_parcel]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 7a16a784-3715-4f44-91ee-481d8adfee6c
+
+	measure '% Pak_real_p1 Vs Total Pak Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (P1)],
+			    [#Avg_PAK_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 97a3f73a-10c7-40f1-8b08-37353b5e4138
+
+	measure '% Pak_real_p2 Vs Total Pak Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (P2)],
+			    [#Avg_PAK_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 76b8e9b3-36bc-436b-8f56-865b3438792a
+
+	measure '% Pak_real_p3 Vs Total Pak Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (P3)],
+			    [#Avg_PAK_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 21ed999f-0b05-4bb0-a4cf-6469ece222d3
+
+	measure '% Pak_real_undelivered Vs Total Pak Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (Undelivered)],
+			    [#Avg_PAK_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 44673d2a-0cde-44b7-bd3a-3ded657f9e93
+
+	measure #Avg_ENA_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_ena]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 01a02df4-6eaf-4409-a450-6237bc49861d
+
+	measure '#Avg_EE_NBR_REAL (GU)' = CALCULATE(SUM(FACT_HR_WLT[ee_gu])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Registered
+		lineageTag: 84c1434e-590e-4f0a-9be8-a8f9d6e54a5e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_NBR_REAL (LFC)' = CALCULATE(SUM(FACT_HR_WLT[ee_lfc])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: c8a6f1e5-be8c-4bda-8113-c3cb3424c7ee
+
+	measure '#Avg_EE_INDIV_REAL (P1)' = CALCULATE(SUM(FACT_HR_WLT[ee_p1])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: c5a6a9f6-d06b-4806-95d7-72a68b37d8fb
+
+	measure '#Avg_EE_INDIV_REAL (P2)' = CALCULATE(SUM(FACT_HR_WLT[ee_p2])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 6f46f014-002d-4cad-9afd-0637bc5d0887
+
+	measure '#Avg_EE_INDIV_REAL (P3)' = CALCULATE(SUM(FACT_HR_WLT[ee_p3])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 12015859-b2d3-4d02-9cfd-8afc971a6df5
+
+	measure '% EE_real_p1' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (P1)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: ebe27b51-3a6b-41d8-9bea-2882b8b92de9
+
+	measure '% EE_real_p2' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (P2)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: c5980660-ee1e-43b7-8710-add531360aa4
+
+	measure '% EE_real_p3' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (P3)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: b7b9c530-92c5-4a94-9f67-c017f43bda32
+
+	measure '% KRANTEN_real_ETI' = ```
+			
+			DIVIDE(
+			    [#Avg_KRANTEN_REAL (ETI)],
+			    [#Avg_KRANTEN_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Newspapers
+		lineageTag: 73285334-8061-40a1-9abf-3ae123ae4fd4
+
+	measure '% EE_real_LFC' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_NBR_REAL (LFC)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: a5573e17-5787-4d9f-8ff0-ad1397ffcea6
+
+	measure '% EE_real_nbr' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_NBR_REAL],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: 62b93ba3-27e9-4159-8dc5-065a248d9edd
+
+	measure '#Avg_ENA_REAL (Commercial)' = CALCULATE(SUM(FACT_HR_WLT[ena_com])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 412e220f-5e0a-4a8d-b478-56b52b119228
+
+	measure '#Avg_ENA_REAL (Election)' = CALCULATE(SUM(FACT_HR_WLT[ena_election])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 4be9cd7c-ac3c-430e-8c2a-527b4f978d4a
+
+	measure '#Avg_ENA_REAL (Informatif)' = CALCULATE(SUM(FACT_HR_WLT[ena_inf])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 4a01f308-621c-47cf-a998-f2155eff0bd2
+
+	measure #Avg_EE_ALL_REAL = [#Avg_EE_NBR_REAL] + [#Avg_EE_INDIV_REAL]
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 8d2451da-9359-4db1-b30f-0b488b3b5858
+
+	measure '#Avg_EE_INDIV_REAL (Undelivered)' = CALCULATE(SUM(FACT_HR_WLT[undelivered_registered])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 6dd63723-c2aa-4691-b3ab-279f71d7b5ee
+
+	measure '% EE_real_Undelivered' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (Undelivered)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 1365ea89-a887-4e25-aac5-74bcdd8d6257
+
+	measure '% Ena_Real_Commercial Vs Total Ena Real' = ```
+			
+			DIVIDE(
+			    [#Avg_ENA_REAL (Commercial)],
+			    [#Avg_ENA_REAL]
+			)
+			 
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Unaddressed
+		lineageTag: 10d4abb4-a7cb-41bb-bcb3-aec2f9d86ae4
+
+	measure '% Ena_Real_Election Vs Total Ena Real' = ```
+			
+			DIVIDE(
+			    [#Avg_ENA_REAL (Election)],
+			    [#Avg_ENA_REAL]
+			)
+			 
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Unaddressed
+		lineageTag: 10e1268f-275b-4722-a5bd-9aa820a74af8
+
+	measure '% Ena_Real_Informatif Vs Total Ena Real' = ```
+			
+			DIVIDE(
+			    [#Avg_ENA_REAL (Informatif)],
+			    [#Avg_ENA_REAL]
+			)
+			 
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Unaddressed
+		lineageTag: e3727cce-64d4-435c-bc99-c836a9a52fdf
+
+	measure '#Avg_ENA_REAL (Obituaries)' = CALCULATE(SUM(FACT_HR_WLT[ena_obituaries])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 9bfeb91f-42fc-4f03-b65e-84a697084132
+
+	measure '#Avg_PRIME_REAL (P1)' = CALCULATE(SUM(FACT_HR_WLT[prime_p1])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 6aa6675d-7b99-4c40-ab56-2eda7dbecdbb
+
+	measure '#Avg_PRIME_REAL (P2)' = CALCULATE(SUM(FACT_HR_WLT[prime_p2])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: e7ac2c59-6543-427c-bbe0-55e8343bc8bc
+
+	measure '#Avg_PRIME_REAL (P3)' = CALCULATE(SUM(FACT_HR_WLT[prime_p3])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: a46632d3-b756-4396-86d3-d916d4b20c23
+
+	measure '% Prime_real_p1 Vs Total Prime Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PRIME_REAL (P1)],
+			    [#Avg_PRIME_REAL]
+			)
+			
+			```
+		formatString: #,0\ %;-#,0\ %;#,0\ %
+		displayFolder: Primes
+		lineageTag: 8f0c259a-c20d-4ec8-a073-78225392cf28
+
+	measure '% Prime_real_p2 Vs Total Prime Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PRIME_REAL (P2)],
+			    [#Avg_PRIME_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: d0111c22-aa8f-47f8-9bc6-dc4003ac7589
+
+	measure '% Prime_real_p3 Vs Total Prime Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PRIME_REAL (P3)],
+			    [#Avg_PRIME_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: d999d2a8-6a3b-4a95-a763-8692f7171a7a
+
+	measure '#Avg_PRIME_REAL (Undelivered)' = CALCULATE(SUM(FACT_HR_WLT[undelivered_prime])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: fd8506fc-1283-4f61-bb55-bf5cae5b0bf1
+
+	measure '% Prime_real_Undelivered Vs Total Prime Real' = ```
+			
+			DIVIDE(
+			    [#Avg_PRIME_REAL (Undelivered)],
+			    [#Avg_PRIME_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: 20229621-986f-4bc0-8a47-9c51448fa081
+
+	measure '#Avg_BARCODED_LETTERS_REAL (DND)' = CALCULATE(SUM(FACT_HR_WLT[barcoded_letter])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: baa2326d-d8a0-4ed2-ad92-80b1fe2cc0f7
+
+	measure '#Avg_FN_REAL (FN Non Prior)' = CALCULATE(SUM(FACT_HR_WLT[fn_non_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: c57ff71b-6ede-4335-849b-928fc86ae8b7
+
+	measure '#Avg_FN_REAL (FN Prior)' = CALCULATE(SUM(FACT_HR_WLT[fn_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: cd1ae8ea-8275-4931-bacd-37930c6bfc86
+
+	measure '#Avg_GF_REAL (GF Non Prior)' = CALCULATE(SUM(FACT_HR_WLT[gf_non_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 51b97418-f57e-4af4-8831-ac71e9fcfb8e
+
+	measure '#Avg_GF_REAL (GF Prior)' = CALCULATE(SUM(FACT_HR_WLT[gf_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 2c42a069-657b-47e5-ab0c-663a75ca8f0d
+
+	measure '#Avg_FN_REAL (Mix Non Prior)' = CALCULATE(SUM(FACT_HR_WLT[mix_non_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: a55e7240-4060-445a-b69e-0c6292b988ff
+
+	measure '#Avg_FN_REAL (Mix Prior)' = CALCULATE(SUM(FACT_HR_WLT[mix_prior])/ DISTINCTCOUNT(FACT_HR_WLT[date_yyyymmdd]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 266cdcf4-58cd-48a7-a1c8-e506eb252fa3
+
+	measure '#Avg_KRANTEN_REAL (ETI)' = CALCULATE(SUM(FACT_HR_WLT[krant_eti])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 4fc24826-e079-441f-a00f-a736a5c6a9b8
+
+	measure '#Avg_KRANTEN_REAL (NO ETI)' = [#Avg_KRANTEN_REAL] - [#Avg_KRANTEN_REAL (ETI)]
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: ac8839c5-c682-40f7-a7ab-c7139c9d9656
+
+	measure '% KRANTEN_real_No_ETI' = ```
+			
+			DIVIDE(
+			    [#Avg_KRANTEN_REAL (NO ETI)],
+			    [#Avg_KRANTEN_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Newspapers
+		lineageTag: ebd3c561-ee94-4e76-834f-5209c17880ba
+
+	/// PUGO ORG is already included in the  Avg_PAK_ORG (Brut) it’s just a detail of the Measure Avg_PAK_ORG (Brut).
+	/// 
+	measure #Avg_PAK_PUGO_ORG = CALCULATE(SUM(FACT_HR_WLT[org_pugo])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 0d1f9439-2a2e-4147-8371-c1fe04b1c676
+
+	measure #Avg_PAK_BBOX_ORG = CALCULATE(SUM(FACT_HR_WLT[org_cubee])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 94456ecc-1ce6-49e2-8b12-7e93636f63cb
+
+	measure '#Avg_PAK % delta (Pugo)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_PUGO_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Pugo)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: Parcels
+		lineageTag: b9cdc89a-bede-404e-9321-eba106138c48
+
+	measure '#Avg_PAK % delta (Bbox)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_BBOX_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Bbox)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: Parcels
+		lineageTag: e59efff5-d04f-4761-b88f-7b72b718fb83
+
+	/// Org PAK = PUGO + P1 P2 P3 
+	/// Without growth pot 
+	/// 
+	measure '#Avg_PAK_ORG (Growth Potential By Round)' = CALCULATE(SUM(FACT_HR_WLT[growth_potential])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: c65f850e-76e1-4dc8-9685-cda92b925874
+
+	measure '#Avg_PAK_PRIME_REAL (@Home)' = CALCULATE([#Avg_PAK_PRIME_REAL] - [#Avg_PAK_PRIME_REAL (Pugo)] - [#Avg_PAK_PRIME_REAL (Bbox)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 05592f6a-3d09-46cd-ac68-7603ea2535da
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '#Avg_PRIME_REAL (OOH)' = [#Avg_PRIME_REAL (Pugo)]+[#Avg_PRIME_REAL (Bbox)]
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: d41a57b0-3b31-46fe-b700-d8044c11b100
+
+	measure '#Avg_PAK_REAL(Licenses Plates)' = CALCULATE(sum(FACT_HR_WLT[licenseplate]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: b0b0d662-99f9-4b78-80b3-110b643385d8
+
+	measure '#Avg_PAK_PRIME_REAL % OOH vs @Home' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_PRIME_REAL (@Home)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_PRIME_REAL (OOH)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels & Primes
+		lineageTag: aabdd762-ea17-4348-97ab-a22fba8edb9c
+
+	measure '#Avg_PAK_REAL (P3 Distri)' = CALCULATE(sum(FACT_HR_WLT[parcel_p3]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 3dd33d36-2944-46ae-8549-44d5797b24ba
+
+	measure '#Avg_PAK_REAL (P2 Distri)' = CALCULATE(sum(FACT_HR_WLT[parcel_p2]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 9ca8788b-8db3-4cc5-bd7a-cf9bc81429c6
+
+	measure '#Avg_PAK_REAL (P1 Distri)' = CALCULATE(sum(FACT_HR_WLT[parcel_p1]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: b53e8364-d073-48d1-a6f6-e9d6e0ac6e81
+
+	measure '#Avg_PAK_REAL (Undelivered Distri)' = CALCULATE(sum(FACT_HR_WLT[undelivered_parcel]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		displayFolder: Parcels
+		lineageTag: 38e4a852-a562-4a71-9dc5-35e22199d849
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK_REAL (@Home Distri)' = CALCULATE([#Avg_PAK_REAL (Total Distri)] - [#Avg_PAK_REAL (Total Pugo Distri)] - [#Avg_PAK_REAL (Total Bbox Distri)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 7ce57790-c044-40d2-8102-8eb4cc3bb612
+
+	measure '#Avg_PAK_REAL (Total Bbox Distri)' = CALCULATE([#Avg_PAK_REAL (Bbox)],FACT_HR_WLT[scenario_prefix]= "D")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 0259f5e9-9433-4283-a13f-dd665bf6aa49
+
+	measure '#Avg_PAK_REAL (Total Pugo Distri)' = CALCULATE([#Avg_PAK_REAL (Pugo)], FACT_HR_WLT[scenario_distri_dynamic] = "Distri")
+		displayFolder: Parcels
+		lineageTag: e509f688-7fe2-424b-a788-a5a546f598f5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK_REAL (P1 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[parcel_p1]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 719ce01b-b4da-4cc9-903b-ffe9df69a026
+
+	measure '#Avg_PAK_REAL (P2 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[parcel_p2]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 2d16fc76-791b-4ee1-bc4d-21ac3302da53
+
+	measure '#Avg_PAK_REAL (P3 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[parcel_p3]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 6124199c-c1fa-4b95-bae6-b5c172e51372
+
+	measure '#Avg_PAK_REAL (Undelivered Dynamic)' = CALCULATE(sum(FACT_HR_WLT[undelivered_parcel]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 8b645a6f-2394-4b8d-83ad-1b3cb0617e7f
+
+	measure '#Avg_PAK_REAL (Total Bbox Dynamic)' = CALCULATE([#Avg_PAK_REAL (Bbox)],FACT_HR_WLT[scenario_distri_dynamic]= "Dynamic")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 3076b5ee-4d3f-4ac3-8083-c40add60a167
+
+	measure '#Avg_PAK_REAL (Total Pugo Dynamic)' = CALCULATE([#Avg_PAK_REAL (Pugo)], FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 4fec10a8-24d7-424e-b260-f6e773ecf40e
+
+	measure '#Avg_PAK_REAL (@Home Dynamic)' = CALCULATE([#Avg_PAK_REAL (Total Dynamic)] - [#Avg_PAK_REAL (Total Pugo Dynamic)] - [#Avg_PAK_REAL (Total Bbox Dynamic)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 528d71cc-8c8b-4383-be98-b49f2a8a948e
+
+	measure '#Avg_PAK % delta (Dynacmic OOH vs @Home)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_REAL (@Home Dynamic)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Total Pugo Dynamic)]+[#Avg_PAK_REAL (Total Bbox Dynamic)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: bf144060-c00e-40e6-961f-f73e5a09dc50
+
+	measure '#Avg_PAK % delta (Distri OOH vs @Home)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_REAL (@Home Distri)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Total Pugo Distri)]+[#Avg_PAK_REAL (Total Bbox Distri)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 1e222aa7-1b6e-4847-af68-0d226883ad7d
+
+	measure '#Avg_PAK % delta (Optimax - OOH vs @Home)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_REAL (Optimax - @Home)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_REAL (Pugo)]+[#Avg_PAK_REAL (Bbox)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: 3f3c4c4c-a3c9-44f3-91e5-98a68062a366
+
+	measure '#Avg_PAK_REAL (Optimax - @Home)' = CALCULATE([#Avg_PAK_REAL] - [#Avg_PAK_REAL (Pugo)] - [#Avg_PAK_REAL (Bbox)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: c6563f14-ad32-4955-a684-aeac259dfb17
+
+	measure '#Avg_PRIME_REAL (P1 Distri)' = CALCULATE(sum(FACT_HR_WLT[prime_p1]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 6b815a29-b786-4fe7-b7c5-2661641f91ea
+
+	measure '#Avg_PRIME_REAL (P2 Distri)' = CALCULATE(sum(FACT_HR_WLT[prime_p2]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 12a2a7ea-f9cf-4be5-a72a-01c5df7c341a
+
+	measure '#Avg_PRIME_REAL (P3 Distri)' = CALCULATE(sum(FACT_HR_WLT[prime_p3]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: bad7a1cd-7a61-443a-a18f-f07453b203fb
+
+	measure '#Avg_PRIME_REAL (Undelivered Distri)' = CALCULATE(sum(FACT_HR_WLT[undelivered_prime]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: d88e6ef1-c40b-4925-a462-e856bdf3f36d
+
+	measure '#Avg_PRIME_REAL (Undelivered Dynamic)' = CALCULATE(sum(FACT_HR_WLT[undelivered_prime]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 0b98bd40-fca1-4068-9fc2-e39f0a0cfe2d
+
+	measure '#Avg_PRIME_REAL (P1 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[prime_p1]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 99afcecb-de4e-42a2-86a9-ceacc0899af2
+
+	measure '#Avg_PRIME_REAL (P2 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[prime_p2]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 82eb680a-46b0-444d-98b7-7739e3447fb0
+
+	measure '#Avg_PRIME_REAL (P3 Dynamic)' = CALCULATE(sum(FACT_HR_WLT[prime_p3]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 13cb00d4-2e96-4786-b17a-625a9e2a7831
+
+	measure '#Avg_PAK_PRIME_REAL (P1 Distri)' = [#Avg_PAK_REAL (P1 Distri)] +[#Avg_PRIME_REAL (P1 Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: a260ae32-8884-41b7-947c-23691c1c1540
+
+	measure '#Avg_PAK_PRIME_REAL (P2 Distri)' = [#Avg_PAK_REAL (P2 Distri)] +[#Avg_PRIME_REAL (P2 Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 40ed4fec-1090-4f91-8ac5-f0a10887ff75
+
+	measure '#Avg_PAK_PRIME_REAL (P3 Distri)' = [#Avg_PAK_REAL (P3 Distri)] +[#Avg_PRIME_REAL (P3 Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 4608d4f6-0287-4cd5-9955-10367a6af285
+
+	measure '#Avg_PAK_PRIME_REAL (P3 Dynamic)' = [#Avg_PAK_REAL (P3 Dynamic)] +[#Avg_PRIME_REAL (P3 Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 013f4340-9789-479d-a121-43f42f0308a0
+
+	measure '#Avg_PAK_PRIME_REAL (P2 Dynamic)' = [#Avg_PAK_REAL (P2 Dynamic)] +[#Avg_PRIME_REAL (P2 Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 5c5e7195-b200-41b6-b6be-73ee550c9db8
+
+	measure '#Avg_PAK_PRIME_REAL (P1 Dynamic)' = [#Avg_PAK_REAL (P1 Dynamic)] +[#Avg_PRIME_REAL (P1 Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: ae5cf603-a647-40c9-819d-f974a6ca60d8
+
+	measure '#Avg_PAK_PRIME_REAL (Undelivered Dynamic)' = [#Avg_PAK_REAL (Undelivered Dynamic)] +[#Avg_PRIME_REAL (Undelivered Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 8e665cdd-f4ae-40d0-b310-0af5ba129aa5
+
+	measure '#Avg_PAK_PRIME_REAL (Undelivered Distri)' = [#Avg_PAK_REAL (Undelivered Distri)] +[#Avg_PRIME_REAL (Undelivered Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 92e05547-b1a5-4cde-9a29-7254fecbe33a
+
+	measure '#Avg_PRIME_REAL (Total Dynamic)' = CALCULATE(sum(FACT_HR_WLT[nb_primes]), FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]) +0
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 0bc42ed9-a514-4399-bc9a-b31ef9eddf76
+
+	measure '#Avg_PRIME_REAL (Total Distri)' = CALCULATE(sum(FACT_HR_WLT[nb_primes]), FACT_HR_WLT[scenario_prefix] = "D" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: faf10db8-d275-4874-b926-dde591a950ed
+
+	measure '#Avg_PAK_PRIME_REAL (Total Dynamic)' = [#Avg_PRIME_REAL (Total Dynamic)] + [#Avg_PAK_REAL (Total Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: b1679245-23b1-41ae-bd7a-b1f9c2f83ba2
+
+	measure '#Avg_PAK_PRIME_REAL (Total Distri)' = [#Avg_PRIME_REAL (Total Distri)] + [#Avg_PAK_REAL (Total Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 912d6690-8202-4cfe-85d0-965d3be8dca7
+
+	measure '#Avg_PRIME_REAL (Uli/PaE)' = CALCULATE(sum(FACT_HR_WLT[nb_primes]), FACT_HR_WLT[scenario_prefix] = "PaE" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 0fa5923a-d9e8-42bf-b414-6d6636613c3b
+
+	measure '#Avg_PRIME_REAL (Bulk)' =
+			
+			CALCULATE(
+			    SUM(FACT_HR_WLT[nb_primes]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]),
+			    FACT_HR_WLT[scenario_prefix] = "BUL",
+			    FACT_HR_OFFICE_DAILY[org_bulk] <> BLANK(),
+			    FACT_HR_OFFICE_DAILY[org_bulk]  > 0
+			)
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 2773f300-4afa-4e6f-b493-71dc629e1c88
+
+	measure '#Avg_PRIME_REAL (Parcels Center/PCW)' = CALCULATE(sum(FACT_HR_WLT[nb_primes]), FACT_HR_WLT[scenario_prefix] = "PCW" )/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 5bc2bc66-ea3e-42d5-b294-f9c2c8fdaa12
+
+	measure '#Avg_PAK_PRIME_REAL (Uli/PaE)' = CALCULATE([#Avg_PAK_REAL (Uli/PaE)] + [#Avg_PRIME_REAL (Uli/PaE)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: a186a277-8682-4910-b99b-5105cf4822d9
+
+	measure '#Avg_PAK_PRIME_REAL (Parcels Center/PCW)' = CALCULATE([#Avg_PAK_REAL (Parcels Center/PCW)] + [#Avg_PRIME_REAL (Parcels Center/PCW)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 1a68538e-84b7-4a37-9fe9-b214fd2c8ff8
+
+	measure '#Avg_PAK_PRIME_REAL (Bulk)' = CALCULATE([#Avg_PAK_REAL (Bulk)] + [#Avg_PRIME_REAL (Bulk)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 3c8868fe-3927-4b22-88d3-782e15d3b14f
+
+	measure '#Avg_EE_INDIV_REAL (SFM)' = CALCULATE(SUM(FACT_HR_WLT[ee_sfm])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Registered
+		lineageTag: b87c824f-746b-43ad-b165-988e9ddb2df3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_EE_INDIV_REAL (JUDICIAL_LETTER)' = CALCULATE(SUM(FACT_HR_WLT[ee_judicial_letter])/ DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Registered
+		lineageTag: e4ebdeef-221a-406d-85ef-280c81bc6354
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PRIME_REAL (Bbox)' = CALCULATE(SUM(FACT_HR_WLT[cubee_prime])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 0691036e-baf7-40a4-a6d6-3dceb1f22d84
+
+	measure '#Avg_PRIME_REAL (Pugo)' = CALCULATE(SUM(FACT_HR_WLT[pugo_prime])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Primes
+		lineageTag: ffd78810-3bad-47d3-8494-d9291c1c6fe4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK_REAL (Bbox)' = CALCULATE(SUM(FACT_HR_WLT[cubee_parcel])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: f1b89269-e439-44af-b942-592d6bc5d155
+
+	measure '#Avg_PAK_REAL (Pugo)' = CALCULATE(SUM(FACT_HR_WLT[pugo_parcel])/DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		displayFolder: Parcels
+		lineageTag: 383d357d-a907-4fb7-8b2a-a10d49a82f0c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% EE_real_Judicial_Letter' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (JUDICIAL_LETTER)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		displayFolder: Registered
+		lineageTag: 90835901-c861-4a85-9825-ae2979e7a7ad
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% EE_real_sfm' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_INDIV_REAL (SFM)],
+			    [#Avg_EE_INDIV_REAL]
+			)
+			
+			```
+		displayFolder: Registered
+		lineageTag: 080ab08e-c8d8-48ac-aaae-69b7e4daa22e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Pak_real_Pugo Vs Total Pak Real' =
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (Pugo)],
+			    [#Avg_PAK_REAL]
+			)
+		displayFolder: Parcels
+		lineageTag: d76eea30-348f-4f33-b3c2-f40de2725977
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Pak_real_Bbox Vs Total Pak Real' =
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (Bbox)],
+			    [#Avg_PAK_REAL]
+			)
+		displayFolder: Parcels
+		lineageTag: f109d777-c756-4542-9847-b4c6f8c035bf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK_REAL (advised)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_parcel]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: afee8cfb-42d7-4690-bd32-8e3d55763b39
+
+	measure '#Avg_PRIME_REAL (advised)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_prime]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 9dc36d87-05d5-4bbd-93ee-02793d6c8b93
+
+	measure '#Avg_EE_REAL (advised)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_registered]) / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 60bc2f85-1182-4128-a937-b1a1ed23e8c5
+
+	measure '% EE_real_Advised' = ```
+			
+			DIVIDE(
+			    [#Avg_EE_REAL (advised)],
+			    [#Avg_EE_ALL_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Registered
+		lineageTag: 001454b8-1e6c-489f-b7d2-5e2383241475
+
+	measure '% Pak_real_Advised' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_REAL (advised)],
+			    [#Avg_PAK_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels
+		lineageTag: b2ceab2c-e068-47ec-8353-13d46b22cda5
+
+	measure '% Prime_real_Advised' = ```
+			
+			DIVIDE(
+			    [#Avg_PRIME_REAL (advised)],
+			    [#Avg_PAK_PRIME_REAL]
+			)
+			
+			```
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Primes
+		lineageTag: afef0b42-0a2f-4a8e-b43f-68b34919ab10
+
+	measure '#Avg_PAK_PRIME_LAST_ORG (All Growth Potential Included)' = [#Avg_PAK_LAST_ORG (All Growth Potential Included)] + [#Avg_PRIME_LAST_ORG]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: be5c9603-f3c1-465c-918a-b397538baf14
+
+	measure '#Avg_PAK_LAST_ORG (All Growth Potential Included)' = [#Avg_PAK_LAST_ORG] + [#Avg_PAK_ORG (Growth Potential)]
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: ad11e8a3-d4df-41eb-bfb7-72aa6ac04989
+
+	measure '#Avg_PAK_REAL (Other)' = ```
+			
+			CALCULATE (
+			    [#Avg_PAK_REAL (Total Dynamic)],
+			    NOT (
+			        FACT_HR_WLT[scenario_prefix]
+			            IN { "PCW", "PaE", "BUL" }
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 1c00d8e7-c7b6-41f5-b9d2-82688618793b
+
+	measure '#Avg_PRIME_REAL (Other)' = ```
+			
+			CALCULATE (
+			    [#Avg_PRIME_REAL (Total Dynamic)],
+			    NOT (
+			        FACT_HR_WLT[scenario_prefix]
+			            IN { "PCW", "PaE", "BUL" }
+			    )
+			)
+			
+			```
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 27fef23c-a7df-428f-bf1f-f8dfe49138b4
+
+	measure '#Avg_PAK_PRIME_REAL (Other)' = [#Avg_PRIME_REAL (Other)] + [#Avg_PAK_REAL (Other)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: a48cdca3-7df3-4232-8fdc-38d7e09167fd
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo)' = [#Avg_PRIME_REAL (Pugo)] + [#Avg_PAK_REAL (Pugo)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 57d85b21-40a3-4457-bfca-0c600c3a25d4
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox)' = [#Avg_PRIME_REAL (Bbox)] + [#Avg_PAK_REAL (Bbox)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: e43e99f0-668b-4a78-b62d-5fa253d3b326
+
+	measure '#Avg_PAK_PRIME_REAL (Advised)' = [#Avg_PAK_REAL (advised)]+[#Avg_PRIME_REAL (advised)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: f381770b-d011-4b01-8f4b-68e23814ee10
+
+	measure '#Avg_PAK_REAL (Advised Distri)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_parcel]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: c43a4835-1d72-42dc-b642-01c8a8af577f
+
+	measure '#Avg_PRIME_REAL (Advised Distri)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_prime]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 285bf594-a8c4-474f-8d2f-a2eb8fd20220
+
+	measure '#Avg_EE_REAL (Advised Distri)' = CALCULATE(sum(FACT_HR_WLT[nb_advised_registered]), FACT_HR_WLT[scenario_distri_dynamic] = "Distri") / DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: afadf168-ae3e-49c5-8535-5c6f09f9afa1
+
+	measure '% Pak_Prime_real_Advised' = ```
+			
+			DIVIDE(
+			    [#Avg_PAK_PRIME_REAL (Advised)],
+			    [#Avg_PAK_PRIME_REAL]
+			)
+			
+			```
+		formatString: 0\ %;-0\ %;0\ %
+		displayFolder: Parcels & Primes
+		lineageTag: 97a9ef55-c696-40a3-93c6-119e6712d95a
+
+	measure '#Avg_PAK_REAL (OOH Distri)' = CALCULATE( [#Avg_PAK_REAL (Total Pugo Distri)] - [#Avg_PAK_REAL (Total Bbox Distri)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 377a1cfa-0755-4726-a8db-31786e4bd71c
+
+	measure '#Avg_PAK_REAL (OOH Dynamic)' = CALCULATE( [#Avg_PAK_REAL (Total Pugo Dynamic)] - [#Avg_PAK_REAL (Total Bbox Dynamic)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 7abb06bd-0b1a-46d9-8ab5-84245bbd9200
+
+	measure '#Avg_PAK_REAL (OOH All)' = CALCULATE( [#Avg_PAK_REAL (Pugo)] + [#Avg_PAK_REAL (Bbox)])
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: df646202-c3d2-46e5-b54e-63db99959492
+
+	measure '#Avg_PAK_PRIME_REAL (P1)' = [#Avg_PAK_REAL (P1)] +[#Avg_PRIME_REAL (P1)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: ea064e36-f70f-4235-acce-7b15af8507a5
+
+	measure '#Avg_PAK_PRIME_REAL (P2)' = [#Avg_PAK_REAL (P2)] +[#Avg_PRIME_REAL (P2)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 6d86f681-cf94-4525-93f4-6597dbe83d54
+
+	measure '#Avg_PAK_PRIME_REAL (P3)' = [#Avg_PAK_REAL (P3)] +[#Avg_PRIME_REAL (P3)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 5401a9c0-50b3-4030-b4cc-94668c77c68e
+
+	measure '#Avg_PAK_PRIME_REAL (Undelivered)' = [#Avg_PAK_REAL (Undelivered)] +[#Avg_PRIME_REAL (Undelivered)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 65a28dc5-c80a-4072-b40a-895065ca21a3
+
+	measure '#Avg_PRIME_REAL (Optimax - @Home)' = CALCULATE([#Avg_PRIME_REAL] - [#Avg_PRIME_REAL (Pugo)] - [#Avg_PRIME_REAL (Bbox)])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: d6422030-c79e-4446-b33c-14dcc0a8360d
+
+	measure '#Avg_PAK_PRIME_REAL (OOH)' = [#Avg_PAK_PRIME_REAL (PUGO)]+[#Avg_PAK_PRIME_REAL (Bbox)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 47c511ce-f40f-4a32-84e6-8e09dce7c8d3
+
+	measure '#Avg_PRIME % delta (Optimax - OOH vs @Home)' =
+			
+			VAR __BASELINE_VALUE = [#Avg_Prime_REAL (Optimax - @Home)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PRIME_REAL (Pugo)]+[#Avg_Prime_REAL (Bbox)]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)
+		formatString: #,0.00\ %;-#,0.00\ %;#,0.00\ %
+		displayFolder: Primes
+		lineageTag: 52885d7e-5ac4-42c6-b9a7-abea900ea5a6
+
+	measure '#Avg_PRIME_REAL (Total Pugo Dynamic)' = CALCULATE([#Avg_PRIME_REAL (Pugo)], FACT_HR_WLT[scenario_distri_dynamic] = "Dynamic")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: d92f3cd3-250b-4226-acbd-ea562369de7c
+
+	measure '#Avg_PRIME_REAL (Total Bbox Dynamic)' = CALCULATE([#Avg_PRIME_REAL (Bbox)],FACT_HR_WLT[scenario_distri_dynamic]= "Dynamic")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: cc153682-9666-4bd4-9e7a-18c50d175b61
+
+	measure '#Avg_PRIME_REAL (Total Bbox Distri)' = CALCULATE([#Avg_PRIME_REAL (Bbox)],FACT_HR_WLT[scenario_prefix]= "D")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 17af3603-e3fa-4b6d-814a-5bd24af49df0
+
+	measure '#Avg_PRIME_REAL (Total Pugo Distri)' = CALCULATE([#Avg_PRIME_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "D")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 78ab9cf8-f55f-4163-bf53-e226253f6e48
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo Dynamic)' = [#Avg_PRIME_REAL (Total Pugo Dynamic)] + [#Avg_PAK_REAL (Total Pugo Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: ee602962-3521-462e-9c10-a089556c0e1b
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox Dynamic)' = [#Avg_PRIME_REAL (Total Bbox Dynamic)] + [#Avg_PAK_REAL (Total Bbox Dynamic)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 37ee8e3b-afa1-4303-956c-d39a8681c9f1
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox Distri)' = [#Avg_PRIME_REAL (Total Bbox Distri)] + [#Avg_PAK_REAL (Total Bbox Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 021f2edf-5d3c-48d5-ad21-3edef7e28b3e
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo Distri)' = [#Avg_PRIME_REAL (Total Pugo Distri)] + [#Avg_PAK_REAL (Total Bbox Distri)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 7394c2ab-34e8-463b-852a-10561e2dcd23
+
+	measure '#Avg_PAK_PRIME % delta with Last ORG' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_PRIME_LAST_ORG (All Growth Potential Included)]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK_PRIME_REAL]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				)-1
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		displayFolder: Parcels & Primes
+		lineageTag: 9c0618f3-f012-4de9-8c67-c9ae8644d236
+
+	measure '#Avg_PRIME_REAL (@Home Distri)' = CALCULATE([#Avg_PRIME_REAL (Total Distri)] - [#Avg_PRIME_REAL (Total Pugo Distri)] - [#Avg_PRIME_REAL (Total Bbox Distri)])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: e38b1c4f-84cc-488c-8ddf-3b28fb9c1a00
+
+	measure '#Avg_PRIME_REAL (OOH Distri)' = CALCULATE( [#Avg_PRIME_REAL (Total Pugo Distri)] - [#Avg_PRIME_REAL (Total Bbox Distri)])
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: f9a08f96-fb95-4773-a611-02dbab6245f5
+
+	measure '#Avg_PAK_PRIME_REAL (OOH Distri)' = CALCULATE( [#Avg_PAK_PRIME_REAL (Pugo Distri)] - [#Avg_PAK_PRIME_REAL (Bbox Distri)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 8f3de6e2-5207-40de-8da8-4da1e06b966b
+
+	measure '#Avg_PAK_REAL (Total Pugo Uli/PaE)' = CALCULATE([#Avg_PAK_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "PaE")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 01e3dc84-3bec-4144-9df1-ca72a549e6c5
+
+	measure '#Avg_PRIME_REAL (Total Pugo Uli/PaE)' = CALCULATE([#Avg_PRIME_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "PaE")
+		formatString: #,0.00
+		displayFolder: Primes
+		lineageTag: 847c74ee-60b2-4e55-a713-e2cce9edffef
+
+	measure '#Avg_PAK_REAL (Total Pugo Bulk)' = CALCULATE([#Avg_PAK_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "BUL")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 595e878b-047e-4fec-87cb-77102a043d13
+
+	measure '#Avg_PRIME_REAL (Total Pugo Bulk)' = CALCULATE([#Avg_PRIME_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "BUL")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: e732c944-04bd-4fc1-b8e0-0b2082bdd809
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo Bulk)' = [#Avg_PRIME_REAL (Total Pugo Bulk)] + [#Avg_PAK_REAL (Total Pugo Bulk)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 26492066-1a2f-4b8f-bbd2-33e73b48b873
+
+	measure '#Avg_PAK_REAL (Total Bbox Bulk)' = CALCULATE([#Avg_PAK_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "BUL")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: f44c6b5d-1133-4557-99a1-2bc62c90b139
+
+	measure '#Avg_PRIME_REAL (Total Bbox Bulk)' = CALCULATE([#Avg_PRIME_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "BUL")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 1ed0dd1a-e70b-46bd-9c0d-6e710045a6da
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox Bulk)' = [#Avg_PRIME_REAL (Total Bbox Bulk)] + [#Avg_PAK_REAL (Total Bbox Bulk)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 4696ec73-ad45-42cb-8d01-40b87465f852
+
+	measure '#Avg_PAK_PRIME_REAL (@Home - Bulk)' = CALCULATE([#Avg_PAK_PRIME_REAL (Bulk)] - [#Avg_PAK_PRIME_REAL (Pugo Bulk)] - [#Avg_PAK_PRIME_REAL (Bbox Bulk)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: bdc47add-1750-4e73-8dcd-3f801c9c7dcd
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo Uli/PaE)' = [#Avg_PRIME_REAL (Total Pugo Uli/PaE)] + [#Avg_PAK_REAL (Total Pugo Uli/PaE)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 5caf2a12-b031-4cc2-b9cb-3c8d7211054a
+
+	measure '#Avg_PAK_REAL (Total Bbox Uli/PaE)' = CALCULATE([#Avg_PAK_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "PaE")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 83f1251b-a4e8-4ceb-9849-12ae660f9bbd
+
+	measure '#Avg_PRIME_REAL (Total Bbox Uli/PaE)' = CALCULATE([#Avg_PRIME_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "PaE")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: e99649a6-96be-4a68-a4a4-87883d0a44d9
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox Uli/PaE)' = [#Avg_PRIME_REAL (Total Bbox Uli/PaE)] + [#Avg_PAK_REAL (Total Bbox Uli/PaE)]
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: fea88f49-07f0-4760-b1b8-e7b02e96b505
+
+	measure '#Avg_PAK_PRIME_REAL (@Home - Uli/PaE)' = CALCULATE([#Avg_PAK_PRIME_REAL (Uli/PaE)] - [#Avg_PAK_PRIME_REAL (Pugo Uli/PaE)] - [#Avg_PAK_PRIME_REAL (Bbox Uli/PaE)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 2ec01c08-e6f0-40f1-b9bf-8ee7e595040e
+
+	measure '#Avg_PRIME_REAL (Total Bbox Parcels Center/PCW)' = CALCULATE([#Avg_PRIME_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "PCW")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 741b7bb2-e397-4026-958e-f7b6a125adfc
+
+	measure '#Avg_PRIME_REAL (Total Pugo Parcels Center/PCW)' = CALCULATE([#Avg_PRIME_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "PCW")
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 12a2ec2b-f0c0-4919-ac7c-9bcbe678a6ca
+
+	measure '#Avg_PAK_REAL (Total Bbox Parcels Center/PCW)' = CALCULATE([#Avg_PAK_REAL (Bbox)], FACT_HR_WLT[scenario_prefix] = "PCW")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 98e0f911-2c1f-4cb8-80e6-1af28e95550b
+
+	measure '#Avg_PAK_REAL (Total Pugo Parcels Center/PCW)' = CALCULATE([#Avg_PAK_REAL (Pugo)], FACT_HR_WLT[scenario_prefix] = "PCW")
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 555fa021-b6d8-410c-90ba-55d44b2889c6
+
+	measure '#Avg_PAK_PRIME_REAL (Bbox Parcels Center/PCW)' = CALCULATE([#Avg_PAK_REAL (Total Bbox Parcels Center/PCW)] + [#Avg_PRIME_REAL (Total Bbox Parcels Center/PCW)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 1eb1bde6-201b-4ca7-88a9-e0cd7fb2fd08
+
+	measure '#Avg_PAK_PRIME_REAL (Pugo Parcels Center/PCW)' = CALCULATE([#Avg_PAK_REAL (Total Pugo Parcels Center/PCW)] + [#Avg_PRIME_REAL (Total Pugo Parcels Center/PCW)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: e4621eeb-060c-4b22-9c5d-9c3c04650fff
+
+	measure '#Avg_PAK_PRIME_REAL (@Home - Parcels Center/PCW)' = CALCULATE([#Avg_PAK_PRIME_REAL (Parcels Center/PCW)] - [#Avg_PAK_PRIME_REAL (Pugo Parcels Center/PCW)] - [#Avg_PAK_PRIME_REAL (Bbox Parcels Center/PCW)])
+		formatString: #,0
+		displayFolder: Parcels & Primes
+		lineageTag: 48f21062-6620-40de-b302-16787ad797a1
+
+	measure '#Avg_PAK_PRIME_REAL (@Home - Distri)' = CALCULATE([#Avg_PAK_PRIME_REAL (Total Distri)] - [#Avg_PAK_PRIME_REAL (Pugo Distri)] - [#Avg_PAK_PRIME_REAL (Bbox Distri)])
+		lineageTag: 69a4f105-d029-4fdf-bd1d-f3fa094882f1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		displayFolder: Date
+		lineageTag: 45b67483-b8ae-403c-ab50-85060ccaa32c
+		summarizeBy: none
+		sourceColumn: date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column dienst
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: a3319a12-d295-4389-a5a9-6264b326a586
+		summarizeBy: none
+		sourceColumn: dienst
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_id
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 7ecd8aab-a5ab-43aa-b2fa-010f0a3edb1f
+		summarizeBy: sum
+		sourceColumn: reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column postal_code
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 2f935ff6-fb81-41ed-8ca4-4d15bb5d046b
+		summarizeBy: none
+		sourceColumn: postal_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_fn
+		dataType: double
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 004d7dad-f896-4e44-9357-dcf7574c447b
+		summarizeBy: sum
+		sourceColumn: org_fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_gf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: edbbb009-c87d-4d77-bd50-bc43fe15c1d2
+		summarizeBy: sum
+		sourceColumn: org_gf
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_pak
+		dataType: double
+		formatString: 0.00
+		displayFolder: Parcels
+		lineageTag: 8f88e8f6-2dcc-4f27-a387-da7a68819ddc
+		summarizeBy: sum
+		sourceColumn: org_pak
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_gf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 3099730d-e8e8-40c6-a866-ebb5b46320e1
+		summarizeBy: sum
+		sourceColumn: nb_gf
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ena
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: d4363fb5-a22b-4c0d-8d8d-a09a65094e23
+		summarizeBy: sum
+		sourceColumn: nb_ena
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_krant
+		dataType: double
+		formatString: #,0.00
+		displayFolder: Newspapers
+		lineageTag: dc88d889-ad1b-47f0-b141-040918638371
+		summarizeBy: sum
+		sourceColumn: org_krant
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_primes
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: b3e2f18a-8239-4d09-ac6a-680646ade746
+		summarizeBy: sum
+		sourceColumn: nb_primes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_mix
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 82766527-2cbf-47ba-90bd-c09dd50d75ad
+		summarizeBy: sum
+		sourceColumn: nb_mix
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_kranten
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 34c8bdf5-33e8-43c5-bff6-3387c45d6547
+		summarizeBy: sum
+		sourceColumn: nb_kranten
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p1
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 6f21477f-21ad-4351-8272-289497dd055e
+		summarizeBy: sum
+		sourceColumn: parcel_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p2
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 1abc2b2e-32e8-45f8-97c9-f9698256c06d
+		summarizeBy: sum
+		sourceColumn: parcel_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p3
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 751c3483-5013-4648-989f-ef3e0fa3bb81
+		summarizeBy: sum
+		sourceColumn: parcel_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_parcel
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: e3a869d0-5689-4394-95e4-8d63f0862763
+		summarizeBy: sum
+		sourceColumn: undelivered_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p1
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 43e05f0e-0a2c-459f-9690-b4573310f6db
+		summarizeBy: sum
+		sourceColumn: prime_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p2
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 4b5f8a82-1381-406e-a89a-d8ef8bd60737
+		summarizeBy: sum
+		sourceColumn: prime_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p3
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: ffda9629-6d7a-4ad1-8434-1a78d37a38c4
+		summarizeBy: sum
+		sourceColumn: prime_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_prime
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 59b1f65c-833f-45c5-b4e2-5fb87116879e
+		summarizeBy: sum
+		sourceColumn: undelivered_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p1
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 6aaae7b0-e229-4e56-9ae3-b13a8d0ee114
+		summarizeBy: sum
+		sourceColumn: ee_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p2
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: b65464a7-1e83-41a2-b65b-6de0d192de4d
+		summarizeBy: sum
+		sourceColumn: ee_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p3
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: bd78f820-919b-4916-93e0-60d678eadc46
+		summarizeBy: sum
+		sourceColumn: ee_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_lfc
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: e36180fc-bc8d-4633-a30c-f940ee13b7ee
+		summarizeBy: sum
+		sourceColumn: ee_lfc
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_gu
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: d94da2d3-2559-49a1-95a1-33ee14e24fbb
+		summarizeBy: sum
+		sourceColumn: ee_gu
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_registered
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 059ed05c-fc38-4c46-be51-4a44f671fee7
+		summarizeBy: sum
+		sourceColumn: undelivered_registered
+
+		annotation SummarizationSetBy = Automatic
+
+	column barcoded_letter
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 8cccd473-1ea4-4cd8-9e6b-c66bac123e20
+		summarizeBy: sum
+		sourceColumn: barcoded_letter
+
+		annotation SummarizationSetBy = Automatic
+
+	column gf_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 0ca504b8-1699-4024-b919-89c3820ada87
+		summarizeBy: sum
+		sourceColumn: gf_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column gf_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 917a8203-ed7d-4a25-9d16-ff31131cbe52
+		summarizeBy: sum
+		sourceColumn: gf_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column mix_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 5c3a246d-77dd-441f-a14d-0f6b930434ed
+		summarizeBy: sum
+		sourceColumn: mix_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column mix_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 9b333d80-7838-4eb3-9238-e8180276ff33
+		summarizeBy: sum
+		sourceColumn: mix_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_com
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 98d4855f-a170-4437-9dbb-b555191479ad
+		summarizeBy: sum
+		sourceColumn: ena_com
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_inf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 10bca96a-0ce4-4585-ace8-af0af9323dbb
+		summarizeBy: sum
+		sourceColumn: ena_inf
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_obituaries
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 4b461fd7-83a7-4e37-b9b7-13de9179970a
+		summarizeBy: sum
+		sourceColumn: ena_obituaries
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_election
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: b4b0f291-14c4-46a8-9f63-5efd9b107fb3
+		summarizeBy: sum
+		sourceColumn: ena_election
+
+		annotation SummarizationSetBy = Automatic
+
+	column krant
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: d1e3756d-fd68-4f1b-b92b-b5440e5d7c51
+		summarizeBy: sum
+		sourceColumn: krant
+
+		annotation SummarizationSetBy = Automatic
+
+	column krant_eti
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 847c9a80-fba1-4b3d-b4a3-5718558fb62c
+		summarizeBy: sum
+		sourceColumn: krant_eti
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ee_nbr
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: ab228993-b81f-4b94-a1ce-d244b96b2e80
+		summarizeBy: sum
+		sourceColumn: org_ee_nbr
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_prime
+		dataType: double
+		formatString: #,0.00
+		displayFolder: Primes
+		lineageTag: 206c6f54-3625-4a6b-981f-1a9faaa50ceb
+		summarizeBy: sum
+		sourceColumn: org_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ena
+		dataType: double
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 15e300b7-90a1-4b0b-8d1c-ebb7c778a2a8
+		summarizeBy: sum
+		sourceColumn: org_ena
+
+		annotation SummarizationSetBy = Automatic
+
+	column master_reorg_id
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 102835e6-2f45-4e88-a4ff-84ba794df833
+		summarizeBy: sum
+		sourceColumn: master_reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_fn
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: a09e3ddf-e1e2-430f-ac12-fee56bf5d005
+		summarizeBy: sum
+		sourceColumn: nb_fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 45723fd9-35be-4060-8734-5f4bd1d78d0b
+		summarizeBy: sum
+		sourceColumn: fn_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 0124399a-b1d3-425a-bf76-e5f0834d806a
+		summarizeBy: sum
+		sourceColumn: fn_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_pak
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: e04d321b-3fe8-405e-85d6-af59a653e282
+		summarizeBy: sum
+		sourceColumn: nb_pak
+
+		annotation SummarizationSetBy = Automatic
+
+	column key_hr_wlt
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 8e99b794-fb6f-488f-8af7-9e8ce8a84081
+		summarizeBy: none
+		sourceColumn: key_hr_wlt
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: Date
+		lineageTag: 2a254446-6239-4ae5-9753-6699bbb61f45
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: cf2ad161-de43-4fe8-b695-b43121e49f5b
+			defaultHierarchy: LocalDateTable_edbba27d-9219-4ea6-820c-eb1d83ef68d5.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column rondtype
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: f0227f96-c8f7-467a-a6d9-a7c939faebb6
+		summarizeBy: none
+		sourceColumn: rondtype
+
+		annotation SummarizationSetBy = Automatic
+
+	column growth_potential
+		dataType: double
+		displayFolder: Parcels
+		lineageTag: ecfd1e86-4cf6-4c03-8f8a-f2aee5f16b44
+		summarizeBy: sum
+		sourceColumn: growth_potential
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column org_cubee
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 87e5d8a1-310a-4f4f-9714-e2ee491472cb
+		summarizeBy: sum
+		sourceColumn: org_cubee
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_pugo
+		dataType: double
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 3fafac6f-6d95-4b5d-b1e1-2ac3f1780bce
+		summarizeBy: sum
+		sourceColumn: org_pugo
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ee_indiv
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 8393a4c8-20ad-4bbc-94c6-1b3d590e6390
+		summarizeBy: sum
+		sourceColumn: nb_ee_indiv
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ee_indiv
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: ed5aa402-ba8c-4e33-8156-c43ba5045de0
+		summarizeBy: sum
+		sourceColumn: org_ee_indiv
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ee_nbr
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 7f99e047-cb45-45b5-ac44-a2e1e3e2faa8
+		summarizeBy: sum
+		sourceColumn: nb_ee_nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column at_home_all
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels & Primes
+		lineageTag: 22f3527e-f924-4130-839e-cec3889a48a0
+		summarizeBy: sum
+		sourceColumn: at_home_all
+
+		annotation SummarizationSetBy = Automatic
+
+	column ooh_all
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels & Primes
+		lineageTag: ee539dff-de97-40e6-8ef8-60ee77a21d85
+		summarizeBy: sum
+		sourceColumn: ooh_all
+
+		annotation SummarizationSetBy = Automatic
+
+	column licenseplate
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 1f12c4ea-c16a-46a6-a3c0-8bd0a3fb0a71
+		summarizeBy: sum
+		sourceColumn: licenseplate
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_parcel
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: cc709065-8679-4ca6-8ec2-eed6ceb8992a
+		summarizeBy: sum
+		sourceColumn: nb_advised_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column pugo_parcel
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 857d0cc9-2c91-4274-b4a5-0463abc86aa5
+		summarizeBy: sum
+		sourceColumn: pugo_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column cubee_parcel
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: f8a64fda-8a91-47e1-acf4-6eade4ffa38b
+		summarizeBy: sum
+		sourceColumn: cubee_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_prime
+		dataType: int64
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: f4419191-4b93-418d-a4df-51df9d8460f9
+		summarizeBy: sum
+		sourceColumn: nb_advised_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column pugo_prime
+		dataType: int64
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: ad537bd7-a9f3-47fa-9132-a6206e891c44
+		summarizeBy: sum
+		sourceColumn: pugo_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column cubee_prime
+		dataType: int64
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 12599d55-5c35-40c3-94bb-012dfd1aaf7f
+		summarizeBy: sum
+		sourceColumn: cubee_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_judicial_letter
+		dataType: int64
+		formatString: 0
+		displayFolder: Registered
+		lineageTag: 1b826659-d86b-4ddb-9824-9c6df9f8f4c8
+		summarizeBy: sum
+		sourceColumn: ee_judicial_letter
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_sfm
+		dataType: int64
+		formatString: 0
+		displayFolder: Registered
+		lineageTag: 56ecfe50-bafc-4f84-b91a-42c90e581f1a
+		summarizeBy: sum
+		sourceColumn: ee_sfm
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_registered
+		dataType: int64
+		formatString: 0
+		displayFolder: Registered
+		lineageTag: c3656631-1e98-41de-b6ae-f8f42d772714
+		summarizeBy: sum
+		sourceColumn: nb_advised_registered
+
+		annotation SummarizationSetBy = Automatic
+
+	column full_round_name
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: d1000d1e-2b11-4a84-a898-449ba4d9835c
+		summarizeBy: none
+		sourceColumn: full_round_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column round_name
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: 80e38b58-a759-49e3-846e-5430846cea32
+		summarizeBy: none
+		sourceColumn: round_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario_prefix
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: ef346ea5-9423-4948-8ae5-b9c69cc61cb1
+		summarizeBy: none
+		sourceColumn: scenario_prefix
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario_distri_dynamic
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: 216a9d25-d35c-4229-b19d-173484b0c3b4
+		summarizeBy: none
+		sourceColumn: scenario_distri_dynamic
+
+		annotation SummarizationSetBy = Automatic
+
+	column scenario_name
+		dataType: string
+		displayFolder: Rounds Informations
+		lineageTag: e8d31b47-c6e5-4b13-853d-4850dedb03ef
+		summarizeBy: none
+		sourceColumn: scenario_name
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_HR_WLT-e8cda3c7-7c8f-4c3f-8ef3-c3f002028dfb = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = AmazonRedshift.Database("rss-bi-pr-euwe01-gdn-wg-voleffcy.685561746385.eu-west-1.redshift-serverless.amazonaws.com","bi_voleffcy"),
+				    pbi_ved = Source{[Name="pbi_ved"]}[Data],
+				    optimax_hr_wlt3 = pbi_ved{[Name="optimax_hr_wlt3"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(optimax_hr_wlt3, "key_hr_wlt", each Text.Combine({Text.From([date_yyyymmdd], "fr-BE"), Text.From([postal_code], "fr-BE")})),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Merged Column",{{"key_hr_wlt", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"sfm", "ee_sfm"}, {"judicial_letter", "ee_judicial_letter"}, {"cubee_parcel", "cubee_parcel"}})
+				in
+				    #"Renamed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

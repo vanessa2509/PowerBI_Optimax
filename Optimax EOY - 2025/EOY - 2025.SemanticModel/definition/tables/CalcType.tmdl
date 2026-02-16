@@ -1,0 +1,46 @@
+table CalcType
+	lineageTag: ee8f62bd-2096-4b8b-9577-d65060142617
+
+	measure FLAG_NPP = ```
+			
+			VAR MaxDate =
+			    CALCULATE(
+			        MAX('FACT_HR_WLT'[date_yyyymmdd]),
+			        FILTER(
+			            'FACT_HR_WLT',
+			            NOT ISBLANK('FACT_HR_WLT'[NB_KRANT]) && 'FACT_HR_WLT'[NB_KRANT] > 0
+			        )
+			    )
+			VAR SumNB_Reel_MaxDate =
+			    CALCULATE(
+			        SUM('FACT_HR_WLT'[NB_KRANT]),
+			        'FACT_HR_WLT'[date_yyyymmdd] = MaxDate
+			    )
+			VAR AvgOrg = [#Avg_KRANTEN_ORG]
+			RETURN
+			    IF(SumNB_Reel_MaxDate < 20 && AvgOrg > 0, "Yes", "No")
+			
+			```
+		lineageTag: fda8dffe-f2d6-4394-98e8-1c338c2fcd78
+
+	column Data
+		dataType: string
+		lineageTag: 667fe3bb-c954-4d76-8229-fcc1f5fe6737
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CalcType = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45W8kstLy5ILEgtKlaK1UHmKiSmJBaUpKYoxcYCAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Data", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

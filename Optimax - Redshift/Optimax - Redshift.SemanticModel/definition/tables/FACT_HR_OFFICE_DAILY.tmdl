@@ -1,0 +1,685 @@
+table FACT_HR_OFFICE_DAILY
+	lineageTag: 6f2c42f3-7ee7-4d71-9824-16e8b936ed4b
+
+	measure #Avg_PAK_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_pak]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 17d83371-d138-4f6f-9b32-6ee930f9bec8
+
+	measure #Avg_EE_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_ee]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: d3c2fd86-a215-4ad6-b063-3ca2b24a2290
+
+	measure #Avg_EE_NBR_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_ee_nbr]))
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 1bfba58a-bf27-4393-85db-9e4e4f23ca80
+
+	measure #Avg_FN_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_fn]))
+		displayFolder: Letters
+		lineageTag: 1dd3fd64-c0da-45e6-a727-e9269b91c4e6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #Avg_GF_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_gf]))
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 62d8c9e8-7bc2-4d44-84d9-879f3a3134af
+
+	measure #Avg_FNGF_LAST_ORG = CALCULATE([#Avg_FN_LAST_ORG] + [#Avg_GF_LAST_ORG])
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 148706a8-1817-43bc-8c1d-6da6f23a81ec
+
+	measure #Avg_PRIME_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_prime]))
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: d6bb1708-8690-4b7c-8b71-2b42a64fa73d
+
+	measure #Avg_KRANTEN_LAST_ORG = CALCULATE(SUM(FACT_LAST_ORG[last_org_krant]))
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: a2302292-1cf2-4a94-a3ff-22cb9c99b2e0
+
+	measure #Avg_EE_ALL_LAST_ORG = [#Avg_EE_NBR_LAST_ORG] + [#Avg_EE_LAST_ORG]
+		displayFolder: Registered
+		lineageTag: 6e31733a-ba8c-4149-8c67-cd236b81bfd1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK_ORG (Growth Potential By Round Included)' = CALCULATE(SUM(FACT_HR_OFFICE_DAILY[org_pak])/DISTINCTCOUNT(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]))
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: a3c28b6e-e601-4227-ac56-1837b2c8f490
+
+	measure '#Avg_PAK_ORG (Growth Potential)' = ```
+			[#Avg_PAK_ORG (All Growth Potential Included)] - [#Avg_PAK_ORG (Growth Potential By Round Included)] 
+			```
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 2d6e0e66-0633-4f4c-af40-1e52a33f1125
+
+	column date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		displayFolder: Date
+		lineageTag: 0e2f814c-cd11-4226-85b0-ddf5e9a9a028
+		summarizeBy: sum
+		sourceColumn: date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		displayFolder: Date
+		lineageTag: 65e7e509-8ce8-4e68-bf14-54c2837c6df6
+		summarizeBy: none
+		sourceColumn: date
+
+		variation Variation
+			isDefault
+			relationship: a90c20d9-1fdd-40dd-bc99-130e7f31dbff
+			defaultHierarchy: LocalDateTable_5b5f483f-1dcb-4430-b6ea-146f763c4137.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column postal_code
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 438404aa-f231-4b68-b6d9-51acab501f27
+		summarizeBy: sum
+		sourceColumn: postal_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_id
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 73f10fa5-b691-4fa3-a4de-6b0838814db3
+		summarizeBy: sum
+		sourceColumn: reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column master_reorg_id
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 436f41c5-0f54-4d46-a45b-92275f92cf6e
+		summarizeBy: sum
+		sourceColumn: master_reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_pak
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: f04467b7-5cb7-4e0f-abb9-80289464a9f6
+		summarizeBy: sum
+		sourceColumn: nb_pak
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_primes
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: af4706fc-930b-4bd9-be25-10649c856895
+		summarizeBy: sum
+		sourceColumn: nb_primes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_fn
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 6adb5b80-12a2-4aec-b613-edb3235785ac
+		summarizeBy: sum
+		sourceColumn: nb_fn
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_gf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: ba800233-8277-42f2-a424-b743204de9b3
+		summarizeBy: sum
+		sourceColumn: nb_gf
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_mix
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 075ddc53-cbec-4faa-9486-d5db10a8d6b4
+		summarizeBy: sum
+		sourceColumn: nb_mix
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ena
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 69baac87-f797-4af1-9da1-898ad89abeb8
+		summarizeBy: sum
+		sourceColumn: nb_ena
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_kranten
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 2ed499dc-0215-448b-b9f9-209b8033004c
+		summarizeBy: sum
+		sourceColumn: nb_kranten
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p1
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: b56be550-1cf9-4206-a844-0253a641c82b
+		summarizeBy: sum
+		sourceColumn: parcel_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p2
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 5c2fc94f-2cb2-4285-ab08-4043f6e6b237
+		summarizeBy: sum
+		sourceColumn: parcel_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column parcel_p3
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 2a98b1e8-1dd9-4096-88b5-5b115344e662
+		summarizeBy: sum
+		sourceColumn: parcel_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_parcel
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 370cc626-a7cd-42a2-97ea-4ff7c802fdf9
+		summarizeBy: sum
+		sourceColumn: undelivered_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p1
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 871fd854-29b2-4d27-aba1-6ef13c9e6bfe
+		summarizeBy: sum
+		sourceColumn: prime_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p2
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 6e50d71e-8358-49d2-a307-59b8455d683d
+		summarizeBy: sum
+		sourceColumn: prime_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column prime_p3
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 8da3a343-3180-4cf7-a345-d04b56c47b83
+		summarizeBy: sum
+		sourceColumn: prime_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_prime
+		dataType: int64
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: b7b9ae9b-1706-4ec7-bbf1-b53eff5976e4
+		summarizeBy: sum
+		sourceColumn: undelivered_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p1
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: d0f09b94-03dc-46f9-8f5c-a771f731402f
+		summarizeBy: sum
+		sourceColumn: ee_p1
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p2
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 349e8bac-6dd4-4a51-a626-4f46be19d57e
+		summarizeBy: sum
+		sourceColumn: ee_p2
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_p3
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: bcb802f7-49e4-4048-99ca-25ab172a3805
+		summarizeBy: sum
+		sourceColumn: ee_p3
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_lfc
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 78dd92a5-5439-4d14-908d-58b3b4e7ec0c
+		summarizeBy: sum
+		sourceColumn: ee_lfc
+
+		annotation SummarizationSetBy = Automatic
+
+	column ee_gu
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: eda26815-0269-4589-93c2-d4890d7606f5
+		summarizeBy: sum
+		sourceColumn: ee_gu
+
+		annotation SummarizationSetBy = Automatic
+
+	column undelivered_registered
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: e63d9d25-7854-4d88-a253-706a8bbc6897
+		summarizeBy: sum
+		sourceColumn: undelivered_registered
+
+		annotation SummarizationSetBy = Automatic
+
+	column barcoded_letter
+		dataType: int64
+		formatString: 0
+		displayFolder: Letters
+		lineageTag: 2bae302f-575f-4cc5-863e-01219a3cb11c
+		summarizeBy: sum
+		sourceColumn: barcoded_letter
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 4452139b-14b8-4646-b054-21548b26ca95
+		summarizeBy: sum
+		sourceColumn: fn_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column fn_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 0d30a1c4-5365-4ba4-84d7-fa9e6f46a9fd
+		summarizeBy: sum
+		sourceColumn: fn_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column gf_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: cccbdd00-e479-4ece-b132-e3e21fce96c5
+		summarizeBy: sum
+		sourceColumn: gf_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column gf_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: f3de354d-1f17-4e6e-97ba-b834d87582e6
+		summarizeBy: sum
+		sourceColumn: gf_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column mix_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 6456023d-1bc2-4283-a038-e267d10435bc
+		summarizeBy: sum
+		sourceColumn: mix_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column mix_non_prior
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: d7bd81d3-9060-4661-95f8-8159a6105dcd
+		summarizeBy: sum
+		sourceColumn: mix_non_prior
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_com
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 39f70128-2458-465a-aaa6-12c2576c758e
+		summarizeBy: sum
+		sourceColumn: ena_com
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_inf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 3f80700e-c2fd-49be-9b43-25755164b841
+		summarizeBy: sum
+		sourceColumn: ena_inf
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_obituaries
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 17ebba1b-e676-40f9-abf9-09153328649f
+		summarizeBy: sum
+		sourceColumn: ena_obituaries
+
+		annotation SummarizationSetBy = Automatic
+
+	column ena_election
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: 590d024a-0367-4ea1-855f-c2c94d43e82f
+		summarizeBy: sum
+		sourceColumn: ena_election
+
+		annotation SummarizationSetBy = Automatic
+
+	column krant
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: d620285a-5f4b-43e5-b827-17c01d09053d
+		summarizeBy: sum
+		sourceColumn: krant
+
+		annotation SummarizationSetBy = Automatic
+
+	column krant_eti
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: c3d6d39d-0216-4f93-8394-679160a96bff
+		summarizeBy: sum
+		sourceColumn: krant_eti
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_pak
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: cbbaac39-9dfb-431a-9ff6-eb9ec53d9499
+		summarizeBy: sum
+		sourceColumn: org_pak
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ee_nbr
+		dataType: int64
+		formatString: #,0
+		displayFolder: Registered
+		lineageTag: 1daf4ab9-6a5f-4c09-92ea-13ece682e028
+		summarizeBy: sum
+		sourceColumn: org_ee_nbr
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_prime
+		dataType: double
+		formatString: #,0
+		displayFolder: Primes
+		lineageTag: 58ef1a99-3b5d-4c95-8fbe-5d9abb8514d7
+		summarizeBy: sum
+		sourceColumn: org_prime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column org_gf
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: fd417931-117b-4064-8c45-93309973604f
+		summarizeBy: sum
+		sourceColumn: org_gf
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_fn
+		dataType: int64
+		formatString: #,0
+		displayFolder: Letters
+		lineageTag: 8d554969-de3b-41c5-a208-da342d9d8de4
+		summarizeBy: sum
+		sourceColumn: org_fn
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ena
+		dataType: int64
+		formatString: #,0
+		displayFolder: Unaddressed
+		lineageTag: d4cdc93e-f946-4ae4-aa89-da0e7d70711f
+		summarizeBy: sum
+		sourceColumn: org_ena
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_krant
+		dataType: int64
+		formatString: #,0
+		displayFolder: Newspapers
+		lineageTag: 8166a2a7-f764-46c5-8311-a062f597aaaa
+		summarizeBy: sum
+		sourceColumn: org_krant
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_cubee
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 55311168-6059-4eae-a253-42581167f93c
+		summarizeBy: sum
+		sourceColumn: org_cubee
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_pugo
+		dataType: int64
+		formatString: #,0
+		displayFolder: Parcels
+		lineageTag: 7ad2b4c1-a3b5-4615-8092-6d41251a3aaf
+		summarizeBy: sum
+		sourceColumn: org_pugo
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column key_hr_wlt
+		dataType: int64
+		formatString: 0
+		displayFolder: Rounds Informations
+		lineageTag: 823d8cb4-6f48-4a55-a509-5c0c66b95ec0
+		summarizeBy: none
+		sourceColumn: key_hr_wlt
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ee_indiv
+		dataType: int64
+		formatString: 0
+		displayFolder: Registered
+		lineageTag: dfdb218d-90a3-45eb-80b8-b700ff6d1b70
+		summarizeBy: sum
+		sourceColumn: nb_ee_indiv
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_ee_nbr
+		dataType: int64
+		formatString: 0
+		displayFolder: Registered
+		lineageTag: 3b25420c-c5f2-4697-9f98-a60244f97ef6
+		summarizeBy: sum
+		sourceColumn: nb_ee_nbr
+
+		annotation SummarizationSetBy = Automatic
+
+	column at_home_all
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels & Primes
+		lineageTag: 4e71809d-e5e0-4ed9-acb3-eb62a136a100
+		summarizeBy: sum
+		sourceColumn: at_home_all
+
+		annotation SummarizationSetBy = Automatic
+
+	column ooh_all
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels & Primes
+		lineageTag: aafb10a5-d9fc-4dfb-a3fb-9f148985e2ed
+		summarizeBy: sum
+		sourceColumn: ooh_all
+
+		annotation SummarizationSetBy = Automatic
+
+	column org_ee_indiv
+		dataType: double
+		displayFolder: Registered
+		lineageTag: 16010c80-30aa-443c-a917-a1f9453c8027
+		summarizeBy: sum
+		sourceColumn: org_ee_indiv
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column org_bulk
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: 1a2d3fec-01a7-4a4e-ad12-f3056e0689cd
+		summarizeBy: sum
+		sourceColumn: org_bulk
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_parcel
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: e06e33c2-30d8-458a-8b87-bd86f2056e76
+		summarizeBy: sum
+		sourceColumn: nb_advised_parcel
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_prime
+		dataType: int64
+		formatString: 0
+		displayFolder: Primes
+		lineageTag: 7e59f87e-991c-49f7-bf16-276539544c44
+		summarizeBy: sum
+		sourceColumn: nb_advised_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column nb_advised_registered
+		dataType: int64
+		formatString: 0
+		displayFolder: Parcels
+		lineageTag: c8daf68c-6928-4ee0-98fb-d3433f0fbb36
+		summarizeBy: sum
+		sourceColumn: nb_advised_registered
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_HR_OFFICE_DAILY = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = AmazonRedshift.Database("rss-bi-pr-euwe01-gdn-wg-voleffcy.685561746385.eu-west-1.redshift-serverless.amazonaws.com","bi_voleffcy"),
+				    pbi_ved = Source{[Name="pbi_ved"]}[Data],
+				    optimax_hr_office_daily3 = pbi_ved{[Name="optimax_hr_office_daily3"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(optimax_hr_office_daily3, "key_hr_wlt", each Text.Combine({Text.From([date_yyyymmdd], "fr-BE"), Text.From([postal_code], "fr-BE")})),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Merged Column",{{"key_hr_wlt", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

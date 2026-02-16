@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Elections"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "2792465d-0131-a8d5-4d9b-c65d644f2467"
+  }
+}

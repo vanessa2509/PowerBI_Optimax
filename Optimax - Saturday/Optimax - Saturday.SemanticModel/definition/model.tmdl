@@ -1,0 +1,62 @@
+model Model
+	culture: fr-BE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: nl-BE
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'FACT Queries'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup 'DIM Queries'
+
+	annotation PBI_QueryGroupOrder = 3
+
+queryGroup Parameter
+
+	annotation PBI_QueryGroupOrder = 5
+
+queryGroup DATAFLOW
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup KNIME
+
+	annotation PBI_QueryGroupOrder = 6
+
+queryGroup 'VLT Report'
+
+	annotation PBI_QueryGroupOrder = 0
+
+/// Errors in queries that were loaded on 06/06/2023 08:18:26.
+queryGroup 'Query Errors - 06/06/2023 08:18:26'
+
+	annotation PBI_QueryGroupOrder = 7
+
+queryGroup 'Check Optimax'
+
+	annotation PBI_QueryGroupOrder = 4
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.131.901.0 (24.07)
+
+annotation PBI_QueryOrder = ["DIM_REORG_VLT","DIM_CALENDAR","LAB_VLT341 CO6","PBI_VLT341_ONCE","PBI_VLT341_SECOND","DIM_EMPLOYEE","Dataflow_DIM_VIP_USER","Dataflow_DIM_VIP_USER_LAST_ORG","PAKSAT_TBL_LOC_PAKSAT"]
+
+ref table DateTableTemplate_c2035e78-79f5-49ec-a2be-8a9485ac2159
+ref table DIM_CALENDAR
+ref table Dataflow_DIM_VIP_USER
+ref table DIM_REORG_VLT
+ref table LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433
+ref table LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac
+ref table DIM_EMPLOYEE
+ref table Dataflow_DIM_VIP_USER_LAST_ORG
+ref table PAKSAT_TBL_LOC_PAKSAT
+
+ref role user
+
+ref cultureInfo fr-BE
+

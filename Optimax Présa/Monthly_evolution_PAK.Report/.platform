@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Monthly_evolution_PAK"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "f0d1ef3f-6be1-a807-4f78-434ec59776c3"
+  }
+}

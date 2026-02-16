@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Volumes_Performances"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "fd07495d-3f66-b800-4d75-40e4dd80afa3"
+  }
+}

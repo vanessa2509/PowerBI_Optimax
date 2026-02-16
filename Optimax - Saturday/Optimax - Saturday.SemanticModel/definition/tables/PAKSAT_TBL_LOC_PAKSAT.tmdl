@@ -1,0 +1,672 @@
+table PAKSAT_TBL_LOC_PAKSAT
+	lineageTag: 101db609-cb99-4cdd-8f42-4378c3b962df
+
+	measure #Avg_PAK_REEL = CALCULATE(SUM(PAKSAT_TBL_LOC_PAKSAT[REEL_VOL_PARCELS]) / DISTINCTCOUNT(PAKSAT_TBL_LOC_PAKSAT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: fb8a3e6d-44f6-498e-b30f-8665b62ce172
+
+	measure #Avg_PRIME_REEL = CALCULATE(SUM(PAKSAT_TBL_LOC_PAKSAT[REEL_VOL_PRIMES]) / DISTINCTCOUNT(PAKSAT_TBL_LOC_PAKSAT[DATE_YYYYMMDD]))
+		lineageTag: 589b1479-598e-42f1-8cf0-0cfad211678f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg_PAK + PRIME' = [#Avg_PRIME_REEL] + [#Avg_PAK_REEL]
+		formatString: #,0
+		lineageTag: 299684ba-9680-462b-b8a8-97ca8580d951
+
+	measure #Avg_PAK_ORG = CALCULATE(SUM(PAKSAT_TBL_LOC_PAKSAT[PARCELS_SAT_ORG])/DISTINCTCOUNT(PAKSAT_TBL_LOC_PAKSAT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 6bef88a5-5114-4dc3-a9ea-386f3d3cb2f6
+
+	measure '#Pak_Sat Avg_Pak % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK + PRIME]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 0aeeb3a1-1f7c-4478-85a7-4737a68df4ab
+
+	measure '#Avg_Pak + Prime % delta' =
+			
+			VAR __BASELINE_VALUE = [#Avg_PAK_ORG]
+			VAR __VALUE_TO_COMPARE = [#Avg_PAK + PRIME]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE , __BASELINE_VALUE)
+				) -1
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 09543baf-746d-4ba6-b3a1-be4cb456e745
+
+	measure '#Pak_sat AVG FTE ACT' = CALCULATE(SUM(PAKSAT_TBL_LOC_PAKSAT[FTE_ACT_PAKSAT]) / DISTINCTCOUNT(PAKSAT_TBL_LOC_PAKSAT[DATE_YYYYMMDD]))
+		formatString: 0
+		lineageTag: 8a9e0be1-8f9c-46bd-823f-bd68591ba94c
+
+	measure '#Pak_sat AVG FTE ORG' = CALCULATE(SUM(PAKSAT_TBL_LOC_PAKSAT[FTE_PAKSAT_ORG]) / DISTINCTCOUNT(PAKSAT_TBL_LOC_PAKSAT[DATE_YYYYMMDD]))
+		formatString: #,0
+		lineageTag: 20bb8072-6873-4e2c-a0da-181438b7240c
+
+	measure '#Pak_sat Variation FTE %' =
+			
+			VAR __BASELINE_VALUE = [#Pak_sat AVG FTE ORG]
+			VAR __VALUE_TO_COMPARE = [#Pak_sat AVG FTE ACT]
+			RETURN
+				IF(
+					NOT ISBLANK(__VALUE_TO_COMPARE),
+					DIVIDE(__VALUE_TO_COMPARE - __BASELINE_VALUE, __BASELINE_VALUE)
+				)
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 875976e7-0924-4ea5-ae73-b915411484b2
+
+	measure '#Pak_sat Parcels Actuals / FTE' = ```
+			
+				CALCULATE([#Avg_PAK_REEL]/ [#Pak_sat AVG FTE ACT])
+			```
+		formatString: 0
+		lineageTag: 3d41ac76-127e-4fc1-9aa7-6d279e4c3afc
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 4f915ba1-b2f1-440f-95d0-0de9e2a5174d
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CP_PAKSAT
+		dataType: double
+		lineageTag: e8c1b09b-2372-4241-a292-1a9635851f6f
+		summarizeBy: none
+		sourceColumn: CP_PAKSAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LOCALISATION_PAKSAT
+		dataType: string
+		lineageTag: def0b311-d36a-4a84-8d9d-8b0b114afede
+		summarizeBy: none
+		sourceColumn: LOCALISATION_PAKSAT
+
+		annotation SummarizationSetBy = Automatic
+
+	column REEL_VOL_PARCELS
+		dataType: double
+		lineageTag: bbb742a4-1d0f-49f6-9055-6610967afd16
+		summarizeBy: sum
+		sourceColumn: REEL_VOL_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REEL_VOL_PRIMES
+		dataType: double
+		lineageTag: d4473d66-7d68-45ed-8197-349ef5f4c3b8
+		summarizeBy: sum
+		sourceColumn: REEL_VOL_PRIMES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PARCELS_SAT_ORG
+		dataType: double
+		lineageTag: 1eadbde6-b50a-428d-b6ce-dc0999c1bf81
+		summarizeBy: sum
+		sourceColumn: PARCELS_SAT_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RENFORT_PARCEL_DURATION
+		dataType: double
+		lineageTag: bf758220-e8e6-4da6-9016-0c794233202c
+		summarizeBy: sum
+		sourceColumn: RENFORT_PARCEL_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COLLECT_DURATION
+		dataType: double
+		lineageTag: 6509c4ed-8359-476f-8ba6-9a5b58f75ddc
+		summarizeBy: sum
+		sourceColumn: COLLECT_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RENFORT_DISTRIBUTION_DURATION
+		dataType: double
+		lineageTag: 23db1056-e29f-4ce4-ac02-9b1c200e0fed
+		summarizeBy: sum
+		sourceColumn: RENFORT_DISTRIBUTION_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EP_DURATION
+		dataType: double
+		lineageTag: 3a69b80a-a42d-4c48-8d49-982e20a1f3ca
+		summarizeBy: sum
+		sourceColumn: EP_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPLOYEE_DURATION
+		dataType: double
+		lineageTag: 99217022-0a3e-4fe9-b5a8-35fe41ab8cca
+		summarizeBy: sum
+		sourceColumn: EMPLOYEE_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOT_SHOWN_DURATION
+		dataType: double
+		lineageTag: 47cbdbe2-0e28-4624-9470-179e4147054f
+		summarizeBy: sum
+		sourceColumn: NOT_SHOWN_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DISTRIBUTION_DURATION
+		dataType: double
+		lineageTag: 22dd80bd-8018-4700-815d-cbd7fbe003eb
+		summarizeBy: sum
+		sourceColumn: DISTRIBUTION_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OTHER_DURATION
+		dataType: double
+		lineageTag: b3814dff-192c-49ff-a7c1-e18f1a3a574a
+		summarizeBy: sum
+		sourceColumn: OTHER_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RENFORT_COLLECT_DURATION
+		dataType: double
+		lineageTag: 0fee1e89-fddb-405f-a149-28e8464cffca
+		summarizeBy: sum
+		sourceColumn: RENFORT_COLLECT_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RENFORT_EMPLOYEE_DURATION
+		dataType: double
+		lineageTag: 9a89d4c7-dc36-4a25-9f6f-6d3d2852528b
+		summarizeBy: sum
+		sourceColumn: RENFORT_EMPLOYEE_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CADRE_DISTRI_SAT
+		dataType: double
+		lineageTag: a9344b56-a295-4da1-a9c4-ba153c67a29e
+		summarizeBy: sum
+		sourceColumn: CADRE_DISTRI_SAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_PAKSAT_ORG
+		dataType: double
+		lineageTag: 700eb8d9-a737-4e5b-8f24-de4fafaae244
+		summarizeBy: sum
+		sourceColumn: FTE_PAKSAT_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CADRE_SAT_OTHER
+		dataType: double
+		lineageTag: 413c97ac-8462-4fee-9103-9174d5fd16f1
+		summarizeBy: sum
+		sourceColumn: CADRE_SAT_OTHER
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_ACT_PAKSAT
+		dataType: double
+		lineageTag: 5f9c61c0-61d5-4ee8-96eb-eb014e82e6c8
+		summarizeBy: sum
+		sourceColumn: FTE_ACT_PAKSAT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOLUME_PAKSAT_FICHEAB
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3d24433d-37d7-4807-b5f8-15247d3cbfe9
+		summarizeBy: sum
+		sourceColumn: VOLUME_PAKSAT_FICHEAB
+
+		annotation SummarizationSetBy = Automatic
+
+	column RENFORT_DISTRI_S
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3c49dc99-647f-491e-bc1c-ef1bd51b5e94
+		summarizeBy: sum
+		sourceColumn: RENFORT_DISTRI_S
+
+		annotation SummarizationSetBy = Automatic
+
+	column FCST_W0
+		dataType: double
+		lineageTag: 9a9ed2c9-ddf1-47dc-b0a4-569ce5b6361c
+		summarizeBy: sum
+		sourceColumn: FCST_W0
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FCST_W1
+		dataType: double
+		lineageTag: 6743a824-36af-46ab-b0d1-d4be35224d47
+		summarizeBy: sum
+		sourceColumn: FCST_W1
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FCST_W2
+		dataType: double
+		lineageTag: 0686b838-37fe-43dc-99da-ee7ff86216f7
+		summarizeBy: sum
+		sourceColumn: FCST_W2
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FCST_W3
+		dataType: double
+		lineageTag: b1b90732-d4a7-4fbe-b2fd-8109fd80f041
+		summarizeBy: sum
+		sourceColumn: FCST_W3
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FCST_W4
+		dataType: double
+		lineageTag: 8695e315-5ca4-4383-8c99-a69982b75013
+		summarizeBy: sum
+		sourceColumn: FCST_W4
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COLLECTIF_TIME_BIRDY
+		dataType: double
+		lineageTag: 12964e48-a23e-4578-b860-48f116a653c3
+		summarizeBy: sum
+		sourceColumn: COLLECTIF_TIME_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column INDIV_TIME_BIRDY
+		dataType: double
+		lineageTag: adb01e5e-4af0-4437-9325-197a8e4eaa33
+		summarizeBy: sum
+		sourceColumn: INDIV_TIME_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DISTRI_TIME_NET_BIRDY
+		dataType: double
+		lineageTag: 55f57e10-7257-4235-b28d-82962330184c
+		summarizeBy: sum
+		sourceColumn: DISTRI_TIME_NET_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NUMBER_OF_ROUND_BIRDY
+		dataType: double
+		lineageTag: 9169e6bb-84ad-4332-aab3-32e00bc8f801
+		summarizeBy: sum
+		sourceColumn: NUMBER_OF_ROUND_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOMBRE_OF_ADRESS_BIRDY
+		dataType: double
+		lineageTag: b500875a-8cf8-4b8e-8b75-c30b452bed64
+		summarizeBy: sum
+		sourceColumn: NOMBRE_OF_ADRESS_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KM_TOTAAL_BIRDY
+		dataType: double
+		lineageTag: 232be5c1-ce49-4b81-87a8-ef5dbcf87887
+		summarizeBy: sum
+		sourceColumn: KM_TOTAAL_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOLUME_ORG_BIRDY
+		dataType: double
+		lineageTag: 6c23cf61-f552-408c-b089-8910f15611f6
+		summarizeBy: sum
+		sourceColumn: VOLUME_ORG_BIRDY
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W0_DISTRIBUTION_DURATION_PLANNED
+		dataType: double
+		lineageTag: 74e2eeb4-6a95-4d65-9906-d7555ad948f1
+		summarizeBy: sum
+		sourceColumn: W0_DISTRIBUTION_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W1_DISTRIBUTION_DURATION_PLANNED
+		dataType: double
+		lineageTag: 44886bb5-12f4-4bb6-a863-9f0a393dbb71
+		summarizeBy: sum
+		sourceColumn: W1_DISTRIBUTION_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W2_DISTRIBUTION_DURATION_PLANNED
+		dataType: double
+		lineageTag: f1224ea0-01b2-4014-bc1c-da23c081f030
+		summarizeBy: sum
+		sourceColumn: W2_DISTRIBUTION_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W3_DISTRIBUTION_DURATION_PLANNED
+		dataType: double
+		lineageTag: 4924300d-d423-459e-b4d8-ecda1de3143b
+		summarizeBy: sum
+		sourceColumn: W3_DISTRIBUTION_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W0_COLLECT_DURATION_PLANNED
+		dataType: double
+		lineageTag: 5349ca6d-a253-440a-94ac-39944b3d5361
+		summarizeBy: sum
+		sourceColumn: W0_COLLECT_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W1_COLLECT_DURATION_PLANNED
+		dataType: double
+		lineageTag: 8f079107-9ed8-44cb-a957-1323678b8ea8
+		summarizeBy: sum
+		sourceColumn: W1_COLLECT_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W2_COLLECT_DURATION_PLANNED
+		dataType: double
+		lineageTag: a5c23824-4a85-42f1-ac5b-d5c8b10f7422
+		summarizeBy: sum
+		sourceColumn: W2_COLLECT_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W3_COLLECT_DURATION_PLANNED
+		dataType: double
+		lineageTag: 65693ac9-5eb4-4c24-8aec-807494d3ea9b
+		summarizeBy: sum
+		sourceColumn: W3_COLLECT_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W0_EMPLOYEE_DURATION_PLANNED
+		dataType: double
+		lineageTag: c341b09f-1be3-4511-9149-e6c1a6d18b7c
+		summarizeBy: sum
+		sourceColumn: W0_EMPLOYEE_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W1_EMPLOYEE_DURATION_PLANNED
+		dataType: double
+		lineageTag: d8f226ef-fe61-4baf-af4b-a3524feaa7b4
+		summarizeBy: sum
+		sourceColumn: W1_EMPLOYEE_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W2_EMPLOYEE_DURATION_PLANNED
+		dataType: double
+		lineageTag: f7455eff-ede4-4043-aa6d-a28de7b3d454
+		summarizeBy: sum
+		sourceColumn: W2_EMPLOYEE_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W3_EMPLOYEE_DURATION_PLANNED
+		dataType: double
+		lineageTag: 97236d9d-837c-4fce-8a33-291efa42ab97
+		summarizeBy: sum
+		sourceColumn: W3_EMPLOYEE_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W0_OTHER_DURATION_PLANNED
+		dataType: double
+		lineageTag: 9b0d09e7-eb48-440c-908e-677256e3099b
+		summarizeBy: sum
+		sourceColumn: W0_OTHER_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W1_OTHER_DURATION_PLANNED
+		dataType: double
+		lineageTag: 88cf7329-229a-4974-8c8b-acf9c23026c6
+		summarizeBy: sum
+		sourceColumn: W1_OTHER_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W2_OTHER_DURATION_PLANNED
+		dataType: double
+		lineageTag: bd23436e-c4fa-4ea0-98f0-074dff820baa
+		summarizeBy: sum
+		sourceColumn: W2_OTHER_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column W3_OTHER_DURATION_PLANNED
+		dataType: double
+		lineageTag: 09e11e22-d33a-4117-ab72-416a705245ef
+		summarizeBy: sum
+		sourceColumn: W3_OTHER_DURATION_PLANNED
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NB_SUBCO
+		dataType: double
+		lineageTag: 9a7b9a3e-8f85-42ee-97b5-e08ca24ad59b
+		summarizeBy: sum
+		sourceColumn: NB_SUBCO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_SUBCO
+		dataType: double
+		lineageTag: 88702068-0c32-44c4-972e-78e48c1e4a87
+		summarizeBy: sum
+		sourceColumn: VOL_SUBCO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_SAT_NPP
+		dataType: double
+		lineageTag: dc2a205a-2ebf-4a86-8994-1414b5291b6b
+		summarizeBy: sum
+		sourceColumn: FTE_SAT_NPP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_SAT_OTHER
+		dataType: double
+		lineageTag: d080311b-b439-4ba9-9050-4167d619ed15
+		summarizeBy: sum
+		sourceColumn: FTE_SAT_OTHER
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ADVISED_PRCNT
+		dataType: double
+		lineageTag: a2db8a88-7c9a-459f-b6ed-8183e86f3e26
+		summarizeBy: sum
+		sourceColumn: ADVISED_PRCNT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ADVISED_PREFER_NOX_PRCNT
+		dataType: double
+		lineageTag: 341306f3-669b-42e3-9de2-a2b6626fe5c9
+		summarizeBy: sum
+		sourceColumn: ADVISED_PREFER_NOX_PRCNT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DISTRIBUTED_PRCNT
+		dataType: double
+		lineageTag: 35e203e6-e6f7-4974-af8c-ee34203be27e
+		summarizeBy: sum
+		sourceColumn: DISTRIBUTED_PRCNT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COUNT_OFFICE
+		dataType: double
+		lineageTag: a0e2dca8-c4b6-4240-846c-1fa587a9eb03
+		summarizeBy: sum
+		sourceColumn: COUNT_OFFICE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_TRI
+		dataType: double
+		lineageTag: 422e2686-9f80-4513-bffb-c3a1dca14e30
+		summarizeBy: sum
+		sourceColumn: VOL_TRI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition PAKSAT_TBL_LOC_PAKSAT = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    PAKSAT_TBL_LOC_PAKSAT1 = PBI_VLT341{[Name="PAKSAT_TBL_LOC_PAKSAT"]}[Data]
+				in
+				    PAKSAT_TBL_LOC_PAKSAT1
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

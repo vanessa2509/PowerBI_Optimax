@@ -1,0 +1,244 @@
+table GDN_DIM_ENA_ACTUAL_DIST_DATE
+	lineageTag: f51e848d-81db-4724-bff6-32cb040d6ace
+
+	column ORDER_REFERENCE
+		dataType: string
+		lineageTag: b963a90a-0b47-4b60-80cd-3c5a774e5819
+		summarizeBy: none
+		sourceColumn: ORDER_REFERENCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEIGHT
+		dataType: double
+		lineageTag: 20892d47-12c2-4c55-bdc3-4ac6cb644c25
+		summarizeBy: sum
+		sourceColumn: WEIGHT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRODUCT_CATEGORY_NAME
+		dataType: string
+		lineageTag: 8cd95d0c-396a-48f5-a741-38403cdb4b8f
+		summarizeBy: none
+		sourceColumn: PRODUCT_CATEGORY_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISTRIBUTION_DATE_BY_FIELD
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 92505c4d-79c6-4e44-acdc-b02809a0b202
+		summarizeBy: none
+		sourceColumn: DISTRIBUTION_DATE_BY_FIELD
+
+		variation Variation
+			isDefault
+			relationship: 9cddc56a-8a02-4e34-b00d-c310db1e4a77
+			defaultHierarchy: LocalDateTable_8d5f3f81-b249-470a-86d5-ffb10026a41c.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column ORDER_CREATED_ON
+		dataType: double
+		lineageTag: 3eca7820-7f7b-4b94-96b3-ce501f4bed4b
+		summarizeBy: sum
+		sourceColumn: ORDER_CREATED_ON
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRS_ID
+		dataType: string
+		lineageTag: 5e4385ea-c61f-483f-8a65-2d6ba9b2e643
+		summarizeBy: none
+		sourceColumn: PRS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUBPRODUCT
+		dataType: string
+		lineageTag: 0a7af74f-1c03-40f4-8b55-fc9c29ad7f3e
+		summarizeBy: none
+		sourceColumn: SUBPRODUCT
+
+		annotation SummarizationSetBy = Automatic
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: b6a583b0-24d6-4886-902d-7d3819cbd3bd
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROMA_ROUND_ID
+		dataType: double
+		lineageTag: 086f2201-0c25-4ae3-acb6-471d1b6aa7f2
+		summarizeBy: count
+		sourceColumn: ROMA_ROUND_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROUND_NAME
+		dataType: string
+		lineageTag: 57c17c84-370b-4f6f-99d4-7361ea1442a9
+		summarizeBy: none
+		sourceColumn: ROUND_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROUND_SERVICE
+		dataType: string
+		lineageTag: 00df15ab-10b5-492e-9188-89403efecdbc
+		summarizeBy: none
+		sourceColumn: ROUND_SERVICE
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROUND_SEQUENCE_SERVICE
+		dataType: string
+		lineageTag: c3c4373f-0fc3-41b4-bf17-f9ee57e4020e
+		summarizeBy: none
+		sourceColumn: ROUND_SEQUENCE_SERVICE
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_MAILBOX_VOLUME
+		dataType: double
+		lineageTag: 536d42d5-c304-4b31-93a2-8f7ec82c386d
+		summarizeBy: sum
+		sourceColumn: TOTAL_MAILBOX_VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PLANNED_DISTR_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 8ba23d91-3b70-4d4f-87bd-23498cda3ee4
+		summarizeBy: sum
+		sourceColumn: PLANNED_DISTR_DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EVENT_DATE
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 3d9f9c8a-13b9-406d-b45c-260f008e8809
+		summarizeBy: none
+		sourceColumn: EVENT_DATE
+
+		variation Variation
+			isDefault
+			relationship: 632a4a9b-6bdc-405f-ba25-17aa98bbf76b
+			defaultHierarchy: LocalDateTable_fefaa4d2-6b2e-464c-be51-0dbd8cde7cbd.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMMERCIAL_STANDARD
+		dataType: double
+		lineageTag: 1ede6e43-e518-4c41-bbc0-8cf51351b23e
+		summarizeBy: sum
+		sourceColumn: COMMERCIAL_STANDARD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OPERATIONAL_STANDARD
+		dataType: double
+		lineageTag: d75e7a14-68dd-49b7-b6ef-293cb9025048
+		summarizeBy: sum
+		sourceColumn: OPERATIONAL_STANDARD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_STANDARD
+		dataType: string
+		lineageTag: 1d7448f5-4b22-47db-bd96-d2ca105ef6e0
+		summarizeBy: none
+		sourceColumn: IS_STANDARD
+
+		annotation SummarizationSetBy = Automatic
+
+	column TITLE_OF_ITEM
+		dataType: string
+		lineageTag: 8c1e94cf-9061-4d83-841a-189ae23321db
+		summarizeBy: none
+		sourceColumn: TITLE_OF_ITEM
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_STANDARD_51
+		dataType: string
+		lineageTag: c162e504-b5ae-496a-87c1-b3a95f04707e
+		summarizeBy: none
+		sourceColumn: IS_STANDARD_51
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY
+		dataType: string
+		lineageTag: e891c231-8cd1-439c-b042-acc7ae3c4f26
+		summarizeBy: none
+		sourceColumn: KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column STANDARD_FLAG_PBI
+		dataType: string
+		lineageTag: 2eac56f5-0142-41ff-b754-a9671eb10e58
+		summarizeBy: none
+		sourceColumn: STANDARD_FLAG_PBI
+
+		annotation SummarizationSetBy = Automatic
+
+	column DISTRIBUTION_BY_FIELD_YYYYMMDD
+		dataType: string
+		lineageTag: c2b65574-34ce-44dd-9a9b-44ee973f3421
+		summarizeBy: none
+		sourceColumn: DISTRIBUTION_BY_FIELD_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_FIELD
+		dataType: string
+		lineageTag: 9cda05dd-0112-4129-8c8b-5035d5887615
+		summarizeBy: none
+		sourceColumn: KEY_FIELD
+
+		annotation SummarizationSetBy = Automatic
+
+	partition GDN_DIM_ENA_ACTUAL_DIST_DATE = m
+		mode: import
+		queryGroup: 'Actuals Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_SECOND, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DIM_GDN_ENA = PBI_VLT341{[Name="DISTRIPOST_GDN"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(V_PBI_DIM_GDN_ENA, "KEY", each Text.Combine({Text.From([PLANNED_DISTR_DATE_YYYYMMDD], "en-GB"), Text.From([POSTAL_CODE], "en-GB"), [ROUND_NAME]}), type text),
+				    #"Inserted Merged Column1" = Table.AddColumn(#"Inserted Merged Column", "KEY_FIELD", each Text.Combine({[DISTRIBUTION_BY_FIELD_YYYYMMDD], Text.From([POSTAL_CODE], "en-BE"), [ROUND_NAME]}), type text),
+				    #"Added Conditional Column" = Table.AddColumn(#"Inserted Merged Column1", "STANDARD_FLAG_PBI", each if [IS_STANDARD] = "Y" then "Standard" else if [IS_STANDARD] = "N" then "No Standard" else if [SUBPRODUCT] = "OBITUARIES" then "No Standard" else null),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Conditional Column",{{"DISTRIBUTION_DATE_BY_FIELD", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

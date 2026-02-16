@@ -1,0 +1,83 @@
+relationship c85dc122-6337-44b9-9bc0-fe749966e373
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG START dateFormatted'
+	toColumn: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.Date
+
+relationship e7b42fee-cb1f-4198-8e89-023592a4a641
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG END dateFormatted'
+	toColumn: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.Date
+
+relationship ec05815b-4b72-45c0-ac1d-b050c20dec3e
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DISTRIPOST_TBL_IRN_PLANNED.'Distribution Begin Date'
+	toColumn: LocalDateTable_d96bcc60-9808-41e3-a461-fe38b72bf566.Date
+
+relationship ce842fd3-098c-4310-ad7f-ec4ddf9ea684
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: DISTRIPOST_TBL_IRN_PLANNED.PRS_ID
+	toColumn: V_PBI_PRS_ACCOUNT_ID_FUTUR.PRS_ID
+
+relationship b0c69aa9-844a-4ffe-a4fa-8fe3d5072f83
+	crossFilteringBehavior: bothDirections
+	fromColumn: DISTRIPOST_TBL_IRN_PLANNED.KEY_DISTRIPOST
+	toColumn: DISTRIPOST_IRN_PLANNED_AGG_PBI.KEY_DISTRIPOST
+
+relationship 13ea7b67-9c16-4747-a5df-bba90fadda40
+	joinOnDateBehavior: datePartOnly
+	fromColumn: GDN_DIM_ENA_ACTUAL.DISTRIBUTION_DATE_BY_FIELD
+	toColumn: LocalDateTable_f6c8a438-1e7b-427e-9ae5-e4530a4fb6c9.Date
+
+relationship b6e6f746-e7f8-4db8-9174-3224ab244fce
+	joinOnDateBehavior: datePartOnly
+	fromColumn: GDN_DIM_ENA_ACTUAL.EVENT_DATE
+	toColumn: LocalDateTable_b2d9c478-146c-43a9-84c8-1617bf3f9bb5.Date
+
+relationship 461d9404-0ff2-48a2-b5b6-896964435886
+	crossFilteringBehavior: bothDirections
+	fromColumn: V_PBI_DISTRIPOST.POSTAL_CODE
+	toColumn: DIM_REORG_VLT.POSTAL_CODE
+
+relationship 05f7f9f3-d66d-4817-8bb4-ec76d69b3c39
+	crossFilteringBehavior: bothDirections
+	securityFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: GDN_DIM_ENA_ACTUAL.PRS_ID
+	toColumn: V_PBI_PRS_ACCOUNT_ID_PREVIOUS.PRS_ID
+
+relationship a9bc8235-d10b-4f49-9163-080b96f54bff
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR_PREVIOUS.'Date Range'
+	toColumn: LocalDateTable_b5841ffa-cf3f-4099-9b21-a1667a1e67fb.Date
+
+relationship 17f2c381-b4d7-43f7-a881-709df1bc31c4
+	crossFilteringBehavior: bothDirections
+	fromColumn: V_PBI_DISTRIPOST.DATE_YYYYMMDD
+	toColumn: DIM_CALENDAR_PREVIOUS.'Date YYYYMMDD'
+
+relationship 002c9162-8d9e-4c95-8143-ab2ed100b38a
+	crossFilteringBehavior: bothDirections
+	fromColumn: GDN_DIM_ENA_ACTUAL.KEY
+	toColumn: V_PBI_DISTRIPOST.KEY
+
+relationship 1ae0d957-98dd-4e3b-8b7a-2b67e2aa28b3
+	crossFilteringBehavior: bothDirections
+	fromColumn: FORECAST_PARCELS.KEY_FCST_PAK
+	toColumn: DISTRIPOST_IRN_PLANNED_AGG_PBI.KEY_DISTRIPOST
+
+relationship 40638353-90b5-497b-b007-b37f997dc98c
+	crossFilteringBehavior: bothDirections
+	fromColumn: FORECAST_PARCELS.DATE_YYYYMMDD
+	toColumn: DIM_CALENDAR_FUTUR.'Date YYYYMMDD'
+
+relationship d3cfd058-0003-427f-84f5-621a243d0954
+	crossFilteringBehavior: bothDirections
+	fromColumn: FORECAST_PARCELS.POSTAL_CODE
+	toColumn: DIM_REORG_VLT.POSTAL_CODE
+
+relationship 9d659207-12f9-43b6-8f51-792ffcd5eeaa
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FORECAST_PARCELS.'dateFormatted parcels forecast'
+	toColumn: LocalDateTable_d0f50a9c-eeb9-4bd5-97b7-6986de63df22.Date
+

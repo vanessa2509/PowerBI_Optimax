@@ -1,0 +1,218 @@
+table FACT_LAST_ORG
+	lineageTag: 1d2fd9b0-828d-42b4-b069-8dc2b910d2ef
+
+	column date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: 2305d791-2aa5-4bef-b6b9-b2f997f5de24
+		summarizeBy: none
+		sourceColumn: date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_id
+		dataType: int64
+		formatString: 0
+		lineageTag: fd957429-7708-4e49-bc0b-15d791a76a20
+		summarizeBy: none
+		sourceColumn: reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column postal_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 3913b4c2-2fa1-4af5-93d2-cf8174792709
+		summarizeBy: none
+		sourceColumn: postal_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_org_pak
+		dataType: double
+		lineageTag: 402f532b-279f-4906-87ab-c4257e1d6437
+		summarizeBy: none
+		sourceColumn: last_org_pak
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_prime
+		dataType: double
+		lineageTag: 881f35fa-0631-4aba-9eef-b3a60c539fce
+		summarizeBy: none
+		sourceColumn: last_org_prime
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_cubee
+		dataType: double
+		lineageTag: 33a5818f-c296-48fe-903e-1a3862ee8aaa
+		summarizeBy: none
+		sourceColumn: last_org_cubee
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_pugo
+		dataType: double
+		lineageTag: 835c1b4b-d8cc-496a-a91c-1d9a87844c10
+		summarizeBy: none
+		sourceColumn: last_org_pugo
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_ee
+		dataType: double
+		lineageTag: cd203d25-95ed-43e6-ad65-782bf5ef9f85
+		summarizeBy: none
+		sourceColumn: last_org_ee
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_ee_nbr
+		dataType: double
+		lineageTag: 70820261-5b66-411f-921d-31134360fc63
+		summarizeBy: none
+		sourceColumn: last_org_ee_nbr
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_fn
+		dataType: double
+		lineageTag: 100aa107-e087-469d-8609-136f1b793fe3
+		summarizeBy: none
+		sourceColumn: last_org_fn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_gf
+		dataType: double
+		lineageTag: 6f434f00-aaaf-4f43-95bc-681061c0c380
+		summarizeBy: none
+		sourceColumn: last_org_gf
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_ena
+		dataType: double
+		lineageTag: 86392987-7d57-4a55-8109-7fc878398549
+		summarizeBy: none
+		sourceColumn: last_org_ena
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column last_org_krant
+		dataType: double
+		lineageTag: 8ccb24e5-1488-4677-aa0f-5d5c94d804c1
+		summarizeBy: none
+		sourceColumn: last_org_krant
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fngf
+		dataType: double
+		lineageTag: 5ca58a54-1f1e-4051-b3b2-e01041741bae
+		summarizeBy: none
+		sourceColumn: fngf
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column flag_max_date
+		dataType: string
+		lineageTag: 918e6591-aab6-4556-b56e-e8bd7951e665
+		summarizeBy: none
+		sourceColumn: flag_max_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column master_reorg_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 2a74d039-0d37-4245-9515-50a19a6ecadd
+		summarizeBy: none
+		sourceColumn: master_reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column master_reorg_sd
+		dataType: int64
+		formatString: 0
+		lineageTag: fe613488-1fe6-43a6-92ad-02d6b107d835
+		summarizeBy: none
+		sourceColumn: master_reorg_sd
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_active_reorg
+		dataType: string
+		lineageTag: 0e69bc24-f05f-4f14-94ab-dbcf7ca496a2
+		summarizeBy: none
+		sourceColumn: flag_active_reorg
+
+		annotation SummarizationSetBy = Automatic
+
+	column cluster_age
+		dataType: int64
+		formatString: 0
+		lineageTag: da1e9a4d-4a51-437d-92b2-6b426d32dd20
+		summarizeBy: none
+		sourceColumn: cluster_age
+
+		annotation SummarizationSetBy = Automatic
+
+	column days
+		dataType: int64
+		formatString: 0
+		lineageTag: ffb2f9ed-168d-44f8-8a1d-2b58d88dc639
+		summarizeBy: none
+		sourceColumn: days
+
+		annotation SummarizationSetBy = Automatic
+
+	column key_hr_wlt
+		dataType: int64
+		formatString: 0
+		lineageTag: 53dee707-9774-469a-a40d-eb79454fe0f9
+		summarizeBy: none
+		sourceColumn: key_hr_wlt
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_LAST_ORG = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = AmazonRedshift.Database("rss-bi-pr-euwe01-gdn-wg-voleffcy.685561746385.eu-west-1.redshift-serverless.amazonaws.com","bi_voleffcy"),
+				    pbi_ved = Source{[Name="pbi_ved"]}[Data],
+				    optimax_hr_wlt3 = pbi_ved{[Name="optimax_tbl_last_org3"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(optimax_hr_wlt3, "key_hr_wlt", each Text.Combine({Text.From([date_yyyymmdd], "fr-BE"), Text.From([postal_code], "fr-BE")})),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Inserted Merged Column",{{"key_hr_wlt", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

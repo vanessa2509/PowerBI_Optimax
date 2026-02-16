@@ -1,0 +1,47 @@
+table Table1
+	lineageTag: 0c071034-efe3-4155-aa06-4f6049db0a0f
+
+	measure TooltipMarker_TL = ```
+			"View"
+			
+			```
+		lineageTag: 85ff66c4-b91a-4861-b7e0-4e135a545bb9
+
+	measure TooltipMaker_extract = "View"
+		lineageTag: 0d644674-59a5-47fe-9045-f122aec816dc
+
+	measure TooltipMaker_return = "View"
+		lineageTag: c907132b-ae89-49a9-b6b5-a9dda10b0f46
+
+	measure TooltipMaker_WLD1 = "View enlarge"
+		lineageTag: 584d0168-5f38-47e6-8441-e6e0be343ba4
+
+	measure TooltipMaker_WLD2 = "View enlarge View enlarge"
+		lineageTag: 7b1c1613-6522-4221-87ff-6bf6ccbdc932
+
+	measure TooltipMkaer_extract = "Pointez votre souris ici pour voir comment extraire les données lorsque vous en avez la possibilté"
+		lineageTag: d86b0099-0497-46b2-a861-e28445a8ea53
+
+	measure TooltipMaker_expert = "     "
+		lineageTag: e42e51b4-7916-4ddc-9342-4fef42ff665f
+
+	column Table1
+		dataType: string
+		lineageTag: c3459c75-813d-4710-9c61-23e1eb978fa0
+		summarizeBy: none
+		sourceColumn: Table1
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Table1 = m
+		mode: import
+		source =
+				let
+				    Source = ""
+				in
+				    Source
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

@@ -1,0 +1,218 @@
+table FACT_WLT_PAYMENT
+	lineageTag: 0d8f4027-14f6-4dfe-8c51-15cf19094bb7
+
+	measure MsPO_export =
+			
+			"PRT;" & "+" & UNICHAR(9) & FORMAT(SUM(FACT_WLT_PAYMENT[PO_CENTIMES]), "0") & ";+00"
+		lineageTag: 06ba5066-feaf-4d51-a42a-2b8f0fb122a9
+
+	column MASTER_REORG_ID
+		dataType: double
+		lineageTag: a9d029e3-958f-472a-9c4c-1794e32ed891
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 19db2b75-002e-495b-9dec-b4aa07692030
+		summarizeBy: count
+		sourceColumn: REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATE_YYYYMMDD
+		dataType: int64
+		lineageTag: 1bdc230e-bceb-42e8-ad92-e0625b3fa879
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: b891c6d9-64c7-4e71-b5ae-c88db019adb3
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPLID
+		dataType: string
+		lineageTag: f6dda64b-49f4-4b20-a3b6-5405013a81ba
+		summarizeBy: none
+		sourceColumn: EMPLID
+
+		annotation SummarizationSetBy = Automatic
+
+	column WLT_FN_GF
+		dataType: double
+		lineageTag: 4132b0b1-918f-4ee6-8bbe-1fc5d5ae293d
+		summarizeBy: sum
+		sourceColumn: WLT_FN_GF
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_ENA
+		dataType: double
+		lineageTag: 938f13aa-7207-4f4c-b15c-d4c50f906c0d
+		summarizeBy: sum
+		sourceColumn: WLT_ENA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_PAK
+		dataType: double
+		lineageTag: 1165edd6-171a-4ba7-8f6f-d1c4495770c4
+		summarizeBy: sum
+		sourceColumn: WLT_PAK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_EE
+		dataType: double
+		lineageTag: 4c1eb008-ad8d-4f4a-a41a-261f7387c6e5
+		summarizeBy: sum
+		sourceColumn: WLT_EE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_PRIME
+		dataType: double
+		lineageTag: 92bb683b-f9bd-4ba3-81b8-a0fab0c813f2
+		summarizeBy: sum
+		sourceColumn: WLT_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAYMENT_STATUS
+		dataType: string
+		lineageTag: 42a9ab90-0e4b-45d0-aaf5-8c9855b226a9
+		summarizeBy: none
+		sourceColumn: PAYMENT_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_REORG_HR
+		dataType: string
+		lineageTag: b171cf86-c89a-4bc0-a40d-a3ef315b3cdb
+		summarizeBy: none
+		sourceColumn: KEY_REORG_HR
+
+		annotation SummarizationSetBy = Automatic
+
+	column PO_CENTIMES = round( FACT_WLT_PAYMENT[WLT]*100, 0)
+		dataType: int64
+		lineageTag: 6cb88024-304c-4f5b-8eb2-85924773a28b
+		summarizeBy: sum
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PO_export = CONCATENATE(CONCATENATE("PRT;", CONCATENATE(CONCATENATE(CONCATENATE("+",UNICHAR(9)), FACT_WLT_PAYMENT[PO_CENTIMES]), ";+00_ ")),FACT_WLT_PAYMENT[Index])
+		lineageTag: 54d3050a-2d3c-4ceb-8b5d-854cf863f808
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column Index = RANKX(ALL(FACT_WLT_PAYMENT),FACT_WLT_PAYMENT[EMPLID],,ASC)
+		formatString: 0
+		lineageTag: 867445df-2603-4f1c-a19e-c1ade6447a0c
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column WLT
+		dataType: double
+		lineageTag: 794bb588-02b0-4620-8260-84323c064375
+		summarizeBy: sum
+		sourceColumn: WLT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_DV_BALANCE
+		dataType: double
+		lineageTag: b643a4b9-1c6b-4067-af8b-564a7ab0c6d9
+		summarizeBy: sum
+		sourceColumn: WLT_DV_BALANCE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_CORR
+		dataType: double
+		lineageTag: 6c6bd792-03dd-475c-b559-40ef6985bb75
+		summarizeBy: sum
+		sourceColumn: WLT_CORR
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Colonne
+		type: calculated
+		lineageTag: 9f3d467d-66af-4367-ba59-fa4ee30fc364
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	column LAST_SALARY_GRADE_CD
+		dataType: string
+		lineageTag: 68614bbf-cca9-48f4-bbbb-5fcaba765345
+		summarizeBy: none
+		sourceColumn: LAST_SALARY_GRADE_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_EMPLOYEE_CLASS
+		dataType: string
+		lineageTag: 983cf726-cf1e-40f0-9784-0cbd97ce15eb
+		summarizeBy: none
+		sourceColumn: LAST_EMPLOYEE_CLASS
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FACT_WLT_PAYMENT = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database("MM8P1", [HierarchicalNavigation=true]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    FACT_WLT_PAYMENT1 = LAB_SR5210{[Name="FACT_WLT_PAYMENT"]}[Data],
+				    #"Colonnes renommées" = Table.RenameColumns(FACT_WLT_PAYMENT1,{{"KEY_REORG_ID", "KEY_REORG_HR"}})
+				in
+				    #"Colonnes renommées"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

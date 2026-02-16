@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Forecast Parcels"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ec3cbe71-4b2e-8134-4574-523e1c76aa2a"
+  }
+}

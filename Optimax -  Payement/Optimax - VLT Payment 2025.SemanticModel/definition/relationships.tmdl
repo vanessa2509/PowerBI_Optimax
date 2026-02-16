@@ -1,0 +1,38 @@
+relationship c6cb2cd1-5998-4dd4-8487-665437dbf0f7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: OPTIMAX_DIM_CALENDAR.'Date Range'
+	toColumn: LocalDateTable_029595ee-cf47-4e65-a33c-6ce813c0b38c.Date
+
+relationship AutoDetected_c30e880b-cc80-4dce-bcf1-c549179f8fc0
+	fromColumn: FACT_WLT_PAYMENT.DATE_YYYYMMDD
+	toColumn: OPTIMAX_DIM_CALENDAR.'Date YYYYMMDD'
+
+relationship c1ade5e7-dedb-ab1e-a6e4-df6bae48321c
+	fromColumn: FACT_WLT_PAYMENT.EMPLID
+	toColumn: VLT_DIM_EMPLOYEE.HR_NUMBER
+
+relationship eaea654c-6d88-23a6-bf45-aad2b25f3d02
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: FACT_WLT_PAYMENT.MASTER_REORG_ID
+	toColumn: VLT_DIM_REORGANIZATION.MASTER_REORG_ID
+
+relationship 607c728a-f5b9-7e3d-596a-4ad1effc33c2
+	fromColumn: VLT_DIM_REORGANIZATION.REORG_START_DATE_YYYYMMDD
+	toColumn: OPTIMAX_DIM_CALENDAR.'Date YYYYMMDD'
+
+relationship 9da9c22d-fb3f-44fc-98ab-be3e438526ae
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VLT_DIM_REORGANIZATION.MSTER_REORG_START
+	toColumn: LocalDateTable_7cf769a3-dbb1-43bd-8662-3a4578093824.Date
+
+relationship 6c4c39b8-0ddf-4425-8439-3237cca0a1fd
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VLT_DIM_REORGANIZATION.REORG_START
+	toColumn: LocalDateTable_85bc92de-a172-4f2d-9843-ccc9d8f57ac3.Date
+
+relationship 22645424-f924-4f60-9a2a-c5acb20e6c00
+	joinOnDateBehavior: datePartOnly
+	fromColumn: VLT_DIM_REORGANIZATION.REORG_END
+	toColumn: LocalDateTable_e2d50599-d05e-499d-acd4-9a360eeffcd3.Date
+

@@ -1,0 +1,33 @@
+expression 'LAB_VLT341 CO6' = "MM6P1" meta [IsParameterQuery=true, List={"CO6A1", "MM6P1"}, DefaultValue="MM6P1", Type="Text", IsParameterQueryRequired=true]
+	lineageTag: d07b489d-1b83-4360-9055-6dad2eb41c8d
+	queryGroup: Parameter
+
+	annotation PBI_ResultType = Text
+
+expression PBI_VLT341_ONCE = "MM8P1" meta [IsParameterQuery=true, List={"CO8A1", "MM8P1", "CO8E3", "CO8D2"}, DefaultValue="MM8P1", Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 684da264-f9bb-4151-830b-73f580f1a30f
+	queryGroup: Parameter
+
+	annotation PBI_ResultType = Text
+
+/// E3 TEST
+expression PBI_VLT341_SECOND = "MM8P1" meta [IsParameterQuery=true, List={"CO8E3", "MM8P1", "CO8A1"}, DefaultValue="CO8E3", Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 28fc02f5-8061-42f7-83b6-989adfdefbc5
+	queryGroup: Parameter
+
+	annotation PBI_ResultType = Text
+
+expression CHECK_OPTIMAX_DATA_NAT =
+		let
+		    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+		    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+		    CHECK_OPTIMAX_DATA_NAT1 = PBI_VLT341{[Name="CHECK_OPTIMAX_DATA_NAT"]}[Data]
+		in
+		    CHECK_OPTIMAX_DATA_NAT1
+	lineageTag: 2659b1b0-338f-4a54-8f92-15770642d5f8
+	queryGroup: 'Check Optimax'
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+expression 'DirectQuery à AS – User_guide - Optimax_series (NL)' =
+		let
+		    Source = AnalysisServices.Database("powerbi://api.powerbi.com/v1.0/myorg/Optimax", "User_guide - Optimax_series (NL)"),
+		    Cubes = Table.Combine(Source[Data]),
+		    Cube = Cubes{[Id="Model", Kind="Cube"]}[Data]
+		in
+		    Cube
+	lineageTag: bde0d16b-1b07-4227-af1b-fddf6289c1a9
+
+	annotation PBI_IncludeFutureArtifacts = True
+

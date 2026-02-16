@@ -1,0 +1,31 @@
+model Model
+	culture: fr-FR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: fr-BE
+	maxParallelismPerRefresh: 6
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["FACT_WLT_PAYMENT","VLT_DIM_EMPLOYEE","OPTIMAX_DIM_CALENDAR","VLT_DIM_REORGANIZATION","FACT_WLT_PAYMENT_DIENST"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBIDesktopVersion = 2.142.928.0 (25.04)+de52df9f0bb74ad93a80d89c52d63fe6d07e0e1b
+
+annotation PBI_ProTooling = ["DaxQueryView_Desktop"]
+
+ref table FACT_WLT_PAYMENT
+ref table VLT_DIM_EMPLOYEE
+ref table OPTIMAX_DIM_CALENDAR
+ref table DateTableTemplate_f4766c92-bb92-49f9-a640-068cfc05412b
+ref table LocalDateTable_029595ee-cf47-4e65-a33c-6ce813c0b38c
+ref table VLT_DIM_REORGANIZATION
+ref table LocalDateTable_7cf769a3-dbb1-43bd-8662-3a4578093824
+ref table LocalDateTable_85bc92de-a172-4f2d-9843-ccc9d8f57ac3
+ref table LocalDateTable_e2d50599-d05e-499d-acd4-9a360eeffcd3
+ref table Mesures
+ref table FACT_WLT_PAYMENT_DIENST
+
+ref cultureInfo fr-FR
+

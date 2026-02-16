@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Optimax - VLT Payment 2025"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5449d5c9-2fce-bd5a-4f5c-032f44eaa177"
+  }
+}

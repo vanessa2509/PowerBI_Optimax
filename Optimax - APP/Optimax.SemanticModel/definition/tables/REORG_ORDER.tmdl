@@ -1,0 +1,104 @@
+table REORG_ORDER
+	lineageTag: bf0cd454-342e-479f-aadc-e42006f184de
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: d1bfe4fc-7a3c-4bc6-9dce-de4c06975f22
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 98aea04a-e73c-47bf-8a9d-6f6aff7b9c9b
+		summarizeBy: sum
+		sourceColumn: REORG_START_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_END_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 9a757f50-7df9-463e-a01a-772c852c4adb
+		summarizeBy: sum
+		sourceColumn: REORG_END_DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RANK_REORG
+		dataType: double
+		formatString: 0
+		lineageTag: a84398e4-187e-4b51-a8da-2fe9a58c052a
+		summarizeBy: none
+		sourceColumn: RANK_REORG
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column 'REORG END dateFormatted ORDER' = Date(Left([REORG_END_DATE_YYYYMMDD],4),Right(left([REORG_END_DATE_YYYYMMDD],6),2),right([REORG_END_DATE_YYYYMMDD],2))
+		formatString: Short Date
+		lineageTag: 9e29c115-0348-40d5-98b5-928b84d3a251
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 012ae442-4265-473b-bef8-6bc1efd0e4a5
+			defaultHierarchy: LocalDateTable_83a11ae4-ff95-403c-8c2f-5a6a74885c5a.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'REORG START dateFormatted ORDER' = Date(Left([REORG_START_DATE_YYYYMMDD],4),Right(left([REORG_START_DATE_YYYYMMDD],6),2),right([REORG_START_DATE_YYYYMMDD],2))
+		formatString: Short Date
+		lineageTag: 34d5fc51-a807-49e1-9c1b-780d2d265492
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 5ca2a31a-2c9e-4359-a45f-8d5e7b936907
+			defaultHierarchy: LocalDateTable_d9f6ea50-460d-4e76-baca-acbe865e11f6.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition REORG_ORDER-e2e14459-2479-4878-94ec-48bce9d7f8aa = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DIM_REORG_VLT1 = PBI_VLT341{[Name="VLT_DIM_REORGANIZATION"]}[Data],
+				    #"Removed Other Columns" = Table.SelectColumns(V_PBI_DIM_REORG_VLT1,{"POSTAL_CODE", "REORG_START_DATE_YYYYMMDD", "REORG_END_DATE_YYYYMMDD", "RANK_REORG"})
+				in
+				    #"Removed Other Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

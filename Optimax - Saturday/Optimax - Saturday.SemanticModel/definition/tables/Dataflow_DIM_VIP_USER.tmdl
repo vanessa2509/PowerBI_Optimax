@@ -1,0 +1,53 @@
+table Dataflow_DIM_VIP_USER
+	lineageTag: 30e99ebb-21b5-470e-b454-9e0cda05dec1
+
+	column USER_ID
+		dataType: string
+		lineageTag: 847a9aa0-0d77-489c-9b48-ebd7aa38e178
+		summarizeBy: none
+		sourceColumn: USER_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO_AC_ACCESS
+		dataType: double
+		lineageTag: 3de4ccf6-d080-4e0e-a919-33b82e97131c
+		summarizeBy: sum
+		sourceColumn: MO_AC_ACCESS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 17291e24-a76e-4f0d-b080-4b1bc43d3b28
+		summarizeBy: count
+		sourceColumn: REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Dataflow_DIM_VIP_USER-d592ef26-bf5b-41ba-a96a-442f1871fc50 = m
+		mode: import
+		queryGroup: DATAFLOW
+		source =
+				let
+				    Source = PowerBI.Dataflows(null),
+				    #"3fc69e10-87f3-4f6e-a6a2-829635ec09de" = Source{[workspaceId="3fc69e10-87f3-4f6e-a6a2-829635ec09de"]}[Data],
+				    #"c07d8f16-6d13-484f-9a3b-eec68ba7f432" = #"3fc69e10-87f3-4f6e-a6a2-829635ec09de"{[dataflowId="c07d8f16-6d13-484f-9a3b-eec68ba7f432"]}[Data],
+				    #"LAB_SR5210 DIM_USER_ACCESS" = #"c07d8f16-6d13-484f-9a3b-eec68ba7f432"{[entity="LAB_SR5210 DIM_USER_ACCESS"]}[Data]
+				in
+				    #"LAB_SR5210 DIM_USER_ACCESS"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

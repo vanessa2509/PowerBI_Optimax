@@ -1,0 +1,127 @@
+table VW_EOY_2025_PLA_2
+	lineageTag: 7134eecd-9245-41c5-a4a5-8d681dff6d7d
+
+	measure 'PLA_DURATION FTE' = CALCULATE(SUM(VW_EOY_2025_PLA_2[PLA_DURATION]) / 456)
+		lineageTag: 81077602-5a0f-4a42-b27d-9cc7ef87d82d
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TRAINING_DURATION FTE' = CALCULATE(SUM(VW_EOY_2025_PLA_2[TRAINING_DURATION]) / 456)
+		lineageTag: c1299ceb-bb55-4ebb-b7d0-d0ff625d9576
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'TRAINING_DURATION AVG FTE' = CALCULATE([TRAINING_DURATION FTE]) / DISTINCTCOUNT(VW_EOY_2025_PLA_2[DATE_YYYYMMDD])
+		lineageTag: e375f14b-7e44-42a6-8763-6b17415d8fa5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'PLA_DURATION AVG FTE' = CALCULATE([PLA_DURATION FTE]) / DISTINCTCOUNT(VW_EOY_2025_PLA_2[DATE_YYYYMMDD])
+		lineageTag: 28ac9caa-dd27-4a40-b746-36b813853245
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 1b55cb27-cc1c-4562-af4a-a5b120137d59
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: 90f8a5c7-ffbb-4c89-97bb-f0597c32eee8
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EMPLID
+		dataType: string
+		lineageTag: 84a35341-1b61-4956-ad96-7f6e147310ea
+		summarizeBy: none
+		sourceColumn: EMPLID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PLA_DURATION
+		dataType: double
+		lineageTag: 7c9a40c1-9ba1-4283-9689-cf1c0a8d9ae9
+		summarizeBy: sum
+		sourceColumn: PLA_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GOOD_WP_NAME
+		dataType: string
+		lineageTag: bc77f5ef-debc-4852-b895-effaf6f05a8b
+		summarizeBy: none
+		sourceColumn: GOOD_WP_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column KEY_2
+		dataType: string
+		lineageTag: e8c3dbbc-abd7-4ca3-abc0-1adbe439fa6a
+		summarizeBy: none
+		sourceColumn: KEY_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column TRAINING_DURATION
+		dataType: double
+		lineageTag: f777eccc-417a-45c3-9de9-61ce52bbf16f
+		summarizeBy: sum
+		sourceColumn: TRAINING_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DO
+		dataType: string
+		lineageTag: b07bd5d7-0205-46f8-b900-5c1014745d29
+		summarizeBy: none
+		sourceColumn: DO
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC
+		dataType: string
+		lineageTag: 768bade0-f7c3-4db5-bb27-b724caefb376
+		summarizeBy: none
+		sourceColumn: MC
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO
+		dataType: string
+		lineageTag: 807a705a-126c-486b-9217-67f8d99a738e
+		summarizeBy: none
+		sourceColumn: MO
+
+		annotation SummarizationSetBy = Automatic
+
+	partition VW_EOY_2025_PLA_2 = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true, CommandTimeout=#duration(0, 1, 30, 0)]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    VW_EOY_2025 = LAB_SR5210{[Name="VW_EOY_2025_PLA_2"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(VW_EOY_2025, "KEY_2", each Text.Combine({Text.From([DATE_YYYYMMDD], "fr-BE"), Text.From([POSTAL_CODE], "fr-BE"), [EMPLID]}), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

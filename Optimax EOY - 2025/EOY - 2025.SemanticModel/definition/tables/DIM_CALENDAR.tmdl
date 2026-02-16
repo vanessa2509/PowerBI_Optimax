@@ -1,0 +1,564 @@
+table DIM_CALENDAR
+	lineageTag: ceed0860-b0eb-4270-a07d-828169766f39
+	dataCategory: Time
+
+	measure Neutralization_date = CALCULATE(DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]),KNIME_NEUTRALIZATION[NEUTRALIZATION_FNGF]<>1)
+		formatString: 0
+		lineageTag: 3c2d3910-95b2-4dee-a16b-e6ee1c8cc647
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA' = MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD])
+		formatString: 0
+		lineageTag: 190d1f66-856b-42af-b937-7047fb8a92ca
+
+		changedProperty = IsHidden
+
+	measure Neutralization_date_KRANTEN = CALCULATE(DISTINCTCOUNT(FACT_HR_WLT[DATE_YYYYMMDD]),'KNIME_NEUTRALIZATION'[NEUTRALIZATION_KRANTEN]<>1)
+		formatString: 0
+		lineageTag: f86cfae6-d376-4566-8f5c-a2c2c2e432a5
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA NFGF' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]), FACT_HR_WLT[NB_FN]>1000)
+		formatString: 0
+		lineageTag: 5576c87e-756d-4fc7-ba60-aa251dab2c66
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA ENA' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]),FACT_HR_WLT[NB_ENA] <> 0)
+		formatString: 0
+		lineageTag: 84cf78f8-1a41-4b70-a565-107413c327e2
+
+		changedProperty = IsHidden
+
+	measure 'MAX ENA dateFormatted' = Date(Left([Max Date DATA ENA],4),Right(left([Max Date DATA ENA],6),2),right([Max Date DATA ENA],2))
+		formatString: Short Date
+		lineageTag: c1b72fd1-b918-4546-bfab-de9040f69243
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'MIN LAST ORG  Date DATA' = CALCULATE(MAX(DIM_REORG_VLT[MSTR_REORG_START_DATE_YYYYMMDD]), FACT_HR_WLT[IS_LAST_REORG] = "Y")
+		formatString: 0
+		lineageTag: 8817cd53-b66c-4669-839b-8becbf9f0dde
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA KRANTEN' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]),FACT_HR_WLT[NB_KRANT] <> 0)
+		formatString: 0
+		lineageTag: c1771b9f-6ce4-431c-a05f-b760daf0fe80
+
+		changedProperty = IsHidden
+
+	measure 'Max Workload' = MAXX(FACT_HR_WLT, [∑ Delta Vol (H)])
+		lineageTag: 45aed09d-6df5-4e7b-a41f-262dc556f205
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Measure 2'
+		lineageTag: 1cb96283-496e-4956-a7ff-ae1251578ac0
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Max Date DATA WORKLOAD' = CALCULATE(MAX(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD]), V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION] <>0)
+		lineageTag: 0c37767f-456e-4b1b-96cc-61595b270e15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PIC_KEY
+		dataType: string
+		lineageTag: c3e7a205-c99d-4280-9a96-26219affdf65
+		summarizeBy: none
+		sourceColumn: PIC_KEY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Quarter = CONCATENATE("Quarter ",'DIM_CALENDAR'[Quarter_])
+		lineageTag: 08b33350-b848-4eb6-b61b-4b759990ecb4
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_ = ```
+			FORMAT([Date Range],"yyyy-mmm") 
+			```
+		lineageTag: 688e498b-b208-4082-8866-a5bbceedb538
+		summarizeBy: none
+		sortByColumn: 'Month Year sort'
+
+		changedProperty = SortByColumn
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Week = DIM_CALENDAR[Year] & "-" & CONCATENATE("W",IF(LEN('DIM_CALENDAR'[Week Number ISO])=1,CONCATENATE("0",'DIM_CALENDAR'[Week Number ISO]),'DIM_CALENDAR'[Week Number ISO]))
+		lineageTag: 4bb212fe-99cb-455f-9bc5-9e348584b3a0
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date tooltip'
+		dataType: string
+		lineageTag: 72e91d06-b0c0-4830-a94c-7cbdcff9e7ba
+		summarizeBy: none
+		sourceColumn: Date tooltip
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FirstDayOfCurrentYear = MIN(DIM_REORG_VLT[REORG START dateFormatted])
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 685a89d5-f37b-4693-a526-08360d7d87cc
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IsInRange = IF('DIM_CALENDAR'[Date Range] >= 'DIM_CALENDAR'[FirstDayOfCurrentYear] && 'DIM_CALENDAR'[Date Range] <= TODAY(), TRUE(), FALSE())
+		lineageTag: 779be756-15e3-4a26-964d-d5ffec26efa9
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 9d490770-9548-41b3-adb9-bca6b78753f5
+		summarizeBy: none
+		sourceColumn: Day Name
+		sortByColumn: 'Day Number'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Range'
+		dataType: dateTime
+		isKey
+		formatString: Short Date
+		lineageTag: adca96b2-bfae-4d45-a824-c03a704f733e
+		summarizeBy: none
+		sourceColumn: Date Range
+		sortByColumn: 'Date YYYYMMDD'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Date YYYYMMDD'
+		dataType: int64
+		lineageTag: 9208d4f7-c370-4749-a755-e6fc7eca6dc0
+		summarizeBy: none
+		sourceColumn: Date YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Day Number'
+		dataType: int64
+		lineageTag: 176a9ad1-f067-4205-b7c7-74d19b6e5d8f
+		summarizeBy: sum
+		sourceColumn: Day Number
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year
+		dataType: int64
+		lineageTag: e120e7e7-0250-4d3a-b461-96ee91376bf2
+		summarizeBy: sum
+		sourceColumn: Year
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month Number'
+		dataType: int64
+		lineageTag: 2a43e410-2903-44f6-8731-f378bfdfc590
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Day
+		dataType: int64
+		lineageTag: a72af52e-2b4b-40bb-a993-d146c795c803
+		summarizeBy: sum
+		sourceColumn: Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month
+		dataType: int64
+		lineageTag: 14046545-c824-42be-8c00-c946b006fbb9
+		summarizeBy: sum
+		sourceColumn: Month
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quarter_
+		dataType: int64
+		lineageTag: a840776d-bc1b-4a9d-859c-fc23192eda45
+		summarizeBy: sum
+		sourceColumn: Quarter_
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Day Name EN'
+		dataType: string
+		lineageTag: 9aa50c8e-0f4a-4081-97f9-9c80e4f30a5f
+		summarizeBy: none
+		sourceColumn: Day Name EN
+		sortByColumn: 'Day Number'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: c3b7998a-5d50-4050-b95f-f15db34a5e81
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Legal Holiday'
+		dataType: string
+		lineageTag: fcc8b33d-2890-4dab-b29b-f07370ee785d
+		summarizeBy: none
+		sourceColumn: Legal Holiday
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Day'
+		dataType: string
+		lineageTag: 89b604b3-1313-4226-984e-fef0333cd6c9
+		summarizeBy: none
+		sourceColumn: Work Day
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Number ISO'
+		dataType: int64
+		lineageTag: a4122ef7-3c31-4489-92c1-13907e4bd259
+		summarizeBy: sum
+		sourceColumn: Week Number ISO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month Year' = ```
+			FORMAT([Date Range],"mmm-yyyy") 
+			```
+		lineageTag: 8c65e76a-2954-40f3-a76f-a0bdd15b8c92
+		summarizeBy: none
+		sortByColumn: 'Month Year sort'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year sort' = FORMAT([Date Range],"yyyymm")
+		lineageTag: cd3087d4-f701-410c-960c-d94801b3407e
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week sort' = DIM_CALENDAR[Month Year sort]& DIM_CALENDAR[Week Number ISO]
+		lineageTag: 080c30fd-b9eb-413f-87d2-d87d3b0dc6f3
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges = IF('DIM_CALENDAR'[Date YYYYMMDD] <= [Max Date DATA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fa22b8c1-f266-4ed8-95b7-9c2ba1b2c45a
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Covid = IF(DIM_CALENDAR[Month Year] = "mars-2020", "COVID",BLANK())
+		lineageTag: fda9c182-4b61-4d14-ad99-f44d55e7b625
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Info' = CONCATENATE(CONCATENATE(DIM_CALENDAR[Month Year], "   " ),DIM_CALENDAR[Covid])
+		lineageTag: 7b9300ad-76b1-40f7-87da-97c4e114f4c8
+		summarizeBy: none
+		sortByColumn: 'Month Year sort'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEK_NUMBER_YYYYWWW_ISO
+		dataType: string
+		lineageTag: 8bcce2e4-0c0c-49dc-a8e7-55b4b7b50994
+		summarizeBy: none
+		sourceColumn: WEEK_NUMBER_YYYYWWW_ISO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADAPTED_SERVICE_HOLIDAY
+		dataType: string
+		lineageTag: 4f3409a5-172a-4db7-a6ab-dc8815a352c6
+		summarizeBy: none
+		sourceColumn: ADAPTED_SERVICE_HOLIDAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name First  EN'
+		dataType: string
+		lineageTag: ea7b4aef-3db5-4796-93e2-698082f7650a
+		summarizeBy: none
+		sourceColumn: Day Name First  EN
+		sortByColumn: 'Day Number'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Year - value'
+		dataType: string
+		lineageTag: c0167e78-19ef-4e3e-843e-843fdcf446f6
+		summarizeBy: none
+		sourceColumn: Year - value
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX dateFormatted' = Date(Left([Max Date DATA],4),Right(left([Max Date DATA],6),2),right([Max Date DATA],2))
+		formatString: Short Date
+		lineageTag: 2b1a5803-a2cf-40be-8ed2-f4458a63c3ce
+		summarizeBy: none
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges_NFGF = IF (DIM_CALENDAR[MAX NFGF dateFormatted] < TODAY()  && ([#Avg_FNGF_REEL] <200000 ),FALSE(),TRUE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cfbfb9c8-403e-4fe7-aaaf-55735044c9c8
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges_ENA = IF('DIM_CALENDAR'[Date YYYYMMDD] <= [Max Date DATA ENA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 206d9886-8ebf-43de-bfef-e5e8bddb41e3
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX NFGF dateFormatted' = Date(Left([Max Date DATA NFGF],4),Right(left([Max Date DATA NFGF],6),2),right([Max Date DATA NFGF],2))
+		formatString: Short Date
+		lineageTag: 85cd0754-835c-4e3f-b0bb-e4c3f19c099f
+		summarizeBy: none
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX dateFormatted KRANTEN' = Date(Left([Max Date DATA KRANTEN],4),Right(left([Max Date DATA KRANTEN],6),2),right([Max Date DATA KRANTEN],2))
+		formatString: Short Date
+		lineageTag: 97b0fcf5-85b4-4c2a-8d36-adce1755b191
+		summarizeBy: none
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRangesORGA = IF('DIM_CALENDAR'[Date YYYYMMDD] >= [MIN LAST ORG  Date DATA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 62e85cae-a021-4514-9231-aa0e5e5de637
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX WORKLOAD dateFormatted' = Date(Left([Max Date DATA WORKLOAD],4),Right(left([Max Date DATA WORKLOAD],6),2),right([Max Date DATA WORKLOAD],2))
+		formatString: Short Date
+		lineageTag: ce11fe01-7f04-46b3-89ea-6e3bcf10baa1
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IsInRanges WORKLOAD' = IF('DIM_CALENDAR'[Date YYYYMMDD] <= [Max Date DATA WORKLOAD] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 12c9d49b-2daa-4285-ae86-37e56d58f147
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Year week day  sort' = FORMAT([Date Range],"yyyymmdd")
+		lineageTag: af39bf66-a638-42e6-91ee-81f3af9b9496
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column EOY_DATE
+		dataType: string
+		lineageTag: 8226135a-1b5b-4b06-8e05-725236265b11
+		summarizeBy: none
+		sourceColumn: EOY_DATE
+		sortByColumn: 'Date Range'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column NEUTRALIZED
+		dataType: string
+		lineageTag: 9d9c9ad5-4cd1-4f5c-912a-45ee71796302
+		summarizeBy: none
+		sourceColumn: NEUTRALIZED
+
+		annotation SummarizationSetBy = Automatic
+
+	column Yellow/Blue
+		dataType: string
+		lineageTag: a3578930-6e9e-4bae-933b-456251e166b0
+		summarizeBy: none
+		sourceColumn: Yellow/Blue
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Year Hierarchy - INFO'
+		lineageTag: 73a9029c-7b72-4efc-a577-5020e2cd559b
+
+		level Year
+			lineageTag: 786cbc6c-ff3a-4330-a5dc-f4615852b41a
+			column: Year
+
+		level 'Month Info'
+			lineageTag: f9ef2e7f-ba3a-4e54-968f-93381239e951
+			column: 'Month Info'
+
+		changedProperty = IsHidden
+
+	hierarchy Hierarchy
+		lineageTag: 2bc169ca-b2a9-47d5-bc50-416671c2e60a
+
+		level Year
+			lineageTag: 6e032f2d-6afa-421b-aa9d-5daf15e91c02
+			column: Year
+
+		level Quarter
+			lineageTag: ee3e11a4-bad9-481c-9571-9298f8bc2b03
+			column: Quarter
+
+		level Month_
+			lineageTag: a50a0020-3503-427f-88d6-8cad8360be7d
+			column: Month_
+
+		level Week
+			lineageTag: e06f95ec-2890-4647-88a7-cf032ba1a699
+			column: Week
+
+		level 'Date Range'
+			lineageTag: 1a33263b-9ee7-465f-b409-b0f3a560e769
+			column: 'Date Range'
+
+		changedProperty = IsHidden
+
+	partition DIM_CALENDAR-7dcf9b38-ccc5-42fc-bc4b-ed7c205591c9 = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true, CommandTimeout=#duration(0, 1, 30, 0)]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    OPTIMAX_DIM_CALENDAR = PBI_VLT341{[Name="OPTIMAX_DIM_CALENDAR"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(OPTIMAX_DIM_CALENDAR,{{"Week Number ISO", Int64.Type}, {"Quarter_", Int64.Type}, {"Month", Int64.Type}, {"Day", Int64.Type}, {"Month Number", Int64.Type}, {"Date YYYYMMDD", Int64.Type}, {"Day Number", Int64.Type}, {"Year", Int64.Type}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each [Date YYYYMMDD] > 20210101),
+				    #"Inserted First Characters" = Table.AddColumn(#"Filtered Rows", "Day Name First  EN", each Text.Start([Day Name EN], 2), type text),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Inserted First Characters", "Year", "Year - Copy"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Duplicated Column",{{"Year - Copy", "Year - value"}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Renamed Columns",{{"Year - value", type text}, {"Date Range", type date}}),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Changed Type1",{{"WEEKEND_EOY", "EOY_DATE"}})
+				in
+				    #"Renamed Columns1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Exception
+
+	annotation PBI_NavigationStepName = Navigation
+

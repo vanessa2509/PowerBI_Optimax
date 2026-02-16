@@ -1,0 +1,192 @@
+table OPTIMAX_DIM_CALENDAR
+	lineageTag: f0019a8d-7beb-4d60-8cec-ab1dc7e8bc15
+
+	column PIC_KEY
+		dataType: string
+		lineageTag: 3096631e-d771-4731-b2aa-1c6c1f9bafae
+		summarizeBy: none
+		sourceColumn: PIC_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Day Name'
+		dataType: string
+		lineageTag: 4a9bc6bf-5572-488c-8991-c14dfde7df9e
+		summarizeBy: none
+		sourceColumn: Day Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date tooltip'
+		dataType: string
+		lineageTag: a9a2def0-2989-4c21-b16b-a89813abbdf7
+		summarizeBy: none
+		sourceColumn: Date tooltip
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date Range'
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 901a0f9e-a00b-45cc-8cd2-f101be2b7fe7
+		summarizeBy: none
+		sourceColumn: Date Range
+
+		variation Variation
+			isDefault
+			relationship: c6cb2cd1-5998-4dd4-8487-665437dbf0f7
+			defaultHierarchy: LocalDateTable_029595ee-cf47-4e65-a33c-6ce813c0b38c.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Date YYYYMMDD'
+		dataType: double
+		lineageTag: 5c2541b1-9441-48db-8914-8baf77261e6a
+		summarizeBy: none
+		sourceColumn: Date YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Day Number'
+		dataType: double
+		lineageTag: b7bd3d97-53c9-439e-a8ed-c18387cbe3fd
+		summarizeBy: sum
+		sourceColumn: Day Number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Year
+		dataType: double
+		lineageTag: cab677ef-797b-4455-8c4b-dcb6a3978fd7
+		summarizeBy: sum
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Month Number'
+		dataType: double
+		lineageTag: 3fe1f6f8-1a44-4713-9ce0-db4da38afe61
+		summarizeBy: sum
+		sourceColumn: Month Number
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Day
+		dataType: double
+		lineageTag: 231d42d7-19f5-453c-b50d-34e7ffda420f
+		summarizeBy: sum
+		sourceColumn: Day
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month
+		dataType: double
+		lineageTag: 17bb57e5-f6d3-4687-8068-73f42f471537
+		summarizeBy: sum
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Quarter_
+		dataType: double
+		lineageTag: 4bc519e1-dadd-4e85-9d86-98288e6bf8c1
+		summarizeBy: sum
+		sourceColumn: Quarter_
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'Day Name EN'
+		dataType: string
+		lineageTag: d1385648-874f-4d7d-8ebf-bfc1f362ad59
+		summarizeBy: none
+		sourceColumn: Day Name EN
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Month Name'
+		dataType: string
+		lineageTag: 5685aea6-dbc0-41db-b8f2-170567f756b3
+		summarizeBy: none
+		sourceColumn: Month Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Legal Holiday'
+		dataType: string
+		lineageTag: 5867bde4-9c90-4f01-b1d4-cb56b71b8e2e
+		summarizeBy: none
+		sourceColumn: Legal Holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Work Day'
+		dataType: string
+		lineageTag: 7d70089a-634c-4d4f-bc3a-3bfea4a1af7e
+		summarizeBy: none
+		sourceColumn: Work Day
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Week Number ISO'
+		dataType: double
+		lineageTag: 4eb67ac2-98c6-4efd-91e7-27fda0b9de5f
+		summarizeBy: sum
+		sourceColumn: Week Number ISO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WEEK_NUMBER_YYYYWWW_ISO
+		dataType: string
+		lineageTag: d7314a35-29f2-4edb-83fb-14ee8f608a46
+		summarizeBy: none
+		sourceColumn: WEEK_NUMBER_YYYYWWW_ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column ADAPTED_SERVICE_HOLIDAY
+		dataType: string
+		lineageTag: e8490ccc-ab78-4d7a-a7ba-6a06036a2fd0
+		summarizeBy: none
+		sourceColumn: ADAPTED_SERVICE_HOLIDAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column WEEKEND_EOY
+		dataType: string
+		lineageTag: fb73397d-677a-42fd-9abd-3d55c9a9df0e
+		summarizeBy: none
+		sourceColumn: WEEKEND_EOY
+
+		annotation SummarizationSetBy = Automatic
+
+	partition OPTIMAX_DIM_CALENDAR = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database("MM8P1", [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    OPTIMAX_DIM_CALENDAR1 = PBI_VLT341{[Name="OPTIMAX_DIM_CALENDAR"]}[Data],
+				    #"Lignes filtrées" = Table.SelectRows(OPTIMAX_DIM_CALENDAR1, each [Date YYYYMMDD] >= 20200101)
+				in
+				    #"Lignes filtrées"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

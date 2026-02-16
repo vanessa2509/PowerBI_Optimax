@@ -1,0 +1,46 @@
+table V_PBI_PRS_ACCOUNT_ID_FUTUR
+	lineageTag: 4843ec9f-d391-4ea9-a836-550af8d61e3e
+
+	column ULTIMATE_PRS_ID
+		dataType: string
+		lineageTag: 171e12ab-a43c-4fab-9de8-bfef79e6e0c5
+		summarizeBy: none
+		sourceColumn: ULTIMATE_PRS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRS_ID
+		dataType: string
+		lineageTag: 873ddd36-622a-47dc-b920-8660a3258946
+		summarizeBy: none
+		sourceColumn: PRS_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACCOUNT_NAME
+		dataType: string
+		lineageTag: 07147f15-7690-4ccb-969f-f15239221413
+		summarizeBy: none
+		sourceColumn: ACCOUNT_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PRS_ACCOUNT_ID_FUTUR-38ed8e32-b31a-4be1-ab2a-306d3c3217b1 = m
+		mode: import
+		queryGroup: 'Forecast Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_SECOND, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PRS_ACCOUNT_ID1 = PBI_VLT341{[Name="DISTRIPOST_PRS_ACCOUNT_ID"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(V_PBI_PRS_ACCOUNT_ID1, each ([PRS_ID] <> null)),
+				    #"Removed Duplicates" = Table.Distinct(#"Filtered Rows", {"PRS_ID"}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Removed Duplicates","geen",null,Replacer.ReplaceValue,{"PRS_ID"}),
+				    #"Removed Duplicates1" = Table.Distinct(#"Replaced Value", {"PRS_ID"})
+				in
+				    #"Removed Duplicates1"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

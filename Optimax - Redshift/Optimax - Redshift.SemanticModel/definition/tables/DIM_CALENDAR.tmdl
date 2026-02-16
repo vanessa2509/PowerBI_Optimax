@@ -1,0 +1,911 @@
+table DIM_CALENDAR
+	lineageTag: ceed0860-b0eb-4270-a07d-828169766f39
+
+	measure 'Max Date DATA' = MAX(FACT_HR_WLT[DATE_YYYYMMDD])
+		formatString: 0
+		lineageTag: 190d1f66-856b-42af-b937-7047fb8a92ca
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA NFGF' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]), FACT_HR_WLT[NB_FN]>1000)
+		formatString: 0
+		lineageTag: 5576c87e-756d-4fc7-ba60-aa251dab2c66
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA ENA' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]),FACT_HR_WLT[NB_ENA] <> 0)
+		formatString: 0
+		lineageTag: 84cf78f8-1a41-4b70-a565-107413c327e2
+
+		changedProperty = IsHidden
+
+	measure 'MAX ENA dateFormatted' = Date(Left([Max Date DATA ENA],4),Right(left([Max Date DATA ENA],6),2),right([Max Date DATA ENA],2))
+		formatString: Short Date
+		lineageTag: c1b72fd1-b918-4546-bfab-de9040f69243
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA KRANTEN' = CALCULATE(MAX(FACT_HR_OFFICE_DAILY[DATE_YYYYMMDD]),FACT_HR_WLT[nb_kranten] <> 0)
+		formatString: 0
+		lineageTag: c1771b9f-6ce4-431c-a05f-b760daf0fe80
+
+		changedProperty = IsHidden
+
+	measure 'Max Date DATA WORKLOAD' = CALCULATE(MAX(V_PBI_HR_OFFICE_SERVICES[DATE_YYYYMMDD]), V_PBI_HR_OFFICE_SERVICES[ASSURED_DURATION] <>0)
+		lineageTag: 0c37767f-456e-4b1b-96cc-61595b270e15
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FirstDayOfCurrentYear = MIN(DIM_REORG_VLT[REORG START dateFormatted])
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: 685a89d5-f37b-4693-a526-08360d7d87cc
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: c6758deb-0525-4e70-9f76-71d376c8ab67
+			defaultHierarchy: LocalDateTable_f1c9e139-b0ea-43c4-b7be-77fc014830be.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column IsInRange = IF('DIM_CALENDAR'[day_date] >= 'DIM_CALENDAR'[FirstDayOfCurrentYear] && 'DIM_CALENDAR'[day_date] <= TODAY(), TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 779be756-15e3-4a26-964d-d5ffec26efa9
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges = IF('DIM_CALENDAR'[date_yyyymmdd] <= [Max Date DATA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: fa22b8c1-f266-4ed8-95b7-9c2ba1b2c45a
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX dateFormatted' = Date(Left([Max Date DATA],4),Right(left([Max Date DATA],6),2),right([Max Date DATA],2))
+		formatString: Short Date
+		lineageTag: 2b1a5803-a2cf-40be-8ed2-f4458a63c3ce
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 429c55c5-87b0-4248-8847-e85d17650f48
+			defaultHierarchy: LocalDateTable_15960f57-ff58-4b83-b3c8-19086dd7f21b.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges_NFGF = IF (DIM_CALENDAR[MAX NFGF dateFormatted] < TODAY()  && ([#Avg_FNGF_REAL] <200000 ),FALSE(),TRUE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: cfbfb9c8-403e-4fe7-aaaf-55735044c9c8
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRanges_ENA = IF('DIM_CALENDAR'[Date YYYYMMDD] <= [Max Date DATA ENA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 206d9886-8ebf-43de-bfef-e5e8bddb41e3
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX NFGF dateFormatted' = Date(Left([Max Date DATA NFGF],4),Right(left([Max Date DATA NFGF],6),2),right([Max Date DATA NFGF],2))
+		formatString: Short Date
+		lineageTag: 85cd0754-835c-4e3f-b0bb-e4c3f19c099f
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: afe990cf-a204-48ea-a8a2-11cc54270cd5
+			defaultHierarchy: LocalDateTable_eefe01e9-892e-4fad-b6ea-cab86caa1778.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'MAX dateFormatted KRANTEN' = Date(Left([Max Date DATA KRANTEN],4),Right(left([Max Date DATA KRANTEN],6),2),right([Max Date DATA KRANTEN],2))
+		formatString: Short Date
+		lineageTag: 97b0fcf5-85b4-4c2a-8d36-adce1755b191
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: 464ce6b2-503c-42b8-9684-d4011bb89fea
+			defaultHierarchy: LocalDateTable_a536b3f1-dfb9-4259-ad65-0470b71443f6.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column IsInRangesORGA = IF('DIM_CALENDAR'[Date YYYYMMDD] >= [MIN LAST ORG  Date DATA] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 62e85cae-a021-4514-9231-aa0e5e5de637
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IsInRanges WORKLOAD' = IF('DIM_CALENDAR'[Date YYYYMMDD] <= [Max Date DATA WORKLOAD] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 12c9d49b-2daa-4285-ae86-37e56d58f147
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_date
+		dataType: dateTime
+		formatString: Short Date
+		lineageTag: bd9190f3-01eb-4620-bce6-d0759aa10e5f
+		summarizeBy: none
+		sourceColumn: day_date
+		sortByColumn: date_yyyymmdd
+
+		variation Variation
+			isDefault
+			relationship: bddf9159-4031-4083-afb0-a841a3c6558b
+			defaultHierarchy: LocalDateTable_8406e4a5-314b-49fc-85f8-d7dde55f7cf1.'Hiérarchie de dates'
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column year_yyyy
+		dataType: int64
+		formatString: 0
+		lineageTag: 0bfddc7b-4cf0-4ed0-b697-1f9a46124717
+		summarizeBy: sum
+		sourceColumn: year_yyyy
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_mm
+		dataType: int64
+		formatString: 0
+		lineageTag: 28704eab-c386-480f-9efb-f7db68011dd7
+		summarizeBy: sum
+		sourceColumn: month_mm
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_yyyymm
+		dataType: int64
+		formatString: 0
+		lineageTag: 406b5e68-6b78-4c07-9b94-951f54f5e1bc
+		summarizeBy: sum
+		sourceColumn: month_yyyymm
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_number_of_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 67f988f0-01c9-4cab-899c-eeee07226ce1
+		summarizeBy: sum
+		sourceColumn: month_number_of_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_description_nl
+		dataType: string
+		lineageTag: c1a5b3f7-c1fe-4f68-ac53-af010b3b2325
+		summarizeBy: none
+		sourceColumn: month_description_nl
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_description_en
+		dataType: string
+		lineageTag: 9a4977a8-e1b2-4350-bdb9-ab0986213134
+		summarizeBy: none
+		sourceColumn: month_description_en
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_description_de
+		dataType: string
+		lineageTag: 2845e352-e878-479c-949f-ba13d53457f2
+		summarizeBy: none
+		sourceColumn: month_description_de
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_dd
+		dataType: int64
+		formatString: 0
+		lineageTag: c2b38718-9557-4bba-b09d-ff9016d64f26
+		summarizeBy: sum
+		sourceColumn: day_dd
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_in_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 098d1122-7a80-41a4-859f-61aea28988d4
+		summarizeBy: sum
+		sourceColumn: day_in_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_in_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 9be388da-475b-4190-951d-086e5bc57739
+		summarizeBy: sum
+		sourceColumn: day_in_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_description_nl
+		dataType: string
+		lineageTag: b74c1842-d0e1-4ec5-be56-6c22343c7dc4
+		summarizeBy: none
+		sourceColumn: day_description_nl
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_description_en
+		dataType: string
+		lineageTag: a7c65898-b6a0-4303-8115-47d115fe5c1e
+		summarizeBy: none
+		sourceColumn: day_description_en
+		sortByColumn: day_in_week
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_description_de
+		dataType: string
+		lineageTag: 6e3bc5a2-8b2e-487e-aa4d-e3b066d06c7b
+		summarizeBy: none
+		sourceColumn: day_description_de
+
+		annotation SummarizationSetBy = Automatic
+
+	column semester
+		dataType: int64
+		formatString: 0
+		lineageTag: b12b63af-e2e6-4e6e-8e40-49c73344d1e2
+		summarizeBy: sum
+		sourceColumn: semester
+
+		annotation SummarizationSetBy = Automatic
+
+	column semester_yyyyss
+		dataType: string
+		lineageTag: ee371913-46c8-4a39-b139-de58e70491ad
+		summarizeBy: none
+		sourceColumn: semester_yyyyss
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: f5299c03-4fa8-40c2-b303-2dee658edcb7
+		summarizeBy: sum
+		sourceColumn: quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column quarter_yyyyqq
+		dataType: string
+		lineageTag: 2eb23149-5d79-4917-a0e5-da49e26c4eeb
+		summarizeBy: none
+		sourceColumn: quarter_yyyyqq
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_number_iso
+		dataType: int64
+		formatString: 0
+		lineageTag: 105782f4-28cf-47f4-ad42-a515e540adc2
+		summarizeBy: sum
+		sourceColumn: week_number_iso
+
+		annotation SummarizationSetBy = Automatic
+
+	column week_number_yyyywww_iso
+		dataType: string
+		lineageTag: 0d54d36d-7f93-4500-8a34-7ad5c7bfba2b
+		summarizeBy: none
+		sourceColumn: week_number_yyyywww_iso
+
+		annotation SummarizationSetBy = Automatic
+
+	column weekend
+		dataType: string
+		lineageTag: 1274596d-a777-4f99-9a3d-b736b5b3a8a1
+		summarizeBy: none
+		sourceColumn: weekend
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_year
+		dataType: int64
+		formatString: 0
+		lineageTag: 04519350-daeb-4a4e-95e5-55158b0cbb44
+		summarizeBy: sum
+		sourceColumn: rel_idx_year
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_semester
+		dataType: int64
+		formatString: 0
+		lineageTag: 53808a3b-cb65-4237-adc4-7ff95b3b535d
+		summarizeBy: sum
+		sourceColumn: rel_idx_semester
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_quarter
+		dataType: int64
+		formatString: 0
+		lineageTag: 3a0886a4-fdac-4e66-8c4c-00b542a23444
+		summarizeBy: sum
+		sourceColumn: rel_idx_quarter
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 1ecab442-5302-4a61-a29d-1250c8e881e1
+		summarizeBy: sum
+		sourceColumn: rel_idx_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_week
+		dataType: int64
+		formatString: 0
+		lineageTag: 52556160-e77c-4ed2-ad01-54f2c04cff37
+		summarizeBy: sum
+		sourceColumn: rel_idx_week
+
+		annotation SummarizationSetBy = Automatic
+
+	column rel_idx_day
+		dataType: int64
+		formatString: 0
+		lineageTag: f26798fe-4baa-4f38-9b4d-374fac6bd566
+		summarizeBy: sum
+		sourceColumn: rel_idx_day
+
+		annotation SummarizationSetBy = Automatic
+
+	column julian_date
+		dataType: int64
+		formatString: 0
+		lineageTag: 110eb61f-df20-4e5c-bad1-f3d3bd90827c
+		summarizeBy: sum
+		sourceColumn: julian_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column process_name
+		dataType: string
+		lineageTag: 8d907e57-383a-415f-b0f9-c9691ac4bb88
+		summarizeBy: none
+		sourceColumn: process_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column etl_cycle
+		dataType: int64
+		formatString: 0
+		lineageTag: f0daa212-a90d-486a-bfa7-32fa53d22f1c
+		summarizeBy: sum
+		sourceColumn: etl_cycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updt_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: f183fbc8-8c6f-4755-80db-0dff473c06ff
+		summarizeBy: none
+		sourceColumn: last_updt_dt
+
+		variation Variation
+			isDefault
+			relationship: 8bc8e981-92d3-44d1-b536-51a66ed2f335
+			defaultHierarchy: LocalDateTable_aef8a762-f15e-4518-bf06-ed081635ac2d.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column crea_dt
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: e825b779-c6b3-4f6f-9ea3-26024a7503a6
+		summarizeBy: none
+		sourceColumn: crea_dt
+
+		variation Variation
+			isDefault
+			relationship: 947c4170-573e-4d82-ae8e-87807a9dc3c2
+			defaultHierarchy: LocalDateTable_958d67bd-d0d3-4dce-96a3-ce28c9ce9a03.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column distribution_holiday
+		dataType: string
+		lineageTag: 92ab244c-5363-41a7-a510-998c109f5ff6
+		summarizeBy: none
+		sourceColumn: distribution_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column exptnl_dstrbtn_flg
+		dataType: string
+		lineageTag: fd6f650d-5fe0-4509-a071-31224811bf1f
+		summarizeBy: none
+		sourceColumn: exptnl_dstrbtn_flg
+
+		annotation SummarizationSetBy = Automatic
+
+	column legal_holiday
+		dataType: string
+		lineageTag: 3f993c88-bb46-4bdb-aa49-477261f57bbc
+		summarizeBy: none
+		sourceColumn: legal_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column bpost_hr_holiday
+		dataType: string
+		lineageTag: 0ead38ca-04e3-4073-a987-7718a338767f
+		summarizeBy: none
+		sourceColumn: bpost_hr_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column bank_holiday
+		dataType: string
+		lineageTag: cd12ded1-beb5-4f89-a570-4353bfc10e3e
+		summarizeBy: none
+		sourceColumn: bank_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column wrk_days_exl_w
+		dataType: int64
+		formatString: 0
+		lineageTag: 14754b04-2518-43be-bac7-eb32d80c743e
+		summarizeBy: sum
+		sourceColumn: wrk_days_exl_w
+
+		annotation SummarizationSetBy = Automatic
+
+	column wrk_days_exl_w_lg
+		dataType: int64
+		formatString: 0
+		lineageTag: b8d7d762-d1c1-47b4-945a-3ff13e300de7
+		summarizeBy: sum
+		sourceColumn: wrk_days_exl_w_lg
+
+		annotation SummarizationSetBy = Automatic
+
+	column wrk_days_exl_w_bhr
+		dataType: int64
+		formatString: 0
+		lineageTag: c86643d2-916f-4830-a019-9238a12fa4c2
+		summarizeBy: sum
+		sourceColumn: wrk_days_exl_w_bhr
+
+		annotation SummarizationSetBy = Automatic
+
+	column wrk_days_exl_w_lg_bhr
+		dataType: int64
+		formatString: 0
+		lineageTag: bdee495e-b95d-4afe-95b7-6731b9f71da7
+		summarizeBy: sum
+		sourceColumn: wrk_days_exl_w_lg_bhr
+
+		annotation SummarizationSetBy = Automatic
+
+	column mnth_nbr_of_wrkng_days
+		dataType: int64
+		formatString: 0
+		lineageTag: 6a8f49c6-b11a-4304-b3d6-dad8895db156
+		summarizeBy: sum
+		sourceColumn: mnth_nbr_of_wrkng_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column prior_dstrbtn_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 4e1f7208-3eb7-46b7-8a81-dedc3112b508
+		summarizeBy: none
+		sourceColumn: prior_dstrbtn_date
+
+		variation Variation
+			isDefault
+			relationship: 3a002019-b599-416f-b7fc-85883447df35
+			defaultHierarchy: LocalDateTable_3be2caec-6aab-4966-91ad-83cfcd4072fc.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column prior_dstrbtn_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: c3fc03f2-e8b8-4504-b1c3-532b354f48fd
+		summarizeBy: sum
+		sourceColumn: prior_dstrbtn_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_wrk_day_exl_wknd_lh
+		dataType: string
+		lineageTag: b2099a44-47fa-47b4-a975-3da45baece3f
+		summarizeBy: none
+		sourceColumn: is_wrk_day_exl_wknd_lh
+
+		annotation SummarizationSetBy = Automatic
+
+	column prv_wrk_date_exl_wknd_lh
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 3acb174c-27a0-4fc4-a389-ed57dc0ea7af
+		summarizeBy: none
+		sourceColumn: prv_wrk_date_exl_wknd_lh
+
+		variation Variation
+			isDefault
+			relationship: 0a10b9af-ed6d-4ea2-b96a-1c4430c63f25
+			defaultHierarchy: LocalDateTable_715b4f0d-32d7-4b19-860f-6dc8f0ee4735.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column prv_wrk_yyyymmdd_exl_wknd_lh
+		dataType: int64
+		formatString: 0
+		lineageTag: 3ed1c7c3-9cd6-487c-b67c-118ad28894a2
+		summarizeBy: sum
+		sourceColumn: prv_wrk_yyyymmdd_exl_wknd_lh
+
+		annotation SummarizationSetBy = Automatic
+
+	column nxt_wrk_date_exl_wknd_lh
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 2e51d8da-4f69-40fc-99b4-d2c93b7b4bbc
+		summarizeBy: none
+		sourceColumn: nxt_wrk_date_exl_wknd_lh
+
+		variation Variation
+			isDefault
+			relationship: 7e44d3cc-0216-4ea1-b628-1f0f8a8344c3
+			defaultHierarchy: LocalDateTable_7ebfd98e-4ab6-42da-9708-af328172227a.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column nxt_wrk_yyyymmdd_exl_wknd_lh
+		dataType: int64
+		formatString: 0
+		lineageTag: 09006543-3323-48ba-bcd1-1cd86dc20852
+		summarizeBy: sum
+		sourceColumn: nxt_wrk_yyyymmdd_exl_wknd_lh
+
+		annotation SummarizationSetBy = Automatic
+
+	column adapted_service_holiday
+		dataType: string
+		lineageTag: 0cf276b5-ca32-4983-8605-982edef4e1d1
+		summarizeBy: none
+		sourceColumn: adapted_service_holiday
+
+		annotation SummarizationSetBy = Automatic
+
+	column wrk_days_exl_w_lg_as
+		dataType: int64
+		formatString: 0
+		lineageTag: fc12d9a1-215e-4071-8442-59e11ed5e022
+		summarizeBy: sum
+		sourceColumn: wrk_days_exl_w_lg_as
+
+		annotation SummarizationSetBy = Automatic
+
+	column flag_lp
+		dataType: string
+		lineageTag: ec98e090-43bf-4032-ab75-aff4761e89a6
+		summarizeBy: none
+		sourceColumn: flag_lp
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: 85b74db3-9438-4ca9-ac41-1aff9f9d01ad
+		summarizeBy: none
+		sourceColumn: date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_description_fr
+		dataType: string
+		lineageTag: a068ebef-7b5b-4ddd-87df-ed3846beb890
+		summarizeBy: none
+		sourceColumn: day_description_fr
+
+		annotation SummarizationSetBy = Automatic
+
+	column day_of_month
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ffe214a-e49a-4339-a0f0-1b95fd61ffce
+		summarizeBy: sum
+		sourceColumn: day_of_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month
+		dataType: int64
+		formatString: 0
+		lineageTag: 4945e0e5-8ed3-413a-9783-793ec790411f
+		summarizeBy: sum
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column year
+		dataType: int64
+		formatString: 0
+		lineageTag: bc9e261f-1351-485b-8e38-b1e8dbe2433e
+		summarizeBy: sum
+		sourceColumn: year
+
+		annotation SummarizationSetBy = Automatic
+
+	column profile
+		dataType: string
+		lineageTag: e9f6a3e2-ea30-465c-a208-c19af51e0c9f
+		summarizeBy: none
+		sourceColumn: profile
+
+		annotation SummarizationSetBy = Automatic
+
+	column rolling_order
+		dataType: int64
+		formatString: 0
+		lineageTag: 5f857bc9-644d-4502-b300-3da6370cb006
+		summarizeBy: sum
+		sourceColumn: rolling_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column print_label_fr
+		dataType: string
+		lineageTag: 0d382399-b292-42f0-b9de-4e67a96b7ef7
+		summarizeBy: none
+		sourceColumn: print_label_fr
+
+		annotation SummarizationSetBy = Automatic
+
+	column print_label_nl
+		dataType: string
+		lineageTag: fa0388c9-9a3f-4481-bf13-13c3acd602ff
+		summarizeBy: none
+		sourceColumn: print_label_nl
+
+		annotation SummarizationSetBy = Automatic
+
+	column rolling_calendar_from
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 6fe52998-17d0-45ec-b959-5411c1dd4301
+		summarizeBy: none
+		sourceColumn: rolling_calendar_from
+
+		variation Variation
+			isDefault
+			relationship: 17d90966-785d-43a9-834c-381aa39cccf0
+			defaultHierarchy: LocalDateTable_b5149494-419b-4423-8a51-c049474bb329.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column rolling_calendar_till
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 8f727874-c89c-4187-8b70-3cc3b13aa6a8
+		summarizeBy: none
+		sourceColumn: rolling_calendar_till
+
+		variation Variation
+			isDefault
+			relationship: 8092aa44-f056-46a2-b6c6-131d7093fb9d
+			defaultHierarchy: LocalDateTable_d55fa128-4aa0-4237-9096-0682e91c4fff.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column exec_profile_valid_from
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: cc3760bc-7b15-4a33-859e-30fb1ef1e93a
+		summarizeBy: none
+		sourceColumn: exec_profile_valid_from
+
+		variation Variation
+			isDefault
+			relationship: 65a2e8dd-13dd-4218-93cd-9fe58fecc5fe
+			defaultHierarchy: LocalDateTable_7a727a50-0d36-4cf6-b263-2c551b494287.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column exec_profile_valid_till
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 69f21192-a265-493d-ab38-616cd4a336e1
+		summarizeBy: none
+		sourceColumn: exec_profile_valid_till
+
+		variation Variation
+			isDefault
+			relationship: 13616f3d-a526-469f-bacf-25579a3bfabc
+			defaultHierarchy: LocalDateTable_44c67020-f965-46ec-897e-82434ccb7f69.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column exec_profile_desc
+		dataType: string
+		lineageTag: 714437c1-e447-4ca7-9508-1ca300724515
+		summarizeBy: none
+		sourceColumn: exec_profile_desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column exec_profile_type_desc
+		dataType: string
+		lineageTag: a987664f-7961-40be-b9da-40c55e883488
+		summarizeBy: none
+		sourceColumn: exec_profile_type_desc
+
+		annotation SummarizationSetBy = Automatic
+
+	column info
+		dataType: string
+		lineageTag: b277cde7-03b4-483e-9ccd-bbd5231ecbbb
+		summarizeBy: none
+		sourceColumn: info
+
+		annotation SummarizationSetBy = Automatic
+
+	column days_colors
+		dataType: string
+		lineageTag: ea1f2852-75c5-4663-bd4b-be3b0b717d2f
+		summarizeBy: none
+		sourceColumn: days_colors
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hier. Week' = ```
+			
+			dim_calendar[year_yyyy] & "-W" & 
+			IF(
+			    LEN(dim_calendar[week_number_iso]) = 1,
+			    "0" & dim_calendar[week_number_iso],
+			    dim_calendar[week_number_iso]
+			)
+			
+			```
+		lineageTag: 031f211b-9b86-4057-a9c6-1f6281de1395
+		summarizeBy: none
+		sortByColumn: week_number_iso
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hier. Month' = ```
+			FORMAT([day_date],"yyyy-mmm") 
+			```
+		lineageTag: 71b34270-634c-48b9-bf6d-d499576ad04d
+		summarizeBy: none
+		sortByColumn: month_yyyymm
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Hier. Quarter' = CONCATENATE("Quarter ",'DIM_CALENDAR'[quarter])
+		lineageTag: b011e693-3307-4168-a549-7907579677c5
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'IsInRange Newspapers' = IF('DIM_CALENDAR'[date_yyyymmdd] <= [Max Date DATA KRANTEN] ,TRUE(), FALSE())
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 9ea8f302-759e-46b6-b38f-12a39d35b17b
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	hierarchy 'Hierarchy Optimax'
+		lineageTag: e6a88a9c-561a-47ac-9346-93c73c6a820b
+
+		level Years
+			lineageTag: a7568f21-4aaf-44ad-958c-3a975da1cbd2
+			column: year_yyyy
+
+		level Quarter
+			lineageTag: 632c4400-8bcb-43b6-abe8-fede108d5749
+			column: 'Hier. Quarter'
+
+		level Month
+			lineageTag: 849470e2-69ae-4863-ae9b-92462d0eed54
+			column: 'Hier. Month'
+
+		level week
+			lineageTag: f1247064-fa24-47c3-b75e-729525bc0c73
+			column: 'Hier. Week'
+
+		level Day
+			lineageTag: d7ad2fbf-b5c1-49cd-ba3d-ccf80ddd23a0
+			column: day_date
+
+	partition DIM_CALENDAR-7dcf9b38-ccc5-42fc-bc4b-ed7c205591c9 = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = AmazonRedshift.Database("rss-bi-pr-euwe01-gdn-wg-voleffcy.685561746385.eu-west-1.redshift-serverless.amazonaws.com","bi_voleffcy"),
+				    local_parameters_reporting = Source{[Name="local_parameters_reporting"]}[Data],
+				    vw_dim_calendar1 = local_parameters_reporting{[Name="dim_calendar_local_parameters"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(vw_dim_calendar1, each ([date_yyyymmdd] <> null)),
+				    #"Added Conditional Column" = Table.AddColumn(#"Filtered Rows", "days_colors", each if [print_label_fr] = "Jaune" then "Yellow" else if [print_label_fr] = "Bleu" then "Blue" else if [print_label_fr] = "Dimanche" then "Sunday" else if [print_label_fr] = "Samedi" then "Saturday" else if [print_label_fr] = "Jour férié " then "public holiday" else if [print_label_fr] = "JSA" then "JSA/DAD" else null)
+				in
+				    #"Added Conditional Column"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

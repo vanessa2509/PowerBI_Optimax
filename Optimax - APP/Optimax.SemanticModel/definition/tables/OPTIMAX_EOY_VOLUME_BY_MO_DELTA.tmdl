@@ -1,0 +1,112 @@
+table OPTIMAX_EOY_VOLUME_BY_MO_DELTA
+	lineageTag: cc352d10-daa4-4e55-b688-6b6531522061
+
+	column DATE_YYYYMMDD
+		dataType: double
+		formatString: 0
+		lineageTag: e3218ccf-7c99-4208-958b-7fdbfd424788
+		summarizeBy: sum
+		sourceColumn: DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO_CODE
+		dataType: double
+		lineageTag: a5535e8d-8429-4733-ac76-907f06d26fea
+		summarizeBy: sum
+		sourceColumn: MO_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AVERAGE_WK_REEL_PARCELS
+		dataType: double
+		lineageTag: 4c11afd4-7acc-4025-a5ee-bc109b03a06b
+		summarizeBy: sum
+		sourceColumn: AVERAGE_WK_REEL_PARCELS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EOY_ORG_2023
+		dataType: double
+		lineageTag: 6cd1a106-a37e-4877-9da9-9191b593be27
+		summarizeBy: sum
+		sourceColumn: EOY_ORG_2023
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KEY
+		dataType: string
+		lineageTag: 685da58f-98d6-4fb1-b0bc-a48a8f315e2d
+		summarizeBy: none
+		sourceColumn: KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPT_DESC
+		dataType: string
+		lineageTag: 04f7ab5f-27ca-4f17-8839-50eaea764210
+		summarizeBy: none
+		sourceColumn: DEPT_DESC
+
+		annotation SummarizationSetBy = Automatic
+
+	column DEPT_CD
+		dataType: string
+		lineageTag: bac3387b-d348-4453-8ee8-57e50c4c2409
+		summarizeBy: none
+		sourceColumn: DEPT_CD
+
+		annotation SummarizationSetBy = Automatic
+
+	column OFFICE_NAME
+		dataType: string
+		lineageTag: cd74ffcd-c4f6-4b9c-998f-68b2a6dbc857
+		summarizeBy: none
+		sourceColumn: OFFICE_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column '#EOY ALL 125/115/0 MC_CL' = SWITCH(TRUE(),[#Avg_PAK_EOY_MO % Delta] >= 1.149 && [#Avg_PAK_EOY_MO % Delta] < 1.249 ,"20 Min / 115% ", [#Avg_PAK_EOY_MO % Delta]>=1.249, "30 Min / 125% ","0")
+		lineageTag: b40021b5-5516-4ff7-bded-e588d582f344
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column CORRECTION_PRIME
+		dataType: double
+		lineageTag: 8bee9e96-8b51-49d9-8b77-0c24f4ac2e8c
+		summarizeBy: sum
+		sourceColumn: CORRECTION_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMMENT
+		dataType: string
+		lineageTag: 982323ca-df6e-4086-a8f8-687468cff2f1
+		summarizeBy: none
+		sourceColumn: COMMENT
+
+		annotation SummarizationSetBy = Automatic
+
+	partition OPTIMAX_EOY_VOLUME_BY_MO_DELTA = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    OPTIMAX_EOY_VOLUME_BY_MO_DELTA1 = PBI_VLT341{[Name="OPTIMAX_EOY_VOLUME_BY_MO_DELTA"]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(OPTIMAX_EOY_VOLUME_BY_MO_DELTA1,null,0,Replacer.ReplaceValue,{"AVERAGE_WK_REEL_PARCELS"})
+				in
+				    #"Replaced Value"
+
+	annotation PBI_ResultType = Table
+

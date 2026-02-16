@@ -1,0 +1,257 @@
+table VW_EOY_2025_BY_MO
+	lineageTag: 87a686e7-e9f9-464b-b928-26eb37dcaccd
+
+	measure '#Parcels / FTE dif. (MO)' = CALCULATE(SUM(VW_EOY_2025_BY_MO[RATIO_REEL_FTE]) - SUM(VW_EOY_2025_BY_MO[RATIO_EOY_FTE]))
+		lineageTag: bb8ce156-2634-4370-9de4-3ee7f9bfa284
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WEEK_ISO
+		dataType: string
+		lineageTag: 69974657-d3c7-498d-92a1-1b52d397d69a
+		summarizeBy: none
+		sourceColumn: WEEK_ISO
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_DAYS
+		dataType: double
+		lineageTag: fa8b999a-1396-4157-8e0b-91e593d472d4
+		summarizeBy: none
+		sourceColumn: NB_DAYS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MO
+		dataType: string
+		lineageTag: f9768726-df8c-4322-805f-9b2335baa7b6
+		summarizeBy: none
+		sourceColumn: MO
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC
+		dataType: string
+		lineageTag: 02279405-d9af-45a4-8735-eb3f143b55b6
+		summarizeBy: none
+		sourceColumn: MC
+
+		annotation SummarizationSetBy = Automatic
+
+	column DM
+		dataType: string
+		lineageTag: a258a79c-a336-4908-afe4-15ef6f2cdab7
+		summarizeBy: none
+		sourceColumn: DM
+
+		annotation SummarizationSetBy = Automatic
+
+	column RÉGION
+		dataType: string
+		lineageTag: 3fc71ef6-d116-452a-9fe8-df0daa45ff8c
+		summarizeBy: none
+		sourceColumn: RÉGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOL_PAK
+		dataType: double
+		lineageTag: 50cd2838-aed1-48f4-ab4a-bfa7f58e5e3a
+		summarizeBy: none
+		sourceColumn: VOL_PAK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_PRIME
+		dataType: double
+		lineageTag: fa0fbcf1-7cb3-489c-a5cf-f58bfbfe48e0
+		summarizeBy: none
+		sourceColumn: VOL_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column VOL_TOTAL
+		dataType: double
+		lineageTag: 0e620610-1af6-437f-8021-1530fd9a3b0f
+		summarizeBy: none
+		sourceColumn: VOL_TOTAL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PLA_DURATION
+		dataType: double
+		lineageTag: 217fdbc9-b0c0-438c-a81e-ff5da4af1b59
+		summarizeBy: none
+		sourceColumn: PLA_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SUBCO_DURATION
+		dataType: double
+		lineageTag: 46adc1e6-ff66-4297-a7e4-2c8afbfc6f96
+		summarizeBy: none
+		sourceColumn: SUBCO_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEUIL_ELIGIBILITE_FINAL_EN_VOLUME
+		dataType: double
+		lineageTag: 79f43218-7bde-4e57-94d5-87002c154f72
+		summarizeBy: none
+		sourceColumn: SEUIL_ELIGIBILITE_FINAL_EN_VOLUME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_REEL
+		dataType: double
+		lineageTag: aacb0029-46eb-43fe-9a70-020ce57e7482
+		summarizeBy: none
+		sourceColumn: FTE_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FTE_ORG
+		dataType: double
+		lineageTag: 8ec8a1da-d58a-4d29-860a-4d11b7980d79
+		summarizeBy: none
+		sourceColumn: FTE_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_EOY_FTE
+		dataType: double
+		lineageTag: 6df7125f-e31f-4b76-a75d-2af8a5f8ed45
+		summarizeBy: none
+		sourceColumn: RATIO_EOY_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_VOL_ORG_FTE
+		dataType: double
+		lineageTag: 897293f3-57d1-4060-b550-cfd01269277f
+		summarizeBy: none
+		sourceColumn: RATIO_VOL_ORG_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column %_ratio_reel_vs_org
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 98b4c3bb-acee-4070-ad7b-5d6665614084
+		summarizeBy: none
+		sourceColumn: %_ratio_reel_vs_org
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOLUME_ORGA_PAQUET_PRIME
+		dataType: double
+		lineageTag: c5e4b7bc-d059-4969-bddd-3db14579befa
+		summarizeBy: none
+		sourceColumn: VOLUME_ORGA_PAQUET_PRIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEUIL_ELIGIBILITÉ_FINAL_PC
+		dataType: double
+		lineageTag: fdfd3a8f-01e8-4b83-9846-44e7105d5d8c
+		summarizeBy: none
+		sourceColumn: SEUIL_ELIGIBILITÉ_FINAL_PC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column SEUIL_ELIGIBILITÉ_LIÉ_A_CATÉGORIE
+		dataType: double
+		lineageTag: 7e3ad1a2-bfec-4807-a31e-08a7cceae6a4
+		summarizeBy: none
+		sourceColumn: SEUIL_ELIGIBILITÉ_LIÉ_A_CATÉGORIE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RATIO_REEL_FTE
+		dataType: double
+		lineageTag: b53bce84-9eb7-449a-ad38-48e180a2f0aa
+		summarizeBy: none
+		sourceColumn: RATIO_REEL_FTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column COMPENSATION_THEORIE
+		dataType: string
+		lineageTag: 4ac89cca-f94a-4caa-8b34-3b5d52a413b8
+		summarizeBy: none
+		sourceColumn: COMPENSATION_THEORIE
+
+		annotation SummarizationSetBy = Automatic
+
+	column COMPENSATION_SUGGESTION
+		dataType: string
+		lineageTag: e3795baf-746a-44df-b140-d2a27efcc65a
+		summarizeBy: none
+		sourceColumn: COMPENSATION_SUGGESTION
+
+		annotation SummarizationSetBy = Automatic
+
+	column MO_W_KEY
+		dataType: string
+		lineageTag: 55365b4e-1ff3-491f-b6ab-22da6bf93800
+		summarizeBy: none
+		sourceColumn: MO_W_KEY
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_DO
+		dataType: double
+		lineageTag: 6468a813-1d74-4dbc-b2d7-ca947b03c91c
+		summarizeBy: none
+		sourceColumn: NB_DO
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition VW_EOY_2025_BY_MO = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true, CommandTimeout=#duration(0, 1, 30, 0)]),
+				    LAB_SR5210 = Source{[Schema="LAB_SR5210"]}[Data],
+				    VW_EOY_2025 = LAB_SR5210{[Name="VW_EOY_2025_BY_MO_2"]}[Data],
+				    #"Inserted Merged Column" = Table.AddColumn(VW_EOY_2025, "MO_W_KEY", each Text.Combine({[MO], "_", [WEEK_ISO]}), type text)
+				in
+				    #"Inserted Merged Column"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Exception
+

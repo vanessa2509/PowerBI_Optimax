@@ -1,0 +1,479 @@
+table PBI_LAST_ORG
+	lineageTag: 5dd54e6f-4dee-480d-8d6f-b772e0f8d21e
+
+	measure LAST_ORG_EE_IND_EE_NBR = Sum(PBI_LAST_ORG[LAST_ORG_REGISTERED_INDIV]) + SUM(PBI_LAST_ORG[LAST_ORG_REGISTERED_NB])
+		formatString: #,0
+		lineageTag: 76dec495-d95e-41d8-b155-bff2a2e9c453
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure LAST_ORG_FNGF = Sum(PBI_LAST_ORG[FNGF])
+		formatString: #,0
+		lineageTag: 2a842af7-507f-49d2-8506-b5103dfff672
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	column POSTAL_CODE
+		dataType: double
+		lineageTag: cc67f584-5d97-444d-818b-041fea3c6e97
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_MAX_DATE
+		dataType: string
+		lineageTag: e338c0db-ad3d-4286-aab7-a0ec47e7876a
+		summarizeBy: none
+		sourceColumn: FLAG_MAX_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_PARCEL
+		dataType: double
+		formatString: #,0
+		lineageTag: bfb0c20f-14b0-4cfd-a09f-6381ef8bca0b
+		summarizeBy: none
+		sourceColumn: LAST_ORG_PARCEL
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_PRIME
+		dataType: double
+		formatString: #,0
+		lineageTag: da86d5c6-e90a-4aed-aeba-c5a2e410cb7d
+		summarizeBy: none
+		sourceColumn: LAST_ORG_PRIME
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_REGISTERED_INDIV
+		dataType: double
+		formatString: #,0
+		lineageTag: 64daa369-16d8-436d-be88-2b3b41df6433
+		summarizeBy: none
+		sourceColumn: LAST_ORG_REGISTERED_INDIV
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_REGISTERED_NB
+		dataType: double
+		formatString: #,0
+		lineageTag: 8a222023-4681-4af7-a55c-0ced7abe9913
+		summarizeBy: none
+		sourceColumn: LAST_ORG_REGISTERED_NB
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_FN
+		dataType: double
+		formatString: #,0
+		lineageTag: b0b73f0e-8585-4002-890c-05f023a4688d
+		summarizeBy: none
+		sourceColumn: LAST_ORG_FN
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_GF
+		dataType: double
+		formatString: #,0
+		lineageTag: 23673ca0-05cb-470f-bdb7-159bc145ab53
+		summarizeBy: none
+		sourceColumn: LAST_ORG_GF
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_ENA
+		dataType: double
+		formatString: #,0
+		lineageTag: 63cee732-6f16-4963-af41-be3c10d51b46
+		summarizeBy: none
+		sourceColumn: LAST_ORG_ENA
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column DATE_YYYYMMDD
+		dataType: double
+		formatString: 0
+		lineageTag: 28401ebe-aea7-40ab-9f91-e0139b81ecc1
+		summarizeBy: none
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column REORG_ID
+		dataType: double
+		formatString: 0
+		lineageTag: e4d5c2d8-aece-47c3-bfad-0740d04ba6e9
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_PRIME
+		dataType: double
+		formatString: #,0
+		lineageTag: f01db40b-5a01-4da8-b270-a072c4033cad
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_PRIME
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_PAK
+		dataType: double
+		formatString: #,0
+		lineageTag: 14f52dfb-b801-45da-81c5-71b37cc27727
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_PAK
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_KRANT
+		dataType: double
+		formatString: #,0
+		lineageTag: 0dd93cd9-9dae-409f-971c-65f6f334189d
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_KRANT
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_GF
+		dataType: double
+		formatString: #,0
+		lineageTag: df77d807-33ea-4465-9ae9-f83c9c6e4401
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_GF
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_FN
+		dataType: double
+		formatString: #,0
+		lineageTag: fd05c6c1-795c-4b03-96fc-89bea0097db8
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_FN
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_ENA
+		dataType: double
+		formatString: #,0
+		lineageTag: ef877257-608e-45bd-b571-644be2db25ad
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_ENA
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_EE_NBR
+		dataType: double
+		formatString: #,0
+		lineageTag: 5ed3fdcd-c2fb-45d1-91c9-d73e862cb413
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_EE_NBR
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_WLT_EE
+		dataType: double
+		formatString: #,0
+		lineageTag: 8cc9f0ba-2749-4ee5-b764-13369c646210
+		summarizeBy: none
+		sourceColumn: LAST_ORG_WLT_EE
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_PARCEL_GP
+		dataType: double
+		formatString: #,0
+		lineageTag: dbc85a46-cefa-4360-a87f-e9ec4bb71793
+		summarizeBy: none
+		sourceColumn: LAST_ORG_PARCEL_GP
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column GROWTH_POT_AB
+		dataType: double
+		formatString: #,0
+		lineageTag: 59c0d74e-1b12-40af-ae73-42d2f6079e12
+		summarizeBy: none
+		sourceColumn: GROWTH_POT_AB
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_KRANT
+		dataType: double
+		formatString: #,0
+		lineageTag: b022863f-8061-4290-b6ea-eaae319b0e72
+		summarizeBy: none
+		sourceColumn: LAST_ORG_KRANT
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column NFGF_LVR
+		dataType: double
+		lineageTag: 7c5429d5-a143-467b-b086-19642f6edfb3
+		summarizeBy: none
+		sourceColumn: NFGF_LVR
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FNGF
+		dataType: double
+		lineageTag: 22395474-9440-43d9-99f2-00743b069014
+		summarizeBy: none
+		sourceColumn: FNGF
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ORG_P1
+		dataType: double
+		lineageTag: 6e9c069b-c3ee-462b-8fa8-c27460899122
+		summarizeBy: none
+		sourceColumn: LAST_ORG_P1
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ORG_CUBEE
+		dataType: double
+		lineageTag: d6f7269f-1925-487d-9a47-b7be098a10db
+		summarizeBy: none
+		sourceColumn: LAST_ORG_CUBEE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ORG_P2_P3_COD
+		dataType: double
+		formatString: 0
+		lineageTag: f0a4a20f-c0df-4799-8dd4-5bf71f4054d8
+		summarizeBy: none
+		sourceColumn: LAST_ORG_P2_P3_COD
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_PUGO
+		dataType: double
+		lineageTag: c7215198-f667-4ca9-9c22-85e0186fd131
+		summarizeBy: none
+		sourceColumn: LAST_ORG_PUGO
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MASTER_REORG_ID
+		dataType: double
+		lineageTag: 683e6ecf-edc5-4fc3-b14d-7d53bc3feb08
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MASTER_REORG_SD
+		dataType: double
+		lineageTag: fd0b46df-f1dd-4215-9d69-49e4037a54d0
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_SD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_ACTIVE_REORG
+		dataType: string
+		lineageTag: a598f981-5180-4b45-a8d8-ffd954d31c5c
+		summarizeBy: none
+		sourceColumn: FLAG_ACTIVE_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_AGE
+		dataType: double
+		lineageTag: abd214b5-1a04-446e-bc16-92652af2e5d3
+		summarizeBy: none
+		sourceColumn: CLUSTER_AGE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DAYS
+		dataType: double
+		lineageTag: 9f2553b6-b788-41e8-9f88-59b8837b4ed6
+		summarizeBy: none
+		sourceColumn: DAYS
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CLUSTER_GROUP
+		dataType: string
+		lineageTag: 69e8fa5e-2209-4f46-875c-c82e1eeab801
+		summarizeBy: none
+		sourceColumn: CLUSTER_GROUP
+
+		annotation SummarizationSetBy = Automatic
+
+	column GROWTH_POTENTIAL_BY_ROUND
+		dataType: double
+		formatString: #,0
+		lineageTag: f9084661-7ec5-4818-aa0d-81c76acbf550
+		summarizeBy: none
+		sourceColumn: GROWTH_POTENTIAL_BY_ROUND
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ORG_P2_P3_COD_NO_GP
+		dataType: double
+		formatString: #,0
+		lineageTag: 9d1a97e3-e3f2-4686-a529-144dee7584f4
+		summarizeBy: none
+		sourceColumn: LAST_ORG_P2_P3_COD_NO_GP
+
+		annotation SummarizationSetBy = Automatic
+
+	column ORG_PARCELS_PC
+		dataType: double
+		lineageTag: 42343654-bd25-41a0-8052-09d53e62d7bb
+		summarizeBy: none
+		sourceColumn: ORG_PARCELS_PC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ORG_PARCEL_GP_NO_BULK
+		dataType: double
+		lineageTag: 77c2bc6f-3c76-43b1-9a72-d35dc5658a78
+		summarizeBy: none
+		sourceColumn: LAST_ORG_PARCEL_GP_NO_BULK
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition PBI_LAST_ORG-d32f30e0-1f2e-4c00-81ec-47294a039c06 = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT341_ONCE, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    PBI_LAST_ORG1 = PBI_VLT341{[Name="OPTIMAX_LAST_ORG2"]}[Data],
+				    #"Replaced Value" = Table.ReplaceValue(PBI_LAST_ORG1,null,0,Replacer.ReplaceValue,{"GROWTH_POTENTIAL_BY_ROUND"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value",null,0,Replacer.ReplaceValue,{"LAST_ORG_P2_P3_COD_NO_GP"})
+				in
+				    #"Replaced Value1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
