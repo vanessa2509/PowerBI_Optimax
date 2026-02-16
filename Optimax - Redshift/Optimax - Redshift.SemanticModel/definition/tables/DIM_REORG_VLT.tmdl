@@ -1,0 +1,266 @@
+table DIM_REORG_VLT
+	lineageTag: 4e5e41fb-ef98-4f94-8e6e-7c718cdb9ea1
+
+	column 'REORG START dateFormatted' = Date(Left([REORG_START_DATE_YYYYMMDD],4),Right(left([REORG_START_DATE_YYYYMMDD],6),2),right([REORG_START_DATE_YYYYMMDD],2))
+		formatString: dd/mm/yyyy
+		lineageTag: 2587206b-5ab5-419a-aabd-1a7d3ecae648
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: c85dc122-6337-44b9-9bc0-fe749966e373
+			defaultHierarchy: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column 'REORG END dateFormatted' = Date(Left([REORG_END_DATE_YYYYMMDD],4),Right(left([REORG_END_DATE_YYYYMMDD],6),2),right([REORG_END_DATE_YYYYMMDD],2))
+		formatString: dd/mm/yyyy
+		lineageTag: 7c56501c-f726-4125-a4f8-ca8d2da9084b
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: e7b42fee-cb1f-4198-8e89-023592a4a641
+			defaultHierarchy: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.'Hiérarchie de dates'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	column pbi_date_name
+		dataType: string
+		lineageTag: e9f63b27-dde2-4470-8ed1-32a36fedc1c9
+		summarizeBy: none
+		sourceColumn: pbi_date_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column pbi_name
+		dataType: string
+		lineageTag: ce974e39-32d8-4d58-9e85-7e66389a721f
+		summarizeBy: none
+		sourceColumn: pbi_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_last_master_reorg
+		dataType: string
+		lineageTag: 5a0991ef-abe7-4645-8f8f-f04ea6fc1481
+		summarizeBy: none
+		sourceColumn: is_last_master_reorg
+
+		annotation SummarizationSetBy = Automatic
+
+	column mo_name
+		dataType: string
+		lineageTag: cdd9857e-ee63-4479-a552-a0d8012c04b7
+		summarizeBy: none
+		sourceColumn: mo_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column master_reorg_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 1c5ca1da-1300-454a-b4d4-f4cc745da0e2
+		summarizeBy: sum
+		sourceColumn: master_reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_id
+		dataType: int64
+		formatString: 0
+		lineageTag: e8f136a6-0153-42d7-a335-7c69bb8c6eff
+		summarizeBy: sum
+		sourceColumn: reorg_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_last_reorg
+		dataType: string
+		lineageTag: 57708365-fe98-4c4a-9119-d63e9a050d56
+		summarizeBy: none
+		sourceColumn: is_last_reorg
+
+		annotation SummarizationSetBy = Automatic
+
+	column postal_code
+		dataType: int64
+		formatString: 0
+		lineageTag: 0d989386-94ff-447a-be74-da18e418f17a
+		summarizeBy: none
+		sourceColumn: postal_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column regio_name
+		dataType: string
+		lineageTag: 3f6c0fe0-6ad0-430c-bf72-d1fdac1686cb
+		summarizeBy: none
+		sourceColumn: regio_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_name
+		dataType: string
+		lineageTag: 93d2cd5a-46cc-4ad3-a359-80f94a7cd46a
+		summarizeBy: none
+		sourceColumn: dc_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column mc_name
+		dataType: string
+		lineageTag: 32c6e2ab-d1fd-483c-ba0a-5a53c33fcd5d
+		summarizeBy: none
+		sourceColumn: mc_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column dm_name
+		dataType: string
+		lineageTag: 5a73f20a-9944-4335-8ac9-898f26eeda0b
+		summarizeBy: none
+		sourceColumn: dm_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org
+		dataType: string
+		lineageTag: 1d19fd29-387a-46fc-9560-c20925248295
+		summarizeBy: none
+		sourceColumn: dc_cur_org
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org_prime
+		dataType: string
+		lineageTag: d47fbc35-00ff-4625-9468-0dc6477b8327
+		summarizeBy: none
+		sourceColumn: dc_cur_org_prime
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org_ee
+		dataType: string
+		lineageTag: 9e22a227-e7e7-4b10-8b46-c50b4ac12e66
+		summarizeBy: none
+		sourceColumn: dc_cur_org_ee
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org_fngf
+		dataType: string
+		lineageTag: be6b6634-4cee-4140-8773-1f7f829e0657
+		summarizeBy: none
+		sourceColumn: dc_cur_org_fngf
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org_krant
+		dataType: string
+		lineageTag: 7ee57f3b-053e-4fa0-a457-678c5b0a08fd
+		summarizeBy: none
+		sourceColumn: dc_cur_org_krant
+
+		annotation SummarizationSetBy = Automatic
+
+	column dc_cur_org_ena
+		dataType: string
+		lineageTag: 654a531d-09b3-459e-b721-7d776225a101
+		summarizeBy: none
+		sourceColumn: dc_cur_org_ena
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_start_date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: e7912a88-22c3-4b18-ae28-dc7013a11845
+		summarizeBy: sum
+		sourceColumn: reorg_start_date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column reorg_end_date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: 8df4522f-27fb-4bd2-a778-6cd8860f078e
+		summarizeBy: sum
+		sourceColumn: reorg_end_date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column mstr_reorg_end_date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: 224e1fe1-2c71-4014-8345-de79aa33a661
+		summarizeBy: sum
+		sourceColumn: mstr_reorg_end_date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column mstr_reorg_start_date_yyyymmdd
+		dataType: int64
+		formatString: 0
+		lineageTag: fdbbf148-e7fd-4044-9161-10d802c0c78a
+		summarizeBy: sum
+		sourceColumn: mstr_reorg_start_date_yyyymmdd
+
+		annotation SummarizationSetBy = Automatic
+
+	column rank_reorg
+		dataType: int64
+		formatString: 0
+		lineageTag: afb9ad21-601e-4d05-8736-38abeb7195b0
+		summarizeBy: sum
+		sourceColumn: rank_reorg
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEARCH_POSTAL_CODE
+		dataType: string
+		lineageTag: 6f84fb8f-ef5e-41b7-bf57-898a90d41b80
+		summarizeBy: none
+		sourceColumn: SEARCH_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_REORG_VLT-b05846e7-3cf3-4d16-b1c8-17f1f867535c = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = AmazonRedshift.Database("rss-bi-pr-euwe01-gdn-wg-voleffcy.685561746385.eu-west-1.redshift-serverless.amazonaws.com","bi_voleffcy"),
+				    pbi_ved = Source{[Name="pbi_ved"]}[Data],
+				    OPTIMAX_DIM_REORGANIZATION = pbi_ved{[Name="optimax_volume_dim_reorganization"]}[Data],
+				    #"Protected Key" = Table.SelectRows(OPTIMAX_DIM_REORGANIZATION, each [reorg_id] <> null and [reorg_id] <> ""),
+				    #"Duplicated Column" = Table.DuplicateColumn(#"Protected Key", "postal_code", "postal_code - Copy"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Duplicated Column",{{"postal_code - Copy", type text}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"postal_code - Copy", "SEARCH_POSTAL_CODE"}}),
+				    #"Removed Duplicates" = Table.Distinct(#"Renamed Columns", {"pbi_date_name"}),
+				    #"Filtered Rows" = Table.SelectRows(#"Removed Duplicates", each ([pbi_date_name] <> null)),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Filtered Rows","DISTR MANAG LIEGE","DM LIEGE",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","DISTR MANAGER  BXL & BW","DM BXL & BW",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","DISTR MANAGER  CENTRE","DM CENTRE",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","DIST MANAGER CENTRUM","DM CENTRUM",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","DISTR MANAG OOST","DM OOST",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value6" = Table.ReplaceValue(#"Replaced Value5","DISTR MANAG WEST","DM WEST",Replacer.ReplaceText,{"dm_name"}),
+				    #"Replaced Value7" = Table.ReplaceValue(#"Replaced Value6","DISTR MANAG BR-VL BRAB","DM BR-VL BRAB",Replacer.ReplaceText,{"dm_name"}),
+				    #"Filtered Rows1" = Table.SelectRows(#"Replaced Value7", each [pbi_date_name] <> null and [pbi_date_name] <> "")
+				in
+				    #"Filtered Rows1"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

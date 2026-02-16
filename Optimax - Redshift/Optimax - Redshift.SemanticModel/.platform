@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Optimax - Redshift"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "5d3196d7-72bc-a783-4f8d-0966e70a7db3"
+  }
+}

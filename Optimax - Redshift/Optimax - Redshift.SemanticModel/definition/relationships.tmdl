@@ -1,0 +1,109 @@
+relationship c85dc122-6337-44b9-9bc0-fe749966e373
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG START dateFormatted'
+	toColumn: LocalDateTable_f3083b54-4a1e-4886-a78c-b96c3205a433.Date
+
+relationship e7b42fee-cb1f-4198-8e89-023592a4a641
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_REORG_VLT.'REORG END dateFormatted'
+	toColumn: LocalDateTable_4a96697f-8ab9-4323-86f0-c8957c2db8ac.Date
+
+relationship a90c20d9-1fdd-40dd-bc99-130e7f31dbff
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_HR_OFFICE_DAILY.date
+	toColumn: LocalDateTable_5b5f483f-1dcb-4430-b6ea-146f763c4137.Date
+
+relationship 34b18cee-ba60-d754-8a4a-6c7875dc7829
+	crossFilteringBehavior: bothDirections
+	fromColumn: FACT_HR_WLT.key_hr_wlt
+	toColumn: FACT_HR_OFFICE_DAILY.key_hr_wlt
+
+relationship c6758deb-0525-4e70-9f76-71d376c8ab67
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.FirstDayOfCurrentYear
+	toColumn: LocalDateTable_f1c9e139-b0ea-43c4-b7be-77fc014830be.Date
+
+relationship 429c55c5-87b0-4248-8847-e85d17650f48
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.'MAX dateFormatted'
+	toColumn: LocalDateTable_15960f57-ff58-4b83-b3c8-19086dd7f21b.Date
+
+relationship afe990cf-a204-48ea-a8a2-11cc54270cd5
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.'MAX NFGF dateFormatted'
+	toColumn: LocalDateTable_eefe01e9-892e-4fad-b6ea-cab86caa1778.Date
+
+relationship 464ce6b2-503c-42b8-9684-d4011bb89fea
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.'MAX dateFormatted KRANTEN'
+	toColumn: LocalDateTable_a536b3f1-dfb9-4259-ad65-0470b71443f6.Date
+
+relationship bddf9159-4031-4083-afb0-a841a3c6558b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.day_date
+	toColumn: LocalDateTable_8406e4a5-314b-49fc-85f8-d7dde55f7cf1.Date
+
+relationship 8bc8e981-92d3-44d1-b536-51a66ed2f335
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.last_updt_dt
+	toColumn: LocalDateTable_aef8a762-f15e-4518-bf06-ed081635ac2d.Date
+
+relationship 947c4170-573e-4d82-ae8e-87807a9dc3c2
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.crea_dt
+	toColumn: LocalDateTable_958d67bd-d0d3-4dce-96a3-ce28c9ce9a03.Date
+
+relationship 3a002019-b599-416f-b7fc-85883447df35
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.prior_dstrbtn_date
+	toColumn: LocalDateTable_3be2caec-6aab-4966-91ad-83cfcd4072fc.Date
+
+relationship 0a10b9af-ed6d-4ea2-b96a-1c4430c63f25
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.prv_wrk_date_exl_wknd_lh
+	toColumn: LocalDateTable_715b4f0d-32d7-4b19-860f-6dc8f0ee4735.Date
+
+relationship 7e44d3cc-0216-4ea1-b628-1f0f8a8344c3
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.nxt_wrk_date_exl_wknd_lh
+	toColumn: LocalDateTable_7ebfd98e-4ab6-42da-9708-af328172227a.Date
+
+relationship 17d90966-785d-43a9-834c-381aa39cccf0
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.rolling_calendar_from
+	toColumn: LocalDateTable_b5149494-419b-4423-8a51-c049474bb329.Date
+
+relationship 8092aa44-f056-46a2-b6c6-131d7093fb9d
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.rolling_calendar_till
+	toColumn: LocalDateTable_d55fa128-4aa0-4237-9096-0682e91c4fff.Date
+
+relationship 65a2e8dd-13dd-4218-93cd-9fe58fecc5fe
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.exec_profile_valid_from
+	toColumn: LocalDateTable_7a727a50-0d36-4cf6-b263-2c551b494287.Date
+
+relationship 13616f3d-a526-469f-bacf-25579a3bfabc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.exec_profile_valid_till
+	toColumn: LocalDateTable_44c67020-f965-46ec-897e-82434ccb7f69.Date
+
+relationship AutoDetected_6dc4d38a-c97a-4fb4-98dd-3d4e713ed273
+	crossFilteringBehavior: bothDirections
+	fromColumn: FACT_HR_WLT.date_yyyymmdd
+	toColumn: DIM_CALENDAR.date_yyyymmdd
+
+relationship cf2ad161-de43-4fe8-b695-b43121e49f5b
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FACT_HR_WLT.date
+	toColumn: LocalDateTable_edbba27d-9219-4ea6-820c-eb1d83ef68d5.Date
+
+relationship 2f627bad-b876-f2a4-08a5-e619ff5ee6cf
+	crossFilteringBehavior: bothDirections
+	fromColumn: DIM_REORG_VLT.postal_code
+	toColumn: FACT_LAST_ORG.postal_code
+
+relationship 5c5bfb97-d165-bbdd-0411-f44407724325
+	fromColumn: FACT_HR_WLT.postal_code
+	toColumn: DIM_REORG_VLT.postal_code
+
