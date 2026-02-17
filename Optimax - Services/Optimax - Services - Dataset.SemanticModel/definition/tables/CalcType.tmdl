@@ -1,0 +1,30 @@
+table CalcType
+	lineageTag: 4507415c-b24c-43fa-9c34-68d30cc8ca98
+
+	measure test = CALCULATE(SUM(MASTERTABLE[EINDUUR_RONDE_NUM])- SUM(MASTERTABLE[MOBI_END_NUM]))  / DISTINCTCOUNT(MASTERTABLE[DAY_DATE])  /DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+		lineageTag: 0bba1cf9-4143-4d1a-b3d1-05ff0fd5de64
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Data
+		dataType: string
+		lineageTag: 31266a10-ed96-4e70-8d4c-e97419f6b97c
+		summarizeBy: none
+		sourceColumn: Data
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CalcType = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WckksSVTwzU/KVIrVgfKcElPSUxFc38wKpdhYAA==", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Data = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Data", type text}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

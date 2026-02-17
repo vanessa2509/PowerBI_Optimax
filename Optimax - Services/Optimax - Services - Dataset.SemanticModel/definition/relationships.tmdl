@@ -1,0 +1,46 @@
+relationship e48c15ab-6dd7-48c4-8c00-c8ea7669c667
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.FirstDayOfCurrentYear
+	toColumn: LocalDateTable_eb01b47e-4241-4ab2-b34b-e714aec3cf82.Date
+
+relationship 86f06861-5350-458a-8b4e-85ecd1f4e854
+	joinOnDateBehavior: datePartOnly
+	fromColumn: DIM_CALENDAR.'Date Range'
+	toColumn: LocalDateTable_9a7e7e85-6aa2-4baa-a2fa-3244a1340826.Date
+
+relationship fb4004d6-cba4-45d9-ab1e-1efebbc18362
+	joinOnDateBehavior: datePartOnly
+	fromColumn: MASTERTABLE.dateFormatted
+	toColumn: LocalDateTable_5ff187b5-f227-4949-bb9d-5c1ae6a6ff03.Date
+
+relationship bf3568dc-0e75-4b5a-a9cd-23542abd5664
+	joinOnDateBehavior: datePartOnly
+	fromColumn: V_PBI_DIM_REORG_VLT.'REORG START dateFormatted'
+	toColumn: LocalDateTable_382c874b-6535-4302-ad15-4d1b98b5044a.Date
+
+relationship b0dbf608-09b5-4d09-9cb7-ba4e6688e506
+	joinOnDateBehavior: datePartOnly
+	fromColumn: V_PBI_DIM_REORG_VLT.'REORG END dateFormatted'
+	toColumn: LocalDateTable_41300fbb-1355-4e21-9dbc-4e341a31a17a.Date
+
+relationship b47ed923-e37d-46ab-8b00-24ff69315c1f
+	crossFilteringBehavior: bothDirections
+	fromColumn: MASTERTABLE.EMPLID
+	toColumn: DIM_EMPLOYEE.HR_NUMBER
+
+relationship 32b47133-2da3-4c0f-a3c2-42b7da9bac13
+	crossFilteringBehavior: bothDirections
+	fromColumn: MASTERTABLE.REORG_ID
+	toColumn: V_PBI_DIM_REORG_VLT.REORG_ID
+
+relationship 42c1ade5-a323-455e-88d6-9713df1dd435
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: MASTERTABLE.REORG_ID
+	toColumn: ACCESS_DIM_USER_ACCESS_DQ.REORG_ID
+
+relationship fdfb1cd5-8263-4ffe-a2b6-30d2e6a76b66
+	crossFilteringBehavior: bothDirections
+	fromColumn: MASTERTABLE.DAY_DATE
+	toColumn: DIM_CALENDAR.'Date YYYYMMDD'
+

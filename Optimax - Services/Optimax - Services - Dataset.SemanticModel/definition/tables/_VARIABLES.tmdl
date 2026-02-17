@@ -1,0 +1,84 @@
+table _VARIABLES
+	lineageTag: a31efdf7-fd43-49ff-a5b1-9679a97a4f07
+
+	measure _WLT = SUM(MASTERTABLE[WLT_DELTA])/ DISTINCTCOUNT(MASTERTABLE[DAY_DATE])
+		lineageTag: 43cbb91b-319d-4c01-90bf-3c3387ad8121
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _WLT_AVG = ```
+			SUM(MASTERTABLE[WLT_DELTA])/ DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) * 60 
+			```
+		lineageTag: a7537ea3-6006-4936-b1ed-81f24b23fda6
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _WLT_min = sum(MASTERTABLE[WLT_DELTA])
+		lineageTag: a61801d1-6d37-4b70-99b5-493b178132a9
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _bw+_minutes = 15//*CALCULATE(DISTINCTCOUNT(MASTERTABLE[DAY_DATE]);MASTERTABLE[_daynum] <> 7)
+		lineageTag: 259191b7-c770-4436-ba03-530395eda57a
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _bw-_minutes = -15//*CALCULATE(DISTINCTCOUNT(MASTERTABLE[DAY_DATE]);MASTERTABLE[_daynum] <> 7)
+		formatString: 0
+		lineageTag: 544b291b-05a8-474d-ae34-762e9d9187ea
+
+		changedProperty = IsHidden
+
+	measure 'Agent Value' = SELECTEDVALUE(DIM_EMPLOYEE[FULL_NAME], "All Postman")
+		displayFolder: Values
+		lineageTag: 098f1a66-1fa3-4403-8cba-e1169144cdd7
+
+		changedProperty = IsHidden
+
+	measure BWNEG = CALCULATE(DISTINCTCOUNT(DIM_CALENDAR[Date YYYYMMDD])/-4)*DISTINCTCOUNT(MASTERTABLE[DIENST])
+		formatString: 0
+		lineageTag: 80740680-d046-4e60-b73e-3f786aa23116
+
+		changedProperty = IsHidden
+
+	measure BWPOS = CALCULATE(DISTINCTCOUNT(MASTERTABLE[DAY_DATE])/4)*DISTINCTCOUNT(MASTERTABLE[DIENST])
+		lineageTag: 742e185c-f343-4033-a5e3-7f95b7f8d3c2
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _WLTTESTE = [_WLT_AVG]/ DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST])
+		lineageTag: 53b60779-f634-4e7d-8e6f-4be642e47ec0
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Colonne
+		formatString: 0
+		lineageTag: 06b88abd-9362-402c-8754-57fcf67c58b3
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Colonne]
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _VARIABLES-ac272951-98d6-437e-ac57-e0cf8a9a402b = calculated
+		mode: import
+		source = Row("Colonne", BLANK())
+
+	changedProperty = IsHidden
+
+	annotation 436ba87b-9c83-4389-a31b-ebd06a36be98 = {"Expression":""}
+

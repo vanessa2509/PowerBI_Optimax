@@ -1,0 +1,9 @@
+role user
+	modelPermission: read
+
+	tablePermission MASTERTABLE
+
+	tablePermission ACCESS_DIM_USER_ACCESS_DQ = [USER_ID] = LOWER(LEFT(USERPRINCIPALNAME(),7))
+
+	annotation PBI_Id = 7f3629134dd64345aa2f5c1c4b56ec30
+

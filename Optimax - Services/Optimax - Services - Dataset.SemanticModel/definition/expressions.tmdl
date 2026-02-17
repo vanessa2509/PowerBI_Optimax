@@ -1,0 +1,8 @@
+expression PBI_VLT_CO8P1 = "MM8P1" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 684da264-f9bb-4151-830b-73f580f1a30f
+	queryGroup: Parameter
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Text
+

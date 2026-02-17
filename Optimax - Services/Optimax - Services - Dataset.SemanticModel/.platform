@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Optimax - Services - Dataset"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1ea5d3ec-e08b-a819-4812-f335b659d1b0"
+  }
+}

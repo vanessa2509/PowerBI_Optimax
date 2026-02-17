@@ -1,0 +1,176 @@
+table V_PBI_DIM_REORG_VLT
+	lineageTag: cf515ef5-4e0c-4d03-ae2d-2c0943f9ef5c
+
+	column KEY_REOG_ORG
+		dataType: string
+		lineageTag: 051b7fb9-ce49-42f5-b8c3-848b3d96c5c8
+		summarizeBy: none
+		sourceColumn: KEY_REOG_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+	column MASTER_REORG_ID
+		dataType: int64
+		lineageTag: cfefce01-21d6-41a9-a838-3330ef254fab
+		summarizeBy: none
+		sourceColumn: MASTER_REORG_ID
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_ID
+		dataType: double
+		lineageTag: 3324852f-28b7-4b62-a569-98fe6288d6ca
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column POSTAL_CODE
+		dataType: int64
+		lineageTag: f507d90f-0542-4343-87b1-4e441dbc7572
+		summarizeBy: sum
+		sourceColumn: POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REGIO_NAME
+		dataType: string
+		lineageTag: f1451933-9634-4a48-a75a-c3e75abb7e27
+		summarizeBy: none
+		sourceColumn: REGIO_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DC_NAME
+		dataType: string
+		lineageTag: 7ff5d969-a4d9-47f2-b241-ecf998bc6002
+		summarizeBy: none
+		sourceColumn: DC_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC_NAME
+		dataType: string
+		lineageTag: 02c841a4-ed6e-4112-abd6-272d3b34dc98
+		summarizeBy: none
+		sourceColumn: MC_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column DM_NAME
+		dataType: string
+		lineageTag: 92f74dde-e386-4cf5-96c4-29167fa8878b
+		summarizeBy: none
+		sourceColumn: DM_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column REORG_END_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: d3a18725-d74c-4ebc-9311-85a349ac40cf
+		summarizeBy: sum
+		sourceColumn: REORG_END_DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MSTR_REORG_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: 874b6fdc-788c-4710-999e-f9e08d153402
+		summarizeBy: sum
+		sourceColumn: MSTR_REORG_START_DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column REORG_START_DATE_YYYYMMDD
+		dataType: double
+		lineageTag: ad593444-26c9-4f9c-b21a-2cdc280b6d43
+		summarizeBy: sum
+		sourceColumn: REORG_START_DATE_YYYYMMDD
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column RANK_REORG
+		dataType: int64
+		lineageTag: 2686c807-e9a8-4109-8dbc-7c6758c64cbe
+		summarizeBy: none
+		sourceColumn: RANK_REORG
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column 'REORG START dateFormatted' = Date(Left([REORG_START_DATE_YYYYMMDD],4),Right(left([REORG_START_DATE_YYYYMMDD],6),2),right([REORG_START_DATE_YYYYMMDD],2))
+		formatString: Short Date
+		lineageTag: c2d08187-63d6-48cf-986f-d017078501dc
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: bf3568dc-0e75-4b5a-a9cd-23542abd5664
+			defaultHierarchy: LocalDateTable_382c874b-6535-4302-ad15-4d1b98b5044a.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'REORG END dateFormatted' = Date(Left([REORG_END_DATE_YYYYMMDD],4),Right(left([REORG_END_DATE_YYYYMMDD],6),2),right([REORG_END_DATE_YYYYMMDD],2))
+		formatString: Short Date
+		lineageTag: 68dedbc0-98b7-49c3-afb9-14ab693f8688
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: b0dbf608-09b5-4d09-9cb7-ba4e6688e506
+			defaultHierarchy: LocalDateTable_41300fbb-1355-4e21-9dbc-4e341a31a17a.'Hiérarchie de dates'
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_LAST_MASTER_REORG
+		dataType: string
+		lineageTag: 74efbfb5-4a45-4018-9f9f-f0dec1164c5a
+		summarizeBy: none
+		sourceColumn: IS_LAST_MASTER_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_DIM_REORG_VLT-3e7f85b8-d654-47af-826e-597c2464082d = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT_CO8P1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_DIM_REORG_VLT1 = PBI_VLT341{[Name="VLT_DIM_REORGANIZATION"]}[Data],
+				    #"Filtered Rows" = Table.SelectRows(V_PBI_DIM_REORG_VLT1, each ([IS_LAST_MASTER_REORG] = "Y")),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Filtered Rows",{{"POSTAL_CODE", Int64.Type}}),
+				    #"Replaced Value" = Table.ReplaceValue(#"Changed Type","DISTR MANAG BR-VL BRAB","DM BR-VL BRAB",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","DISTR MANAGER  CENTRE","DM  CENTRE",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","DISTR MANAG OOST","DM OOST",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","DIST MANAGER CENTRUM","DM CENTRUM",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value4" = Table.ReplaceValue(#"Replaced Value3","DISTR MANAG LIEGE","DM LIEGE",Replacer.ReplaceText,{"DM_NAME"}),
+				    #"Replaced Value5" = Table.ReplaceValue(#"Replaced Value4","DISTR MANAG WEST","DM WEST",Replacer.ReplaceText,{"DM_NAME"})
+				in
+				    #"Replaced Value5"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

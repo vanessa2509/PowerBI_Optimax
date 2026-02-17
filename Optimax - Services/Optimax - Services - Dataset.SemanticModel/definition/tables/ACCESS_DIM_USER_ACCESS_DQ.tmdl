@@ -1,0 +1,45 @@
+table ACCESS_DIM_USER_ACCESS_DQ
+	lineageTag: 079ab336-4c65-419b-a4fa-0495ccaad639
+
+	column USER_ID
+		dataType: string
+		sourceProviderType: Varchar2
+		lineageTag: 1fa8c9f7-84af-4e3c-b52f-11217adea8fc
+		summarizeBy: none
+		sourceColumn: USER_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column REORG_ID
+		dataType: double
+		sourceProviderType: Decimal(38, 127)
+		lineageTag: 02f9492e-0e0d-4852-b7b1-da709723327e
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_AUTOMATIC
+		dataType: string
+		sourceProviderType: Char
+		lineageTag: 8f98b632-e27c-4fa8-89fb-14f47e0397af
+		summarizeBy: none
+		sourceColumn: IS_AUTOMATIC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition ACCESS_DIM_USER_ACCESS_DQ = m
+		mode: import
+		queryGroup: 'ACCES - RLS - Direct Query'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT_CO8P1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    ACCESS_DIM_USER_ACCESS1 = PBI_VLT341{[Name="ACCESS_DIM_USER_ACCESS"]}[Data]
+				in
+				    ACCESS_DIM_USER_ACCESS1
+
+	annotation PBI_ResultType = Table
+

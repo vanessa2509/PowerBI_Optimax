@@ -1,0 +1,2596 @@
+table MASTERTABLE
+	lineageTag: 9dcc30a7-e360-4961-a7c3-adeb2de319e8
+
+	measure _bw- = -0.25//-0,25*CALCULATE(DISTINCTCOUNT(MASTERTABLE[DAY_DATE]);MASTERTABLE[_daynum] <> 7)
+		lineageTag: f5365844-4ac4-437b-909e-a94b5bdbd4a0
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _bw+ =
+			
+			0.25
+			//0,25*CALCULATE(DISTINCTCOUNT(MASTERTABLE[DAY_DATE]);MASTERTABLE[_daynum] <> 7)
+		lineageTag: e99facad-029a-4dbd-8ced-e26a6de115dd
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _cnt_lowvlt_lowrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_lowvlt_lowrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 180ab3ee-bbc7-4cbf-a745-791c7cb4c810
+
+	measure _cnt_highvlt_lowrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           [_f_highvlt_lowrt] = "Y" ),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 7981809f-8ebe-4e39-b668-a9c9852a6396
+
+	measure _cnt_lowvlt_highrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_lowvlt_highrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 4fdd9781-1af5-41f1-b5ed-c0bcc4f276cd
+
+	measure _cnt_highvlt_highrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           [_f_highvlt_highrt] = "Y" ),
+			        1)
+			    return if(ISBLANK(cnt), 0,cnt)
+			```
+		formatString: 0
+		lineageTag: 7cac2348-4e09-46e5-8d1d-0b2f7f95c2b6
+
+	measure _f_highvlt_lowrt = ```
+			IF( AND( [_WLT]> [_bw+] , [DELTA_DATA] < -15) ,"Y","N")
+			
+			```
+		lineageTag: bb698401-257a-4d11-956e-fdde236c7e66
+
+	measure _f_highvlt_highrt = if(AND( [_WLT]> [_bw+] , [DELTA_DATA] >15) , "Y", "N")
+		lineageTag: 93d0e61b-0f72-47e8-9412-a9867776225e
+
+	measure _f_lowvlt_highrt = if(AND([_WLT]< [_bw-],[DELTA_DATA] >15),"Y","N")
+		lineageTag: 4bb88160-19ed-465c-be33-ed8653fbc3f9
+
+	measure _f_lowvlt_lowrt = if(AND([_WLT]< [_bw-],[DELTA_DATA] < -15),"Y","N")
+		lineageTag: 6c82e43e-e7f5-4008-b217-6af75b81ccc4
+
+	measure _f_quadrant_normalvlt_rt =
+			if(
+			        AND(
+			            AND([_WLT]>= [_bw-],[_WLT]<=[_bw+]) ,
+			            AND([DELTA_DATA]<=15, [DELTA_DATA] >= -15)
+			        ),
+			        "Y", "N"
+			)
+		displayFolder: Quadrant Measure
+		lineageTag: 59a9e878-8c73-403d-80e9-4aa13e553751
+
+	measure _cnt_normalvlt_rt = ```
+			
+			   var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_quadrant_normalvlt_rt] = "Y"),
+			        1)
+			    
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 000617ea-8a5d-448a-85da-9080e6cb0c9c
+
+	measure _f_posvlt_posrt =
+			//postivie WLT in bandwith and normal Return Time
+			if(
+			        AND(
+			            AND([_WLT]>= 0,[_WLT]<=[_bw+]) ,
+			            AND([DELTA_DATA]<= 15, [DELTA_DATA] >= 0)
+			        ),
+			        "Y", "N"
+			)
+		lineageTag: 60d3c345-ae3e-4abf-9b9b-e3b828aeb7a4
+
+	measure _f_posvlt_negrt =
+			//postivie WLT in bandwith and normal negative Return Time
+			if(
+			        AND(
+			            AND([_WLT]>= 0,[_WLT]<=[_bw+]) ,
+			            AND([DELTA_DATA]<0, [DELTA_DATA] >= -15)
+			        ),
+			        "Y", "N"
+			)
+		lineageTag: 3b48e7ec-b500-4f0e-a940-341bd99da406
+
+	measure _f_negvlt_negrt =
+			
+			if(
+			        AND(
+			            AND([_WLT]>= [_bw-],[_WLT]<0) ,
+			            AND([DELTA_DATA]<0, [DELTA_DATA] >= -15)
+			        ),
+			        "Y", "N"
+			)
+		lineageTag: c8ffdc9a-7298-4e9a-8654-2b23b7cd3ccc
+
+	measure _f_negvlt_posrt =
+			//postivie WLT in bandwith and normal negative Return Time
+			if(
+			        AND(
+			            AND([_WLT]> [_bw-],[_WLT]<0) ,
+			            AND([DELTA_DATA]<=15, [DELTA_DATA] >= 0)
+			        ),
+			        "Y", "N"
+			)
+		lineageTag: 8da87bac-78c1-46e4-ad9c-e8c679ba8956
+
+	measure _f_highvlt_posrt = ```
+			
+			    if( AND([_WLT]>[_bw+] ,  AND([DELTA_DATA] >= 0 , [DELTA_DATA] <15) )
+			    ,"Y","N")
+			```
+		lineageTag: 23bf965e-c7be-40ed-aa48-ec3b93f8819d
+
+	measure _f_highvlt_negrt = ```
+			
+			    if( AND([_WLT]>[_bw+] , AND( [DELTA_DATA] < 0, [DELTA_DATA] > -15 ))
+			    ,"Y","N")
+			```
+		lineageTag: 4ef36ccc-4d6a-4749-8e0a-80a0482a14db
+
+	measure _f_posvlt_lowrt = ```
+			
+			    if(AND(AND([_WLT]>=0,[_WLT]<[_bw+]) ,  [DELTA_DATA] < -15) ,
+			    "Y","N")
+			```
+		lineageTag: 3bf479da-1da8-4647-8f9f-0a3e9f2e0982
+
+	measure _f_negvlt_lowrt = ```
+			
+			    if(AND(AND([_WLT]<=0,[_WLT]>[_bw-]) ,  [DELTA_DATA] < -15) ,
+			    "Y","N")
+			```
+		lineageTag: 29c8a3ee-7954-43ff-b824-b6a99d032ac1
+
+	measure _f_posvlt_highrt = ```
+			
+			    if(AND(AND([_WLT]>=0,[_WLT]<[_bw+]) ,  [DELTA_DATA] >= 15) ,
+			    "Y","N")
+			```
+		lineageTag: 0a9e5e16-9ec8-4872-97ea-3720059ebfd1
+
+	measure _f_negvlt_highrt = ```
+			
+			    if(AND(AND([_WLT]<0,[_WLT]>[_bw-]) ,  [DELTA_DATA] > 15) ,
+			    "Y","N")
+			```
+		lineageTag: fb904971-57e7-4a64-9a27-1eb6b0af5927
+
+	measure _f_lowvlt_negrt = ```
+			
+			    if(AND([_WLT]<[_bw-] ,  AND([DELTA_DATA] <0 , [DELTA_DATA] >=-15)),
+			    "Y","N")
+			```
+		lineageTag: 8d0da752-d58f-41ed-a570-d179c04cf337
+
+	measure _f_lowvlt_posrt = ```
+			
+			    if(AND([_WLT]<[_bw-] ,  AND([DELTA_DATA] >=0 , [DELTA_DATA] <=15)),
+			    "Y","N")
+			```
+		lineageTag: 1aa85ec7-9523-4b44-81bd-d6b7676543ea
+
+	measure _cnt_highvlt_negrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_highvlt_negrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: ff37ec39-a6ab-4efa-b632-99d91ebd554d
+
+	measure _cnt_highvlt_posrt = ```
+			
+			   var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_highvlt_posrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 0767f022-a67e-4ec0-8309-ab06e0e62174
+
+	measure _cnt_posvlt_highrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           [_f_posvlt_highrt] = "Y" ),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 5e21009d-22c0-4fdb-8619-9e1cbcdfc568
+
+	measure _cnt_negvlt_highrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           [_f_negvlt_highrt] = "Y" ),
+			        1) 
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 765ced97-4693-4a34-9c72-d694443ce57d
+
+	measure _cnt_lowvlt_negrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_lowvlt_negrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 3703051a-7bf7-4bcc-b786-af003a23f9d1
+
+	measure cnt_negwlt_hibw_posrt = ```
+			
+			    COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_lowvlt_posrt] = "Y"),
+			        1)
+			```
+		formatString: 0
+		lineageTag: 42ca89e2-48c7-4183-b322-72e3f0da6157
+
+	measure _cnt_lowvlt_posrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_lowvlt_posrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 26d91bae-9088-4c64-97c2-698258015d84
+
+	measure _cnt_negvlt_lowrt = ```
+			
+			   var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_negvlt_lowrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 8db79c87-fb80-4ced-9f0c-d7fe31385649
+
+	measure _cnt_posvlt_lowrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_posvlt_lowrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: ab2301aa-6749-4c1c-b314-429a40ccab7b
+
+	measure _cnt_posvlt_negrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_posvlt_negrt] = "Y"),
+			        1)
+			    
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: ad05ab21-0401-4d20-95df-0126523d9be3
+
+	measure _cnt_posvlt_posrt = ```
+			
+			    var cnt =COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_posvlt_posrt] = "Y"),
+			        1)
+			    
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: 890f978f-1e66-42c1-a613-f8078af61d2a
+
+	measure _cnt_negvlt_posrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_negvlt_posrt] = "Y"),
+			        1)
+			    
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: d26e2bda-b615-4d5e-85b5-a7c885994a79
+
+	measure _cnt_negvlt_negrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			            [_f_negvlt_negrt] = "Y"),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		lineageTag: ba5fc0a8-e0e4-4c4c-9af4-a3bfd603cc85
+
+	measure _cnt_quadrant_posvlt_posrt = ```
+			
+			    VAR cnt = COUNTX(
+			        FILTER(
+			            SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE], MASTERTABLE[DIENST]), 
+			            OR(
+			                [_f_posvlt_highrt] = "Y",
+			                [_f_highvlt_posrt] = "Y"
+			                //[_f_posvlt_posrt] = "Y" // Commenté car non utilisé
+			            )
+			        ),
+			        1
+			    )
+			RETURN
+			    IF(ISBLANK(cnt), 0, cnt)
+			
+			```
+		formatString: 0
+		displayFolder: Quadrant Measure
+		lineageTag: cc87563f-0251-4560-87a4-79eaa5931d49
+
+	measure _cnt_quadrant_negvlt_posrt = ```
+			
+			    var cnt = COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           OR(  [_f_lowvlt_highrt] = "Y",
+			            OR( [_f_lowvlt_posrt] = "Y",
+			           // OR( [_f_negvlt_posrt] = "Y"; 
+			                [_f_negvlt_highrt] = "Y"))//)
+			           ),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		displayFolder: Quadrant Measure
+		lineageTag: 030e6527-02c9-40e8-9e8b-b8f6a789de67
+
+	measure _cnt_quadrant_negvlt_negrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           OR(  [_f_lowvlt_lowrt] = "Y",
+			            OR( [_f_lowvlt_negrt] = "Y",
+			            //OR( [_f_negvlt_negrt] = "Y"; 
+			                [_f_negvlt_lowrt] = "Y"))//)
+			           ),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		displayFolder: Quadrant Measure
+		lineageTag: 1e5a3b78-076a-4cbc-84f1-becc13ace414
+
+	measure _cnt_quadrant_posvlt_negrt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			           OR(  [_f_highvlt_lowrt] = "Y",
+			            OR( [_f_highvlt_negrt] = "Y",
+			            //OR( [_f_posvlt_negrt] = "Y"; 
+			                [_f_posvlt_lowrt] = "Y"))//)
+			           ),
+			        1) 
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		displayFolder: Quadrant Measure
+		lineageTag: 15246f78-d88a-493d-861f-19e1494cba14
+
+	measure _perc_quadrant_posvlt_posrt = ```
+			
+			    [_cnt_quadrant_posvlt_posrt] / 
+			        ( [_cnt_quadrant_negvlt_negrt]+[_cnt_quadrant_negvlt_posrt] +[_cnt_highvlt_highrt]
+			        + [_cnt_quadrant_posvlt_negrt] + [_cnt_quadrant_posvlt_posrt]+ [_cnt_quadrant_normal_vlt_rt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Quadrant Measure
+		lineageTag: 9c7127ef-fffd-46a8-8b65-f45b8a629e0d
+
+	measure _perc_quadrant_posvlt_negrt = ```
+			
+			    [_cnt_quadrant_posvlt_negrt] / 
+			        ( [_cnt_quadrant_negvlt_negrt]+[_cnt_quadrant_negvlt_posrt]  +[_cnt_highvlt_highrt]
+			        + [_cnt_quadrant_posvlt_negrt] + [_cnt_quadrant_posvlt_posrt]+ [_cnt_quadrant_normal_vlt_rt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Quadrant Measure
+		lineageTag: d002e04b-a8ed-4af4-be43-89cc7a292521
+
+	measure _perc_quadrant_negvlt_negrt = ```
+			
+			    [_cnt_quadrant_negvlt_negrt] / 
+			        ( [_cnt_quadrant_negvlt_negrt]+[_cnt_quadrant_negvlt_posrt] +[_cnt_highvlt_highrt]
+			        + [_cnt_quadrant_posvlt_negrt] + [_cnt_quadrant_posvlt_posrt] + [_cnt_quadrant_normal_vlt_rt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Quadrant Measure
+		lineageTag: 266a88a1-482f-4db5-98fa-19ec5e0beb81
+
+	measure _perc_quadrant_negvlt_posrt = ```
+			
+			    [_cnt_quadrant_negvlt_posrt] / 
+			        ( [_cnt_quadrant_negvlt_negrt]+[_cnt_quadrant_negvlt_posrt] +[_cnt_highvlt_highrt]
+			        + [_cnt_quadrant_posvlt_negrt] + [_cnt_quadrant_posvlt_posrt]+ [_cnt_quadrant_normal_vlt_rt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Quadrant Measure
+		lineageTag: 2e0d46d7-b665-403e-bbf7-3f46c22e235c
+
+	measure _perc_highvlt_highrt = ```
+			
+			    [_cnt_highvlt_highrt] /
+			    ([_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt] +[_cnt_highvlt_highrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4c440c41-386b-44b2-8f59-6a8a8519c61d
+
+	measure _perc_highvlt_lowrt = ```
+			
+			    [_cnt_highvlt_lowrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c168db33-5862-4fe0-bb29-e3759b251544
+
+	measure _perc_highvlt_negrt = ```
+			
+			    [_cnt_highvlt_negrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 66234058-fe18-470f-ab07-78af26d01a8f
+
+	measure _perc_highvlt_posrt = ```
+			
+			    [_cnt_highvlt_posrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 11f95622-ec62-444a-9a42-8ab4f2c4cc6f
+
+	measure _perc_lowvlt_highrt = ```
+			
+			    [_cnt_lowvlt_highrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e838fcfe-a156-4e92-b3f3-0d279ca0f0fa
+
+	measure _perc_lowvlt_lowrt = ```
+			
+			    [_cnt_lowvlt_lowrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: e62c64ab-692a-4c92-baf7-376720155bfd
+
+	measure _perc_lowvlt_negrt = ```
+			
+			    [_cnt_lowvlt_negrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 587039f8-fcd4-41df-b071-f40f4811465a
+
+	measure _perc_lowvlt_posrt = ```
+			
+			    [_cnt_lowvlt_posrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 10b3add5-d0c9-489e-adff-1faac0af9634
+
+	measure _perc_negvlt_highrt = ```
+			
+			    [_cnt_negvlt_highrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 6939f9c9-fbcb-4302-acb4-209e6ff3d4fe
+
+	measure _perc_negvlt_lowrt = ```
+			
+			    [_cnt_negvlt_lowrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a5c7f2b5-7aeb-4de2-8354-71877ebc79f9
+
+	measure _perc_negvlt_posrt = ```
+			
+			    [_cnt_negvlt_posrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9fca8ace-84af-421e-b50f-e06f6c0b5ef6
+
+	measure _perc_posvlt_highrt = ```
+			
+			    [_cnt_posvlt_highrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 57d261a9-c583-4b87-829c-54cdd75316b3
+
+	measure _perc_posvlt_lowrt = ```
+			
+			    [_cnt_posvlt_lowrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 223d9be3-af46-4414-849d-047fa7b26d24
+
+	measure _perc_posvlt_negrt = ```
+			
+			    [_cnt_posvlt_negrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 371b58c5-86aa-4fd2-8d45-dc65ca6bb498
+
+	measure _perc_posvlt_posrt = ```
+			
+			    [_cnt_posvlt_posrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c8604487-a442-49e2-bacd-aaac632972ef
+
+	measure _perc_negvlt_negrt = ```
+			
+			    [_cnt_negvlt_negrt] /
+			    ([_cnt_highvlt_highrt]+[_cnt_highvlt_lowrt]+[_cnt_highvlt_negrt]+ [_cnt_highvlt_posrt]+
+			     [_cnt_lowvlt_highrt] + [_cnt_lowvlt_lowrt]+ [_cnt_lowvlt_negrt] + [_cnt_lowvlt_posrt]+
+			     [_cnt_negvlt_highrt] + [_cnt_negvlt_lowrt]+ [_cnt_negvlt_negrt] + [_cnt_negvlt_posrt]+
+			     [_cnt_posvlt_highrt] + [_cnt_posvlt_lowrt]+ [_cnt_posvlt_negrt] + [_cnt_posvlt_posrt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 4655eb90-db3e-49d4-8d07-aa0240bc5277
+
+	measure _f_quadrant_posvlt_posrt = ```
+			IF(
+			    OR(
+			        [_f_highvlt_posrt] = "Y",
+			        //[_f_posvlt_posrt] = "Y"; // Commenté car non utilisé
+			        [_f_posvlt_highrt] = "Y"
+			    ),
+			    "Y",
+			    "N"
+			)
+			
+			```
+		displayFolder: Quadrant Measure
+		lineageTag: 5c325708-7c55-46d7-89da-d3186b731c16
+
+	measure _f_quadrant_posvlt_negrt = ```
+			if(OR(  [_f_highvlt_lowrt] = "Y",
+			            OR( [_f_highvlt_negrt] = "Y",
+			            //OR( [_f_posvlt_negrt] = "Y"; 
+			                [_f_posvlt_lowrt] = "Y"))//)
+			                ,"Y","N")
+			```
+		displayFolder: Quadrant Measure
+		lineageTag: 785d07a7-12c3-46eb-8a56-0450ceac26e4
+
+	measure _f_quadrant_negvlt_negrt = ```
+			if(OR(  [_f_lowvlt_lowrt] = "Y",
+			            OR( [_f_lowvlt_negrt] = "Y",
+			            //OR( [_f_negvlt_negrt] = "Y"; 
+			                [_f_negvlt_lowrt] = "Y"))//) 
+			                , "Y","N")
+			```
+		displayFolder: Quadrant Measure
+		lineageTag: f60f4f0d-752b-47e7-acbc-5eb3e3176a82
+
+	measure _f_quadrant_negvlt_posrt = ```
+			if(OR(  [_f_lowvlt_highrt] = "Y",
+			            OR( [_f_lowvlt_posrt] = "Y",
+			          //  OR( [_f_negvlt_posrt] = "Y"; 
+			                [_f_negvlt_highrt] = "Y"))//)
+			                ,"Y","N")
+			```
+		displayFolder: Quadrant Measure
+		lineageTag: e0def14b-f296-4fc5-a30f-c20cfb59a490
+
+	measure _cnt_quadrant_normal_vlt_rt = ```
+			
+			   var cnt =  COUNTX(
+			        FILTER(SUMMARIZE(MASTERTABLE, MASTERTABLE[POSTAL_CODE],MASTERTABLE[DIENST]), 
+			          [_f_quadrant_normalvlt_rt] = "Y"
+			           ),
+			        1)
+			    return
+			        if(ISBLANK(cnt),0,cnt)
+			```
+		formatString: 0
+		displayFolder: Quadrant Measure
+		lineageTag: bb557d21-c3fd-455b-82f4-31090522889d
+
+	measure _perc_quadrant_normalvlt_rt = ```
+			
+			    [_cnt_normalvlt_rt] / 
+			        ( [_cnt_quadrant_negvlt_negrt]+[_cnt_quadrant_negvlt_posrt] +[_cnt_highvlt_highrt]
+			        + [_cnt_quadrant_posvlt_negrt] + [_cnt_quadrant_posvlt_posrt]+ [_cnt_quadrant_normal_vlt_rt])
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Quadrant Measure
+		lineageTag: 92ba12c8-dd2a-458d-996d-ed1452ec0946
+
+	measure 'Average Hours/minutes' = FORMAT(AVERAGE(MASTERTABLE[LAST_HOUR]),"HH:MM")
+		lineageTag: 8993651c-b14e-4ad0-b262-fe2e732c7c99
+
+	measure 'Max REORG START' = MAX(V_PBI_DIM_REORG_VLT[REORG_START_DATE_YYYYMMDD])
+		lineageTag: 7836efb7-ca35-4976-8fcf-87ceaf7216c1
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'DC Value' = SELECTEDVALUE(V_PBI_DIM_REORG_VLT[DC_NAME], "All DC")
+		displayFolder: Values
+		lineageTag: 945e992a-8ce8-4c34-be4b-90208b49659f
+
+	measure 'REGIO Value' = SELECTEDVALUE(V_PBI_DIM_REORG_VLT[REGIO_NAME], "All Region")
+		displayFolder: Values
+		lineageTag: 092493d0-e7ce-4e7d-a622-f0d3a8aa8e80
+
+	measure 'DM Value' = SELECTEDVALUE(V_PBI_DIM_REORG_VLT[DM_NAME], "All DM")
+		displayFolder: Values
+		lineageTag: 89eae3d8-b6f7-41c0-978b-17768bf4492b
+
+	measure 'CP Value' = SELECTEDVALUE(MASTERTABLE[POSTAL_CODE], "All CP")
+		displayFolder: Values
+		lineageTag: 13166d55-4e98-489e-8b55-ec4d5d980267
+
+	measure 'Dienst Value' = SELECTEDVALUE(MASTERTABLE[DIENST], "All")
+		displayFolder: Values
+		lineageTag: 55e2bb9c-88c8-4508-b633-f027e295e2eb
+
+	measure 'AGE Value' = SELECTEDVALUE(DIM_EMPLOYEE[CLUSTER_AGE_DESC], "All")
+		displayFolder: Values
+		lineageTag: 0470ea68-925c-45db-b7c7-42a04768f37c
+
+	measure 'EXP Value' = SELECTEDVALUE(DIM_EMPLOYEE[CLUSTER_EXP_DESC], "All")
+		displayFolder: Values
+		lineageTag: 59326a14-378c-40a9-b2bb-dfdddfe52aad
+
+	measure '# Postman <3 Months' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=1)
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 948ae997-1220-4161-abe5-660560ba486e
+
+	measure '# Postman 3 months  < 6 months' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=2)
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: d6fffe29-7dad-4ed7-a48b-60f6abd4ae25
+
+	measure '# Postman >e 5 ans' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=5)
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 2562e7ab-6e33-4957-b003-c4698856ebba
+
+	measure '# Postman 6 months < 1 year' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=3)
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 0ffbe129-e783-4a20-93d4-c00324be0285
+
+	measure '# Postman 1 year < 5 years' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=4)
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 5df6e7ff-b5e9-4e11-ac99-5df26faa334a
+
+	measure '# Postman <3 Months A' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=1, DIM_EMPLOYEE[HR_STATUS]= "ACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: f032481a-06ed-4c61-a6b2-9fb802122b3d
+
+	measure '# Postman <3 Months NA' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=1, DIM_EMPLOYEE[HR_STATUS]= "INACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 1d09f3b4-05cf-4dd2-9b7b-ee3048d69578
+
+	measure '# Postman >e 5ans  A' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=5, DIM_EMPLOYEE[HR_STATUS]= "ACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: e4ddc0aa-6c68-4778-8dda-7b3c1e55ba6c
+
+	measure '# Postman >e 5ans  NA' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=5, DIM_EMPLOYEE[HR_STATUS]= "INACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 02a753bc-3a6f-49cf-b91d-07e3cd3bc0a0
+
+	measure '# Postman 1 year > 5 years A' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=4, DIM_EMPLOYEE[HR_STATUS]= "ACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 49c410d9-926a-4b52-af9f-06e586248a5d
+
+	measure '# Postman 1 year > 5 years NA' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=4, DIM_EMPLOYEE[HR_STATUS]= "INACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: d983974d-cadd-42f7-b273-244ecdc795cb
+
+	measure '# Postman 3 months < 6 months  NA' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=2, DIM_EMPLOYEE[HR_STATUS]= "INACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 8eeee6e1-a16e-47ba-b58b-143b802d6c08
+
+	measure '# Postman 3 months < 6 months A' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=2, DIM_EMPLOYEE[HR_STATUS]= "ACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: a91b2161-dc31-4779-97cf-edaa1966b0f2
+
+	measure '# Postman 6 months < 1 year A' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]=3, DIM_EMPLOYEE[HR_STATUS]= "ACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: 6a8a54ed-d4ef-413b-9541-42c66b8a3d0c
+
+	measure '# Postman 6 months < 1 year NA' = CALCULATE(COUNT(DIM_EMPLOYEE[HR_NUMBER]), DIM_EMPLOYEE[CLUSTER_EXP_ID]= 3, DIM_EMPLOYEE[HR_STATUS] = "INACTIVE")
+		formatString: 0
+		displayFolder: # Postman
+		lineageTag: ac6116d5-6bfc-4248-b0e7-f0b3928f1053
+
+	measure 'Choose DC Value' = SELECTEDVALUE(V_PBI_DIM_REORG_VLT[DC_NAME], "Please choose one DC")
+		lineageTag: 7a9a0073-97d6-4701-a18b-a885174df5ba
+
+	measure SUMX = SUMX(MASTERTABLE,MASTERTABLE[PAK_VOLUME_ORG])
+		lineageTag: cd47f44c-62de-47d3-87f5-8522fc869f2a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure LastData = MAX(MASTERTABLE[dateFormatted])
+		formatString: Short Date
+		lineageTag: fba320ac-475e-45b3-a760-7b0da9b253b7
+
+	measure 'BW +' = 15*DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST])
+		formatString: 0
+		lineageTag: 69d4b221-54b4-4756-a1b3-d73168870b02
+
+	measure 'BW -' = -15*DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST])
+		formatString: 0
+		lineageTag: b23556ad-dd77-4c99-a5d2-792d21a42fd9
+
+	measure DELTA_DATA = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [DELTA_BADGE_MINUTES_AVG],
+			        "Data Mobi", [DELTA_MOBI_MINUTES_AVG],
+			        "Data Mix", [DELTA_MIX_MINUTES_AVG]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		lineageTag: 91f4f68e-cb5e-4583-951b-7e50f1ace786
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BADGING_OK_COUNT = CALCULATE(DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST]), MASTERTABLE[FLAG_BADGE] = "Badge Ok")
+		formatString: 0
+		lineageTag: 6a068c76-37a2-4b41-bc2d-63c60dd5e6b5
+
+	measure '# Avg Badge End Time hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[BADGE_END_TIME]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[BADGE_END_TIME])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[BADGE_END_TIME]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: af160135-3172-4685-a774-6ca092f4240b
+
+	measure '# Avg Badge Start Time hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[BADGE_START_TIME]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[BADGE_START_TIME])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[BADGE_START_TIME]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: bd280628-4238-4f53-99ea-57e193804337
+
+	measure '# Avg Corrected End Badge hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[CORRECTED_END_CENTRA]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[CORRECTED_END_CENTRA])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[CORRECTED_END_CENTRA]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: 03d8d31c-71c4-4ce7-b94d-0e9bbd2b51b9
+
+	measure '# Avg End Hours Centra hh:mm:ss' =
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[EINDUUR_RONDE]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[EINDUUR_RONDE])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[EINDUUR_RONDE]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			)
+		lineageTag: 1c52a5a1-d18d-450f-bd8d-c8b34cf6dd39
+
+	measure 'Color Final' = ```
+			IF(
+			    [_f_quadrant_negvlt_negrt] = "Y", "Grey",
+			    IF(
+			        [_f_quadrant_negvlt_posrt] = "Y", "Blue",
+			        IF(
+			            [_f_quadrant_posvlt_negrt] = "Y", "Orange",
+			            IF(
+			                [_f_quadrant_normalvlt_rt] = "Y", "Green",
+			                IF(
+			                    [_f_quadrant_posvlt_posrt] = "Y", "Red",
+			                    IF(
+			                        [_f_highvlt_highrt] = "Y", "High Red", ""
+			                    )
+			                )
+			            )
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: 4c5e249f-d067-470b-8391-756307cafa6b
+
+	measure '#VLT Delta Total' = CALCULATE(SUM(MASTERTABLE[WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE])) * 60
+		lineageTag: 9506ff04-dbd8-4b3b-9597-c46add35fbb3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta PRIME' = CALCULATE(SUM(MASTERTABLE[PRIME_WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE])*60)
+		lineageTag: 1e964e8e-078f-4066-a35c-0143ffd06799
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta PAK' = CALCULATE(SUM(MASTERTABLE[PAK_WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))*60
+		lineageTag: 01e9abb3-cbc8-4a3b-a825-c3c9f8658551
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta KRANT' = CALCULATE(SUM(MASTERTABLE[KRANT_WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))*60
+		lineageTag: 1c1341d8-5318-4752-8efe-a3fec1f68841
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta FNGF' = CALCULATE(SUM(MASTERTABLE[FNGF_WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))*60
+		lineageTag: f2805e7f-424c-4e0e-9256-3fc967b20bf4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta ENA' = CALCULATE(SUM(MASTERTABLE[ENA_WLT_DELTA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))*60
+		lineageTag: aa60c20d-fe09-457e-87ae-4b29fe5f2e5c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#VLT Delta EE' = ```
+			CALCULATE(
+			    SUM(MASTERTABLE[EE_WLT_DELTA]) + 
+			    (SUM(MASTERTABLE[EE_NBR_WLT_DELTA]) 
+			))*60 / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]
+			)
+			```
+		lineageTag: 01b22b26-9aff-429f-96e7-468e47946247
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Titulaire Name' = ```
+			
+			VAR SummaryTable =
+			    SUMMARIZE(
+			        MASTERTABLE,
+			        MASTERTABLE[EMPLID],
+			        "Total_DAY_DATE", SUM(MASTERTABLE[DAY_DATE])
+			    )
+			VAR MaxTotal =
+			    MAXX(SummaryTable, [Total_DAY_DATE])
+			VAR EmplID_max_total =
+			    MAXX(
+			        FILTER(SummaryTable, [Total_DAY_DATE] = MaxTotal),
+			        [EMPLID]
+			    )
+			RETURN
+			    CALCULATE(
+			        MAX(DIM_EMPLOYEE[FULL_NAME]),
+			        DIM_EMPLOYEE[HR_NUMBER] = EmplID_max_total
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: 88d67f4a-08e8-428b-8631-fc579e448371
+
+	measure 'Color Filter' = ```
+			
+			    SWITCH(
+			        TRUE(),
+			        [Color_data] = "High Red",6,
+			        [Color_data] = "Red",5,
+			        [Color_data] = "Orange", 4,
+			        [Color_data] = "Blue",3,
+			        [Color_data] = "Green", 2,
+			        [Color_data] = "Grey",1,BLANK()
+			        
+			    )
+			
+			```
+		formatString: 0
+		lineageTag: d42136ec-72c5-42ab-9a9b-4b7f89d5d299
+
+	measure '#Volume Real PRIME' = CALCULATE(SUM(MASTERTABLE[PRIME_VOLUME_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 850e55f0-b4f9-4800-bb45-caa20ab8da4c
+
+	measure '#Volume Real Pak' = CALCULATE(SUM(MASTERTABLE[PAK_VOLUME_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 0da010a6-07f4-4451-9912-a51810705dda
+
+	measure '#Volume Real PRIME + PAK' = CALCULATE([#Volume Real Pak] + [#Volume Real PRIME])
+		formatString: #,0
+		lineageTag: ed107458-b1be-4f79-b7f9-178686c9d29c
+
+	measure '#Volume Real KRANT' = CALCULATE(SUM(MASTERTABLE[KRANT_VOLUME_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: c2082f70-74d3-4952-95b2-4d279655ee25
+
+	measure '#Volume Real FNGF' = CALCULATE(SUM(MASTERTABLE[FNGF_VOLUME_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 694f0936-e92c-45b3-947c-2051a8eb6938
+
+	measure '#Volume Real ENA' = ```
+			CALCULATE(SUM(MASTERTABLE[ENA_VOLUME_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+			
+			```
+		formatString: #,0
+		lineageTag: 1a0202d5-a377-4981-b006-3dcc79a237a4
+
+	measure '#Volume Real EE' = CALCULATE(SUM(MASTERTABLE[EE_REEL]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 08082b1e-c42d-497f-9be6-018fea9de65e
+
+	measure '#Volume org PRIME' = CALCULATE(SUM(MASTERTABLE[PRIME_VOLUME_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 6337c7d6-c34d-43ab-8964-4819bcddc403
+
+	measure '#Volume org PAK' = CALCULATE(SUM(MASTERTABLE[PAK_VOLUME_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 2843477c-1956-4ff8-b434-b78ff7bda239
+
+	measure '#Volume org PRIME+PAK' = CALCULATE([#Volume org PAK] + [#Volume org PRIME])
+		formatString: #,0
+		lineageTag: 38891b20-4afd-4ecf-86b3-4ed276d2c7bf
+
+	measure '#Volume org KRANT' = CALCULATE(SUM(MASTERTABLE[KRANT_VOLUME_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 4983f1c8-c7aa-48af-aaf0-6c6dd70dd54b
+
+	measure '#Volume org ENA' = CALCULATE(SUM(MASTERTABLE[ENA_VOLUME_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: a6feae7a-fdff-4f7b-a610-fd5af4060172
+
+	measure '#Volume org EE' = CALCULATE(SUM(MASTERTABLE[EE_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 17836626-3f20-41f0-85d7-2faafd48b80b
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '#Volume Delta PRIME+PAK' = CALCULATE([#Volume Real PRIME + PAK]/[#Volume org PRIME+PAK] )
+		formatString: 0%;-0%;0%
+		lineageTag: 507825ae-dc04-4ac1-802b-9ae9e3b7563e
+
+	measure '#Volume Delta Prime' = CALCULATE([#Volume Real PRIME]/[#Volume org PRIME] )
+		formatString: 0%;-0%;0%
+		lineageTag: e64215b3-7534-4b17-a13b-b755508ff5b6
+
+	measure '#Volume Delta PAK' = CALCULATE([#Volume Real Pak]/[#Volume org PAK] )
+		formatString: 0%;-0%;0%
+		lineageTag: 65025dc3-d152-4d3f-905f-4eb1aeb312f9
+
+	measure '#Volume Delta KRANT' = CALCULATE([#Volume Real KRANT]/[#Volume org KRANT])
+		formatString: 0%;-0%;0%
+		lineageTag: 08e43091-e98e-4815-bd36-1f8d7e9609b1
+
+	measure '#Volume org FNGF' = CALCULATE(SUM(MASTERTABLE[FNGF_VOLUME_ORG]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		formatString: #,0
+		lineageTag: 50f1c493-01ac-4d48-a961-4f76eac8380a
+
+	measure '#Volume Delta FNGF' = CALCULATE([#Volume Real FNGF]/[#Volume org FNGF] )
+		formatString: 0%;-0%;0%
+		lineageTag: a67fa8c2-8082-4862-beae-9014d62dcd6d
+
+	measure '#Volume Delta ENA' = CALCULATE([#Volume Real ENA]/[#Volume org ENA] )
+		formatString: 0%;-0%;0%
+		lineageTag: 36df7fcf-3374-4e57-8659-36e3466b6625
+
+	measure '#Volume Delta EE' = CALCULATE([#Volume Real EE]/[#Volume org EE] )
+		formatString: 0%;-0%;0%
+		lineageTag: b5571013-f4bd-42b4-b281-22b8be30858d
+
+	measure _cnt_services_real_badge_ok = ```
+			CALCULATE(COUNT(MASTERTABLE[POSTALCODE_DIENST]), MASTERTABLE[FLAG_BADGE] = "Badge Ok") 
+			```
+		lineageTag: 27ab1d5e-1c6c-45c4-8ead-97524a1ffaee
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '% Badge Ok' = ```
+			CALCULATE([_cnt_services_real_badge_ok]) / COUNT(MASTERTABLE[POSTALCODE_DIENST]) 
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 2b36d817-57e8-4a7b-a47b-1a6df19a04d1
+
+	measure CORRECTED_END_MINUTES_AVG = ```
+			
+			    SUM(MASTERTABLE[CORRECTED_END_CENTRA_NUM]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE])  /DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+			```
+		lineageTag: 734fbd2f-29a5-425c-962d-8c6866d8ad0c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure EINDUUR_RONDE_MINUTES_AVG = ```
+			
+			    SUM(MASTERTABLE[EINDUUR_RONDE_NUM]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+			```
+		lineageTag: 98e78a3c-f657-4c0b-a5a5-606062aac85e
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure BADGING_NOK_COUNT = CALCULATE(COUNT(MASTERTABLE[FLAG_BADGE]), MASTERTABLE[FLAG_BADGE] = "No Badge")
+		formatString: 0
+		lineageTag: 156299dc-6f6d-4898-b80d-dc5dc631a35d
+
+	measure DV_BALANCE_MIN = CALCULATE(MAX(MASTERTABLE[DV_BALANCE]) / 60 )
+		formatString: #,0
+		lineageTag: b32103cf-0675-4df1-8f36-882705f33f4a
+
+	measure ENV_REG_MIN = CALCULATE(MAX(MASTERTABLE[ENV_REG])  / 60)
+		formatString: 0
+		lineageTag: 077dd6af-bbc3-4791-9796-0de9dc6e0955
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	measure '#Badge End/ Mobi End Hours Delta' = CALCULATE(SUM(MASTERTABLE[DELTA_BADGE_MINUTES_CENTRA]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]))
+		lineageTag: f60cf352-8a4f-481b-afd9-164cea65b4fc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Avg Mobi End Time hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[LAST_HOUR]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[LAST_HOUR])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[LAST_HOUR]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: 58c32dcf-c687-444f-875f-b5964e5fbb14
+
+	measure '# Avg Mobi Start Time hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[MOBI_START]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[MOBI_START])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[MOBI_START]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: b7a50cf0-8237-4dc4-9d12-4c8e2ecf97e2
+
+	measure DELTA_MIX_MINUTES_AVG = CALCULATE(SUM(MASTERTABLE[DELTA_BADGE_MINUTES_CENTRA])/ DISTINCTCOUNT(MASTERTABLE[DAY_DATE])) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+		lineageTag: 8d47e5e3-3ee5-47ab-bee9-c17c4c87296c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DELTA_MOBI_MINUTES_AVG = ```
+			
+			    CALCULATE(
+			        SUM(MASTERTABLE[DELTA_MOBI_MINUTES]), 
+			        MASTERTABLE[LAST_HOUR] <> BLANK()
+			    ) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+			
+			```
+		lineageTag: f5ab0909-2ef6-41a2-933e-8b89e53d8e5b
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure DELTA_BADGE_MINUTES_AVG = CALCULATE(SUM(MASTERTABLE[DELTA_BADGE_MINUTES]), MASTERTABLE[FLAG_BADGE]= "Badge OK")/ DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+		lineageTag: eb2d5687-9a81-4059-858e-443137218336
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '# Avg Start Time Centra hh:mm:ss' = ```
+			
+			
+			VAR TotalSecondes =
+			    SUMX(
+			        FILTER(
+			            MASTERTABLE,
+			            ISBLANK(MASTERTABLE[BEGINUUR_RONDE]) = FALSE
+			        ),
+			        TIMEVALUE(MASTERTABLE[BEGINUUR_RONDE])
+			    )
+			VAR NombreElements = COUNTROWS(
+			    FILTER(
+			        MASTERTABLE,
+			        ISBLANK(MASTERTABLE[BEGINUUR_RONDE]) = FALSE
+			    )
+			)
+			RETURN
+			    IF(
+			        NombreElements > 0,
+			        FORMAT(
+			            DIVIDE(TotalSecondes, NombreElements),
+			            "hh:mm"
+			        ),
+			        BLANK()
+			    )
+			
+			
+			```
+		lineageTag: 79f33040-9521-4577-be63-fee35a47e097
+
+	measure BADGE_END_MINUTES_AVG = ```
+			
+			    SUM(MASTERTABLE[BADGE_END_NUM]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+			```
+		lineageTag: c84027fa-b80b-491a-9a5c-93507943b551
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure MOBI_END_MINUTES_AVG = ```
+			
+			    SUM(MASTERTABLE[MOBI_END_NUM]) / DISTINCTCOUNT(MASTERTABLE[DAY_DATE]) / DISTINCTCOUNT(MASTERTABLE[ROUND_NAME])
+			```
+		lineageTag: d09dc831-ebf2-411e-a26a-2f7e04a50651
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Services Badge' = CALCULATE(DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST]), MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: 3b2b5625-2500-434d-8109-889949937a26
+
+	measure #Services = CALCULATE(DISTINCTCOUNT(MASTERTABLE[POSTALCODE_DIENST]))
+		formatString: 0
+		lineageTag: ae8d0e10-bffb-4d1d-8693-533ea96b7edd
+
+	measure SERVICES_DATA = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [#Services Badge],
+			        "Data Mobi", [#Services]
+			    
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: 38b79669-792c-46e3-b10e-8b191a474f7e
+
+	measure _cnt_quadrant_negvlt_negrt_badge = CALCULATE([_cnt_quadrant_negvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: 9fbae1dd-9dc3-4962-b6c6-71def5584553
+
+	measure '#Grey Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_quadrant_negvlt_negrt_badge],
+			        "Data Mobi", [_cnt_quadrant_negvlt_negrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: 269d83a5-a64d-425d-8136-f71a83468b74
+
+	measure _cnt_quadrant_posvlt_posrt_badge = CALCULATE([_cnt_quadrant_posvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: b02a475a-5440-45ea-97aa-26deaa21de7f
+
+	measure '#Red Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_quadrant_posvlt_posrt_badge],
+			        "Data Mobi", [_cnt_quadrant_posvlt_posrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: c7b08a2e-1cf6-4351-ad73-45f86ab8c812
+
+	measure _cnt_normalvlt_rt_badge = CALCULATE([_cnt_normalvlt_rt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: f03970ba-ebe7-4044-abcc-de71bca964af
+
+	measure '#Green Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_normalvlt_rt_badge],
+			        "Data Mobi", [_cnt_normalvlt_rt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: 966ffb04-3e75-4dc7-8c54-47d9350f02b9
+
+	measure _cnt_quadrant_posvlt_negrt_badge = CALCULATE([_cnt_quadrant_posvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: c02e402a-d9c5-44ba-9248-2dd5a58ae15b
+
+	measure '#Orange Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_quadrant_posvlt_negrt_badge],
+			        "Data Mobi", [_cnt_quadrant_posvlt_negrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: 6232c2b5-e856-4ce7-81e0-9a7964740791
+
+	measure _cnt_highvlt_highrt_badge = CALCULATE([_cnt_highvlt_highrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: 672cb4b8-e95f-411a-a551-dcf8d2d8753a
+
+	measure '#High Red Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_highvlt_highrt_badge],
+			        "Data Mobi", [_cnt_highvlt_highrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: d0d1fb8e-7546-4fb6-934f-2939e611cfd1
+
+	measure _perc_quadrant_negvlt_negrt_badge = CALCULATE([_perc_quadrant_negvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 70a81946-1bdd-4ad4-b221-70a7de3b7d32
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Grey Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_quadrant_negvlt_negrt_badge],
+			        "Data Mobi", [_perc_quadrant_negvlt_negrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 50629df8-a7b2-44f8-b853-ccc9997e6dc9
+
+	measure _perc_quadrant_negvlt_posrt_badge = CALCULATE([_perc_quadrant_negvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 84d23618-36e1-4aa2-b91e-2ded2cbb5358
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _perc_highvlt_highrt_badge = CALCULATE([_perc_highvlt_highrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 118627e7-9619-4cd1-b185-b01608976550
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Yellow Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_quadrant_negvlt_posrt_badge],
+			        "Data Mobi", [_perc_quadrant_negvlt_posrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 53703efd-ce96-4a8c-961d-0ecaae390f61
+
+	measure _cnt_quadrant_negvlt_posrt_badge = CALCULATE([_cnt_quadrant_negvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0
+		lineageTag: d951d9fc-ab48-440f-bc8c-88e68ece49c2
+
+	measure '#Yellow Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_cnt_quadrant_negvlt_posrt_badge],
+			        "Data Mobi", [_cnt_quadrant_negvlt_posrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: c74044ab-f9bb-42b8-ac95-ca94a5698bfb
+
+	measure _perc_quadrant_posvlt_posrt_badge = CALCULATE([_perc_quadrant_posvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 0744c4e7-3182-42b1-b0fa-813e434e5674
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Red Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_quadrant_posvlt_posrt],
+			        "Data Mobi", [_perc_quadrant_posvlt_posrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 78cc1f34-a25d-49a0-b17c-8ef1f2b2314a
+
+	measure _perc_quadrant_posvlt_negrt_badge = CALCULATE([_perc_quadrant_posvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 4eaca900-0d66-4da3-b059-a14658a26c6a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '%Orange Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_quadrant_posvlt_negrt_badge],
+			        "Data Mobi", [_perc_quadrant_posvlt_negrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 48d5f940-c96f-42a0-bdbc-69fb2f93b357
+
+	measure '%Green Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_quadrant_normalvlt_rt_badge],
+			        "Data Mobi", [_perc_quadrant_normalvlt_rt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 522c0d7e-9fd2-4aab-bc17-8dacd71f3d79
+
+	measure _perc_quadrant_normalvlt_rt_badge = CALCULATE([_perc_quadrant_normalvlt_rt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 5fc79c7e-56d5-4b7a-95fd-c1004f2373fc
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		lineageTag: 1c7bad35-703b-4f48-8e2d-b5ba1aeb2292
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure '%High Red Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [_perc_highvlt_highrt_badge],
+			        "Data Mobi", [_perc_highvlt_highrt]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 05e791ed-e2c9-4626-b858-658b50d4e4fd
+
+	measure '%Badge OK Data' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [%Badge 100%],
+			        "Data Mobi", [% Badge Ok]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0.0%;-0.0%;0.0%
+		lineageTag: 93a505f8-21e9-4235-9bbf-ae147ca51f12
+
+	measure '%Badge 100%' = CALCULATE([% Badge Ok], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: b4ec06a0-280f-4589-8f4b-3d2546fc9516
+
+	measure Temps =
+			
+			VAR Minutes = SELECTEDVALUE(MASTERTABLE[DELTA_MOBI_MINUTES], 0)
+			VAR Heures = TRUNC(Minutes / 60)
+			VAR MinutesRestantes = ROUND(MOD(Minutes, 60), 0)
+			RETURN
+			    IF(
+			        ISBLANK(Minutes),
+			        "00:00",
+			        IF(
+			            Minutes < 0,
+			            "-" & ABS(Heures) & ":" & FORMAT(ABS(MinutesRestantes), "00"),
+			            Heures & ":" & FORMAT(MinutesRestantes, "00")
+			        )
+			    )
+		lineageTag: 4cb767a6-63d5-4448-91a2-771552a3d09e
+
+	measure DATA_TIME = ```
+			
+			VAR Minutes = MASTERTABLE[DELTA_DATA]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			    Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00")
+			
+			```
+		lineageTag: 654bb2d1-74e3-4af4-bacd-42d29655ce65
+
+	measure 'MC Value' = SELECTEDVALUE(V_PBI_DIM_REORG_VLT[MC_NAME], "All MC")
+		lineageTag: ee11c60f-d1d4-40c5-98c4-16adddde4f56
+
+	measure '#Avg Workload Mobi' = ```
+			
+			    CALCULATE([_WLT_AVG]
+			)
+			
+			```
+		lineageTag: 9547f5c6-5447-495b-a169-6577b93816a6
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure '#Avg Workload Badge' = ```
+			
+			    CALCULATE([_WLT_AVG], MASTERTABLE[FLAG_DATA_RT] = "Data Badge"
+			    
+			)
+			
+			```
+		formatString: 0
+		lineageTag: deb15058-bb89-4c02-96d9-6a590d392db0
+
+	measure '#Data Workload' = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [#Avg Workload Badge],
+			        "Data Mobi", [#Avg Workload Mobi]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		formatString: 0
+		lineageTag: e548a372-5506-44ab-825f-214bd54feed4
+
+	measure _cnt_normalvlt_rt_Mobi = CALCULATE([_cnt_normalvlt_rt], MASTERTABLE[FLAG_DATA_RT] = "Data Mobi")
+		formatString: 0
+		lineageTag: df9ee48d-3a9d-40f2-825c-45a2e704bf43
+
+	measure _f_quadrant_normalvlt_rt_badge = CALCULATE([_f_quadrant_normalvlt_rt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 5c570575-11df-4f50-a27f-c886326b7a46
+
+	measure 'Green Delta Data Badge' = ```
+			IF(
+			    [_f_quadrant_normalvlt_rt_badge] = "y",
+			    CALCULATE([DELTA_BADGE_MINUTES_AVG])
+			)
+			
+			```
+		lineageTag: 4c5d8207-85e5-45bb-bd7d-a893bdc1ccbf
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure _f_quadrant_negvlt_negrt_badge = CALCULATE([_f_quadrant_negvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 8b7ce972-136c-4837-af8c-214b1af69ca7
+
+	measure _f_quadrant_negvlt_posrt_badge = CALCULATE([_f_quadrant_negvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 857adf7f-8a1e-4366-9918-c561286f63c6
+
+	measure _f_quadrant_posvlt_negrt_badge = CALCULATE([_f_quadrant_posvlt_negrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 6fa8e63c-20e0-4751-ac63-dcaf9803c8f5
+
+	measure _f_quadrant_posvlt_posrt_badge = CALCULATE([_f_quadrant_posvlt_posrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: 5a585344-c2f1-4aaa-93fd-101ba3d5cc83
+
+	measure 'Color Final Badge' = ```
+			IF(
+			    [_f_quadrant_negvlt_negrt_badge] = "Y", "Grey",
+			    IF(
+			        [_f_quadrant_negvlt_posrt_badge] = "Y", "Blue",
+			        IF(
+			            [_f_quadrant_posvlt_negrt_badge] = "Y", "Orange",
+			            IF(
+			                [_f_quadrant_normalvlt_rt_badge] = "Y", "Green",
+			                IF(
+			                    [_f_quadrant_posvlt_posrt_badge] = "Y", "Red",
+			                    IF(
+			                        [_f_quadrant_highvlt_highrt_badge] = "Y", "High Red", ""
+			                    )
+			                )
+			            )
+			        )
+			    )
+			)
+			
+			```
+		lineageTag: cf02c2be-da70-4ea7-95d6-b3a0583316b4
+
+	measure _f_quadrant_highvlt_highrt_badge = CALCULATE([_f_highvlt_highrt], MASTERTABLE[FLAG_DATA_RT] = "Data Badge")
+		lineageTag: c0622430-228d-42ae-aaed-407fae751296
+
+	measure Color_data = ```
+			
+			IF(HASONEFILTER(CalcType[Data]),
+			    SWITCH(SELECTEDVALUE(CalcType[Data]),
+			        "Data Badge", [Color Final Badge],
+			        "Data Mobi", [Color Final]
+			        
+			     
+			    ),
+			   BLANK()
+			)
+			```
+		lineageTag: dc219524-68ac-4067-8e6d-20902e9c7994
+
+	measure LOCOMOTION_TYPE_LOGO = ```
+			
+			CONCATENATEX (
+			    DISTINCT ( MASTERTABLE[LOCOMOTION_TYPE] ),
+			    SWITCH (
+			        TRUE,
+			        MASTERTABLE[LOCOMOTION_TYPE] = "AUTO", "🚗",
+			        MASTERTABLE[LOCOMOTION_TYPE] = "MOTORCYCLE", "🛵",
+			        MASTERTABLE[LOCOMOTION_TYPE] = "VELO", "🚲",
+			        MASTERTABLE[LOCOMOTION_TYPE] = "PEDESTRIAN", "🚶",
+			
+			        BLANK()
+			    ),
+			    "   "
+			)
+			
+			```
+		lineageTag: e77bdac9-cb19-40f1-b6ae-84093b9fd451
+
+	measure WORKLOAD_TIME = ```
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta Total]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			    Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00")
+			
+			```
+		lineageTag: 7a0bcf32-855d-4df3-91ea-3d226ab9a180
+
+	measure 'Max Date DATA' = CALCULATE(MAX(MASTERTABLE[DAY_DATE]), MASTERTABLE[BADGE_TIME] <> BLANK())
+		formatString: 0
+		lineageTag: e00e109d-4312-487c-8176-02596549c9d8
+
+	measure 'MAX WORKLOAD dateFormatted' = Date(Left([Max Date DATA],4),Right(left([Max Date DATA],6),2),right([Max Date DATA],2))
+		formatString: dddd\, d mmmm yyyy
+		lineageTag: 04c1193b-e7f3-4872-9e28-23b89e606d9b
+
+		annotation PBI_FormatHint = {"isDateTimeCustom":true}
+
+	measure '#VLT Delta Pak hh:mm' = ```
+			
+			 
+			VAR Minutes = MASTERTABLE[#VLT Delta PAK]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+			
+			```
+		lineageTag: 825da4fe-3823-4883-9271-c15bf7919f04
+
+	measure '#VLT Delta FNGF hh:mm' = ```
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta FNGF]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+			
+			```
+		lineageTag: fe2abec5-db54-4df1-bd85-8341951fc60b
+
+	measure '#VLT Delta EE hh:mm' =
+			
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta EE]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: eb8818f8-c36a-48f9-a0e8-9a2cc09fa64f
+
+	measure '#VLT Delta ENA hh:mm' =
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta ENA]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: 4e71f9a5-3ead-47ac-b826-47311e2230da
+
+	measure '#VLT Delta KRANT hh:mm' =
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta KRANT]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: ff3b990d-47e7-41d4-acff-a163fb4a2424
+
+	measure '#VLT Delta PRIME hh:mm' =
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta PRIME]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: 9ca6847d-c988-4eb2-9f66-2b95f0ac0017
+
+	measure '#VLT Delta Total hh:mm' =
+			
+			VAR Minutes = MASTERTABLE[#VLT Delta Total]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: 3d0934bb-e354-40b1-b262-200e1b590c25
+
+	measure '#DV Balance hh:mm' =
+			
+			VAR Minutes = MASTERTABLE[DV_BALANCE_MIN]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+		lineageTag: 9551c776-d780-4782-98be-5047687d8c87
+
+	measure '#Env Reg hh:mm' = ```
+			
+			VAR Minutes = MASTERTABLE[ENV_REG_MIN]
+			VAR Heures = TRUNC(ABS(Minutes) / 60)
+			VAR MinutesRestantes = MOD(ABS(Minutes), 60)
+			VAR Signe = IF(Minutes < 0, "-", "")
+			RETURN
+			IF(ISBLANK(Minutes), BLANK(), Signe & FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00"))
+			
+			```
+		lineageTag: 9692f444-8cac-4cdd-b6a8-f0c5d385e25f
+
+	column REORG_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 4c9fa318-2a7f-4a36-a2f3-776dc00b44df
+		summarizeBy: none
+		sourceColumn: REORG_ID
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isDecimal":true}
+
+	column POSTAL_CODE
+		dataType: string
+		lineageTag: 4f974eda-30a8-4557-90f1-c4101ce4646d
+		summarizeBy: none
+		sourceColumn: POSTAL_CODE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column DIENST
+		dataType: string
+		lineageTag: a5b9fab3-4e1e-4fda-8d40-61892370ac25
+		summarizeBy: none
+		sourceColumn: DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column EINDUUR_RONDE
+		dataType: string
+		lineageTag: 43015475-b5fd-4a93-85eb-dfe196c5242c
+		summarizeBy: none
+		sourceColumn: EINDUUR_RONDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_HOUR
+		dataType: string
+		lineageTag: 08a26ab1-2fe4-4a28-8bc1-f04b06b73eaa
+		summarizeBy: none
+		sourceColumn: LAST_HOUR
+
+		annotation SummarizationSetBy = Automatic
+
+	column POSTALCODE_DIENST
+		dataType: string
+		lineageTag: 4ba7e186-c6f7-45a0-864d-c663ae27eaa4
+		summarizeBy: none
+		sourceColumn: POSTALCODE_DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column ENV_REG
+		dataType: double
+		formatString: 0
+		lineageTag: bcfed8ce-ae87-4e54-94d3-8f22e6f3b3a0
+		summarizeBy: none
+		sourceColumn: ENV_REG
+
+		annotation SummarizationSetBy = User
+
+	column DV_BALANCE
+		dataType: int64
+		lineageTag: 8abe3115-1acd-432c-af45-a7f0fab9b5d9
+		summarizeBy: sum
+		sourceColumn: DV_BALANCE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DAY_DATE
+		dataType: int64
+		formatString: 0
+		lineageTag: 309b8964-9566-4a68-83fa-eef40581ec50
+		summarizeBy: none
+		sourceColumn: DAY_DATE
+
+		annotation SummarizationSetBy = Automatic
+
+	column dateFormatted = Date(Left([DAY_DATE],4),Right(left([DAY_DATE],6),2),right([DAY_DATE],2))
+		formatString: Short Date
+		lineageTag: de7075bf-e50a-4d9d-aa2a-81c613c644af
+		summarizeBy: none
+
+		variation Variation
+			isDefault
+			relationship: fb4004d6-cba4-45d9-ab1e-1efebbc18362
+			defaultHierarchy: LocalDateTable_5ff187b5-f227-4949-bb9d-5c1ae6a6ff03.'Hiérarchie de dates'
+
+		annotation SummarizationSetBy = Automatic
+
+	column FNGF_WLT_DELTA
+		dataType: double
+		lineageTag: 24258cda-2019-4e83-b96b-2064b12a64ec
+		summarizeBy: sum
+		sourceColumn: FNGF_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ENA_WLT_DELTA
+		dataType: double
+		lineageTag: 9632cdc2-6c61-4bcb-9327-eaafaf953001
+		summarizeBy: sum
+		sourceColumn: ENA_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EE_WLT_DELTA
+		dataType: double
+		lineageTag: bf369a3f-4b61-4c8d-830a-b389b6e4e7ae
+		summarizeBy: sum
+		sourceColumn: EE_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAK_WLT_DELTA
+		dataType: double
+		lineageTag: 40755e30-2a89-460d-a042-1ad2d4912214
+		summarizeBy: sum
+		sourceColumn: PAK_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column WLT_DELTA
+		dataType: double
+		lineageTag: 6c47143c-c4bd-43fa-84e0-a53f0b1870b2
+		summarizeBy: sum
+		sourceColumn: WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRIME_WLT_DELTA
+		dataType: double
+		lineageTag: d32633c5-a47d-465d-9154-415baa9ce6bf
+		summarizeBy: sum
+		sourceColumn: PRIME_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FNGF_VOLUME_REEL
+		dataType: double
+		lineageTag: 4616ce8d-2f97-4643-b49e-adee7d8f7d13
+		summarizeBy: sum
+		sourceColumn: FNGF_VOLUME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FNGF_VOLUME_ORG
+		dataType: double
+		lineageTag: 24c11daa-3922-4c2a-8c46-4a7b23f9bdc4
+		summarizeBy: sum
+		sourceColumn: FNGF_VOLUME_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ENA_VOLUME_REEL
+		dataType: double
+		lineageTag: eaf13e51-ce93-431f-8187-842587296309
+		summarizeBy: sum
+		sourceColumn: ENA_VOLUME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ENA_VOLUME_ORG
+		dataType: double
+		lineageTag: f89b6a58-35fd-4624-8ff4-bc7baf819d55
+		summarizeBy: sum
+		sourceColumn: ENA_VOLUME_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAK_VOLUME_REEL
+		dataType: double
+		lineageTag: cf8c0376-40a8-4df4-94ad-5bb54e526844
+		summarizeBy: sum
+		sourceColumn: PAK_VOLUME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PAK_VOLUME_ORG
+		dataType: double
+		lineageTag: 7ccab56d-3954-4035-8705-ad605413763e
+		summarizeBy: sum
+		sourceColumn: PAK_VOLUME_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KRANT_VOLUME_REEL
+		dataType: double
+		lineageTag: 72867a9d-f998-4bbb-84f1-9ec381628d0f
+		summarizeBy: sum
+		sourceColumn: KRANT_VOLUME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KRANT_VOLUME_ORG
+		dataType: double
+		lineageTag: 9a9b5842-61a4-4910-8288-4b9474917a82
+		summarizeBy: sum
+		sourceColumn: KRANT_VOLUME_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column KRANT_WLT_DELTA
+		dataType: double
+		lineageTag: 3190c2db-1d82-4150-ada2-1d23d5591412
+		summarizeBy: sum
+		sourceColumn: KRANT_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CORRECTED_END
+		dataType: string
+		lineageTag: 382123d3-6f3f-4fef-8f45-76b13dfd76d2
+		summarizeBy: none
+		sourceColumn: CORRECTED_END
+
+		annotation SummarizationSetBy = Automatic
+
+	column PRIME_VOLUME_REEL
+		dataType: double
+		lineageTag: c6142b65-16a5-4d9c-90e4-6e66fdb7d710
+		summarizeBy: sum
+		sourceColumn: PRIME_VOLUME_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column PRIME_VOLUME_ORG
+		dataType: double
+		lineageTag: d602e91c-0b0f-4af5-850c-7221e7dda540
+		summarizeBy: sum
+		sourceColumn: PRIME_VOLUME_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FLAG_BADGE
+		dataType: string
+		lineageTag: 5ff3207a-09fe-4cd2-8e45-3941aa819985
+		summarizeBy: none
+		sourceColumn: FLAG_BADGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMPLID
+		dataType: string
+		lineageTag: a16b5587-70eb-4145-9f58-a127ad50631b
+		summarizeBy: none
+		sourceColumn: EMPLID
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELTA_BADGE_MINUTES_CENTRA
+		dataType: int64
+		lineageTag: 3a399d14-4f9e-4a2c-b0a1-f80ae5ee372b
+		summarizeBy: sum
+		sourceColumn: DELTA_BADGE_MINUTES_CENTRA
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BADGE_START_TIME
+		dataType: string
+		lineageTag: 5f5f1008-606c-4d77-ab8d-3f4e4e74704f
+		summarizeBy: none
+		sourceColumn: BADGE_START_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+	column BADGE_END_TIME
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: cb5c8bb7-e478-4ed9-b8ef-34b3c2cc61e2
+		summarizeBy: none
+		sourceColumn: BADGE_END_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column CORRECTED_END_CENTRA
+		dataType: string
+		lineageTag: 8fb15867-859d-49a3-9977-dcfd91f26cb5
+		summarizeBy: none
+		sourceColumn: CORRECTED_END_CENTRA
+
+		annotation SummarizationSetBy = Automatic
+
+	column BADGE_TIME
+		dataType: double
+		lineageTag: a0181b9b-0c70-46ec-950c-fc53edcec6ca
+		summarizeBy: sum
+		sourceColumn: BADGE_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CORRECTED_BADGE_TIME
+		dataType: double
+		lineageTag: c1173941-1e2b-4b98-aa09-d57284f10e4e
+		summarizeBy: sum
+		sourceColumn: CORRECTED_BADGE_TIME
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FIRST_BDE
+		dataType: string
+		lineageTag: 1dee8996-cebb-4527-b4ad-5566839d1181
+		summarizeBy: none
+		sourceColumn: FIRST_BDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_BDE
+		dataType: string
+		lineageTag: 56d3310e-d7e5-4964-be73-5b74b7f4e84e
+		summarizeBy: none
+		sourceColumn: LAST_BDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column MOBI_START
+		dataType: string
+		lineageTag: 4a0ebc26-1d81-455d-bce8-71fc43ab2d17
+		summarizeBy: none
+		sourceColumn: MOBI_START
+
+		annotation SummarizationSetBy = Automatic
+
+	column MOBI_END
+		dataType: string
+		lineageTag: ffc9da54-b728-4a7f-ae59-0b111abb3dc6
+		summarizeBy: none
+		sourceColumn: MOBI_END
+
+		annotation SummarizationSetBy = Automatic
+
+	column IS_LAST_MASTER_REORG
+		dataType: string
+		lineageTag: 18b48583-bbdb-4a12-9c7c-5a5bf613d832
+		summarizeBy: none
+		sourceColumn: IS_LAST_MASTER_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+	column ROUND_NAME
+		dataType: string
+		lineageTag: 19c8476b-b77a-496f-9c97-95424f532e1f
+		summarizeBy: none
+		sourceColumn: ROUND_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column LOCOMOTION_TYPE
+		dataType: string
+		lineageTag: 52a4a588-09e9-4b8f-b796-67ffa0977283
+		summarizeBy: none
+		sourceColumn: LOCOMOTION_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BEGINUUR_RONDE
+		dataType: string
+		lineageTag: 14957241-23da-4e15-8bcd-4f0568b1289b
+		summarizeBy: none
+		sourceColumn: BEGINUUR_RONDE
+
+		annotation SummarizationSetBy = Automatic
+
+	column EINDUUR_RONDE_C9
+		dataType: string
+		lineageTag: 6ac3a1d3-c86c-4785-b345-39831c1137b6
+		summarizeBy: none
+		sourceColumn: EINDUUR_RONDE_C9
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELTA_BADGE_SECONDS_CENTRA
+		dataType: double
+		lineageTag: 6881b056-53a9-473b-bc9c-fb29257dd471
+		summarizeBy: sum
+		sourceColumn: DELTA_BADGE_SECONDS_CENTRA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_BADGE_MINUTES
+		dataType: int64
+		lineageTag: 638ea0f1-0561-4847-98cc-61fcf706e3be
+		summarizeBy: sum
+		sourceColumn: DELTA_BADGE_MINUTES
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CORRECTED_END_CENTRA_NUM
+		dataType: double
+		lineageTag: 61480259-0860-4142-9ff8-6ee9350a12d5
+		summarizeBy: sum
+		sourceColumn: CORRECTED_END_CENTRA_NUM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EINDUUR_RONDE_NUM
+		dataType: double
+		lineageTag: bc69ad20-4783-4e8d-9c2c-c5867b410c17
+		summarizeBy: sum
+		sourceColumn: EINDUUR_RONDE_NUM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EE_REEL
+		dataType: double
+		lineageTag: 2d2b63ad-efa1-415d-a473-a5bfa3caf1ce
+		summarizeBy: sum
+		sourceColumn: EE_REEL
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EE_NBR_WLT_DELTA
+		dataType: double
+		lineageTag: 05926aaf-7584-4aa2-8144-6029c0e42de5
+		summarizeBy: sum
+		sourceColumn: EE_NBR_WLT_DELTA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column ROUND_TYPE
+		dataType: string
+		lineageTag: 93f00af7-1adc-478e-99ca-9ee311d95c33
+		summarizeBy: none
+		sourceColumn: ROUND_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_DATA_RT
+		dataType: string
+		lineageTag: a5d64f31-2070-42d8-aa10-a0d44763a360
+		summarizeBy: none
+		sourceColumn: FLAG_DATA_RT
+
+		annotation SummarizationSetBy = Automatic
+
+	column FLAG_COUREG
+		dataType: string
+		lineageTag: 0c580907-347e-4baa-b175-4a0b6cac035e
+		summarizeBy: none
+		sourceColumn: FLAG_COUREG
+
+		annotation SummarizationSetBy = Automatic
+
+	column EE_ORG
+		dataType: double
+		lineageTag: 410aeb24-ab06-4082-b525-96f2a2efa1eb
+		summarizeBy: sum
+		sourceColumn: EE_ORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_MOBI_MINUTES
+		dataType: double
+		lineageTag: c3d50918-9758-42fb-9a32-a30139e5b355
+		summarizeBy: sum
+		sourceColumn: DELTA_MOBI_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BEGINUUR_RONDE_NUM
+		dataType: double
+		lineageTag: 89b22aca-0bb6-4707-8e4a-c2688bfdc64a
+		summarizeBy: sum
+		sourceColumn: BEGINUUR_RONDE_NUM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MOBI_END_NUM
+		dataType: double
+		lineageTag: db135f30-f61c-4fdf-bca7-d5fdf6687f40
+		summarizeBy: sum
+		sourceColumn: MOBI_END_NUM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BADGE_END_NUM
+		dataType: double
+		lineageTag: 09afe137-3f29-42c1-9828-65d837d2fbd2
+		summarizeBy: sum
+		sourceColumn: BADGE_END_NUM
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column TempsFormaté = ```
+			
+			VAR Minutes = MASTERTABLE[DELTA_BADGE_MINUTES_AVG]
+			VAR Heures = TRUNC(Minutes / 60)
+			VAR MinutesRestantes = MOD(Minutes, 60)
+			RETURN
+			    FORMAT(Heures, "00") & ":" & FORMAT(MinutesRestantes, "00")
+			
+			```
+		lineageTag: 0db01796-d46b-49f1-ad12-24ba06588693
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column bolekes = "◕"
+		lineageTag: 09d18ade-eb0d-4624-9b17-ad94f1f30dd3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELTA_EINDUUR_END_MINUTES_S
+		dataType: double
+		lineageTag: 5c2ac6ac-516d-4f96-9142-67b3fb21035c
+		summarizeBy: sum
+		sourceColumn: DELTA_EINDUUR_END_MINUTES_S
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_BEGINUUR_MINUTES_S
+		dataType: double
+		lineageTag: f94e05f3-c8a4-4b35-b6d6-6c07641b9b21
+		summarizeBy: sum
+		sourceColumn: DELTA_BEGINUUR_MINUTES_S
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_EINDUUR_MINUTES
+		dataType: double
+		lineageTag: 67aae0ae-e374-459a-8d27-5dcb72f98ebc
+		summarizeBy: sum
+		sourceColumn: DELTA_EINDUUR_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_EINDUUR_END_MINUTES
+		dataType: double
+		lineageTag: 7ee78807-4dff-44ca-8539-780dd5d375b2
+		summarizeBy: sum
+		sourceColumn: DELTA_EINDUUR_END_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_BEGINUUR_MINUTES
+		dataType: double
+		lineageTag: 91cbb19d-907a-4dcf-b4b9-1e26586d1508
+		summarizeBy: sum
+		sourceColumn: DELTA_BEGINUUR_MINUTES
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DELTA_DURATION
+		dataType: double
+		lineageTag: f18de0fd-58d3-4dec-a73b-753747609d08
+		summarizeBy: sum
+		sourceColumn: DELTA_DURATION
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column IS_SINGLE_ROUND_ON_DIENST
+		dataType: string
+		lineageTag: fc534c29-ea03-43ba-b812-bc8f7d3fdbe3
+		summarizeBy: none
+		sourceColumn: IS_SINGLE_ROUND_ON_DIENST
+
+		annotation SummarizationSetBy = Automatic
+
+	column COUNT_VALID_RONDE_REORG
+		dataType: double
+		lineageTag: a4fdb8ff-960c-4c0a-8494-1d2f39fe6065
+		summarizeBy: sum
+		sourceColumn: COUNT_VALID_RONDE_REORG
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition MASTERTABLE-10361701-be95-4b53-a014-10323a6f2d21 = m
+		mode: import
+		queryGroup: 'FACT Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT_CO8P1, [CreateNavigationProperties=false]),
+				    LAB_SR5210_FACT_MASTERTABLE = Source{[Schema="PBI_VLT341",Item="MATRIX_SERVICES_WORKLOAD"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(LAB_SR5210_FACT_MASTERTABLE,{{"BADGE_END_TIME", type time}}),
+				    #"Replaced Errors" = Table.ReplaceErrorValues(#"Changed Type", {{"BADGE_END_TIME", null}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Replaced Errors",{{"DAY_DATE", Int64.Type}})
+				in
+				    #"Changed Type1"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_QueryRelationships = {"columnCount":59,"keyColumnNames":[],"queryRelationships":[],"columnIdentities":["Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MASTER_REORG_ID,0}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_ID,1}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{POSTAL_CODE,2}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REGIO_NAME,3}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DC_NAME,4}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MC_NAME,5}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DM_NAME,6}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_START_DATE_YYYYMMDD,7}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_END_DATE_YYYYMMDD,8}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MSTR_REORG_START_DATE_YYYYMMDD,9}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_IN_MSTR_RANK,10}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_METHOD,11}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DAY_DATE,12}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MONTH_YYYYMM,13}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{WEEK_NUMBER_YYYYWWW_ISO,14}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DIENST,15}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{RONDE_NR,16}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_VOLUME_REEL,17}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_VOLUME_ORG,18}","Section1/MASTERTABLE/Valeur remplacée3.{FNGF_WLT,19}","Section1/MASTERTABLE/Valeur remplacée5.{FNGF_WLT_PO,20}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_WLT_ORG,21}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_VOLUME_REEL,22}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_VOLUME_ORG,23}","Section1/MASTERTABLE/Valeur remplacée.{ENA_WLT,24}","Section1/MASTERTABLE/Valeur remplacée6.{ENA_WLT_PO,25}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_WLT_ORG,26}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_INDIV_REEL,27}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_INDIV_ORG,28}","Section1/MASTERTABLE/Valeur remplacée1.{EE_WLT,29}","Section1/MASTERTABLE/Valeur remplacée7.{EE_WLT_PO,30}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_WLT_ORG,31}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_VOLUME_REEL,32}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_VOLUME_ORG,33}","Section1/MASTERTABLE/Valeur remplacée2.{PAK_WLT,34}","Section1/MASTERTABLE/Valeur remplacée8.{PAK_WLT_PO,35}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_WLT_ORG,36}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_VOLUME_REEL,37}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_VOLUME_ORG,38}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_WLT,39}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_WLT_ORG,40}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{BEGINUUR_RONDE,41}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE,42}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_C9,43}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_NUM,44}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_C9_NUM,45}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{LAST_HOUR,46}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{LAST_HOUR_NUM,47}","Section1/MASTERTABLE/Valeur remplacée4.{DELTA_EINDUUR_SECONDS,48}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DELTA_EINDUUR_SECONDS_C9,49}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FULL_EMPLID,50}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{AGENT_NAME,51}","Section1/MASTERTABLE/Colonne divisée.{ENV_REG,52}","Section1/MASTERTABLE/Colonne divisée1.{DV_PARCELS,53}","Section1/MASTERTABLE/Colonne divisée2.{DV_BALANCE,54}","Section1/MASTERTABLE/Personnalisée ajoutée.{WLT,55}","Section1/MASTERTABLE/Personnalisée ajoutée1.{WLT_PO,56}","Section1/MASTERTABLE/Colonne fusionnée insérée.{POSTALCODE_DIENST,57}","Section1/MASTERTABLE/Personnalisée ajoutée2.{ISJS,58}"],"ColumnCount":59,"KeyColumnNames":[],"ColumnIdentities":["Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MASTER_REORG_ID,0}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_ID,1}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{POSTAL_CODE,2}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REGIO_NAME,3}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DC_NAME,4}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MC_NAME,5}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DM_NAME,6}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_START_DATE_YYYYMMDD,7}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_END_DATE_YYYYMMDD,8}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MSTR_REORG_START_DATE_YYYYMMDD,9}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{REORG_IN_MSTR_RANK,10}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_METHOD,11}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DAY_DATE,12}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{MONTH_YYYYMM,13}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{WEEK_NUMBER_YYYYWWW_ISO,14}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DIENST,15}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{RONDE_NR,16}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_VOLUME_REEL,17}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_VOLUME_ORG,18}","Section1/MASTERTABLE/Valeur remplacée3.{FNGF_WLT,19}","Section1/MASTERTABLE/Valeur remplacée5.{FNGF_WLT_PO,20}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FNGF_WLT_ORG,21}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_VOLUME_REEL,22}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_VOLUME_ORG,23}","Section1/MASTERTABLE/Valeur remplacée.{ENA_WLT,24}","Section1/MASTERTABLE/Valeur remplacée6.{ENA_WLT_PO,25}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{ENA_WLT_ORG,26}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_INDIV_REEL,27}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_INDIV_ORG,28}","Section1/MASTERTABLE/Valeur remplacée1.{EE_WLT,29}","Section1/MASTERTABLE/Valeur remplacée7.{EE_WLT_PO,30}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EE_WLT_ORG,31}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_VOLUME_REEL,32}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_VOLUME_ORG,33}","Section1/MASTERTABLE/Valeur remplacée2.{PAK_WLT,34}","Section1/MASTERTABLE/Valeur remplacée8.{PAK_WLT_PO,35}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{PAK_WLT_ORG,36}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_VOLUME_REEL,37}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_VOLUME_ORG,38}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_WLT,39}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{KRANT_WLT_ORG,40}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{BEGINUUR_RONDE,41}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE,42}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_C9,43}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_NUM,44}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{EINDUUR_RONDE_C9_NUM,45}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{LAST_HOUR,46}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{LAST_HOUR_NUM,47}","Section1/MASTERTABLE/Valeur remplacée4.{DELTA_EINDUUR_SECONDS,48}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{DELTA_EINDUUR_SECONDS_C9,49}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{FULL_EMPLID,50}","Server.Database\\/2/Oracle/labp1/LAB_SR5210/LAB_SR5210.FACT_MASTERTABLE.{AGENT_NAME,51}","Section1/MASTERTABLE/Colonne divisée.{ENV_REG,52}","Section1/MASTERTABLE/Colonne divisée1.{DV_PARCELS,53}","Section1/MASTERTABLE/Colonne divisée2.{DV_BALANCE,54}","Section1/MASTERTABLE/Personnalisée ajoutée.{WLT,55}","Section1/MASTERTABLE/Personnalisée ajoutée1.{WLT_PO,56}","Section1/MASTERTABLE/Colonne fusionnée insérée.{POSTALCODE_DIENST,57}","Section1/MASTERTABLE/Personnalisée ajoutée2.{ISJS,58}"],"RelationshipInfo":[]}
+
+	annotation PBI_NavigationStepName = Navigation
+

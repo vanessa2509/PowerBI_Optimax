@@ -1,0 +1,288 @@
+table DIM_EMPLOYEE
+	lineageTag: 1b61fecd-5503-4452-b667-02bfda9806d6
+
+	measure Days_Postman = DISTINCTCOUNT(MASTERTABLE[DAY_DATE])
+		formatString: #,0
+		lineageTag: 84d9be71-2c44-4b14-a4b5-f67b7cfb52b1
+
+		changedProperty = IsHidden
+
+	column FULL_NAME
+		dataType: string
+		lineageTag: 41de933e-0efb-4937-bd51-f2ed082dc917
+		summarizeBy: none
+		sourceColumn: FULL_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HUMAN_RESOURCE_KEY
+		dataType: int64
+		lineageTag: 560e106c-7f17-43af-a287-e454eba35a99
+		summarizeBy: none
+		sourceColumn: HUMAN_RESOURCE_KEY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_NAME
+		dataType: string
+		lineageTag: 35ed7e22-40ed-471e-ab23-a8dd9ae51edc
+		summarizeBy: none
+		sourceColumn: LAST_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRST_NAME
+		dataType: string
+		lineageTag: 89ca2e0c-748a-4e4e-9f69-2dc4c8272ec7
+		summarizeBy: none
+		sourceColumn: FIRST_NAME
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column HR_NUMBER
+		dataType: string
+		lineageTag: 895751cb-d5b7-4581-9510-c13225335dcd
+		summarizeBy: none
+		sourceColumn: HR_NUMBER
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column LAST_ENTRY_DATE
+		dataType: int64
+		lineageTag: fc27296f-143d-4718-9dd6-3be8fb33520e
+		summarizeBy: none
+		sourceColumn: LAST_ENTRY_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column EXIT_DATE
+		dataType: int64
+		lineageTag: 9366373e-9ed2-41f4-a7eb-d9d686df8811
+		summarizeBy: none
+		sourceColumn: EXIT_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column LAST_ENTRY_DAYS
+		dataType: int64
+		formatString: 0
+		lineageTag: 65183f75-f5da-4643-9192-bcc7f315614a
+		summarizeBy: none
+		sourceColumn: LAST_ENTRY_DAYS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = User
+
+	column EMPLOYMENT_STATUS
+		dataType: string
+		lineageTag: 528778b2-7371-4631-a7e1-cc4e2bdc19ae
+		summarizeBy: none
+		sourceColumn: EMPLOYMENT_STATUS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column EMPLOYEE_CLASS
+		dataType: string
+		lineageTag: 2b8e974d-ac9e-4063-b6a6-d43aebc4af10
+		summarizeBy: none
+		sourceColumn: EMPLOYEE_CLASS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column JOB_ENTRY_DATE
+		dataType: double
+		lineageTag: a61bd741-64fa-4cc3-b3be-41c2e8ce19e0
+		summarizeBy: none
+		sourceColumn: JOB_ENTRY_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HR_STATUS
+		dataType: string
+		lineageTag: 865f7045-59bb-4aa5-8327-3b8cad0023d1
+		summarizeBy: none
+		sourceColumn: HR_STATUS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column JOB_STATUS
+		dataType: string
+		lineageTag: 8d7a553c-24ab-4eb7-a87f-a93e48089d7b
+		summarizeBy: none
+		sourceColumn: JOB_STATUS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column FIRST_HIRE_DATE
+		dataType: int64
+		lineageTag: 9c3d0d0f-5cf8-41f3-ade2-e434986c36e5
+		summarizeBy: none
+		sourceColumn: FIRST_HIRE_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column BIRTHDAY
+		dataType: int64
+		lineageTag: 09760c7a-b152-4c21-b192-efd8bd3f8445
+		summarizeBy: none
+		sourceColumn: BIRTHDAY
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column DEPT_ENTRY_DATE
+		dataType: int64
+		formatString: 0
+		lineageTag: bea4b9e2-525c-45d5-8f59-4918e02347ed
+		summarizeBy: none
+		sourceColumn: DEPT_ENTRY_DATE
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_AGE_ID
+		dataType: double
+		formatString: 0
+		lineageTag: 7939817a-9d98-4985-9c00-b0bd79e06e62
+		summarizeBy: none
+		sourceColumn: CLUSTER_AGE_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_AGE_DESC
+		dataType: string
+		lineageTag: 6b7c8bb7-123a-4f10-958d-b2dafcd785e1
+		summarizeBy: none
+		sourceColumn: CLUSTER_AGE_DESC
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_EXP_ID
+		dataType: double
+		formatString: 0
+		lineageTag: a92e3b97-c540-4c69-b9f5-eabc039ffaa2
+		summarizeBy: none
+		sourceColumn: CLUSTER_EXP_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CLUSTER_EXP_DESC
+		dataType: string
+		lineageTag: 73eb0b74-c11c-4d79-af10-d5ae0f8c1304
+		summarizeBy: none
+		sourceColumn: CLUSTER_EXP_DESC
+		sortByColumn: CLUSTER_EXP_ID
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'HR_NUMBER - Copy'
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d31dc0e-4680-4ecb-9400-693def9b79d0
+		summarizeBy: none
+		sourceColumn: HR_NUMBER - Copy
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Status conditional formating' = IF(DIM_EMPLOYEE[HR_STATUS]= "ACTIVE",1,0)
+		formatString: 0
+		lineageTag: 10d14ebf-af3f-4f2b-8d77-2f0cb542d080
+		summarizeBy: none
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column CONTRACT_DAYS
+		dataType: double
+		lineageTag: daefdb0a-4f9f-4a06-a9a4-c72d8a4cef56
+		summarizeBy: none
+		sourceColumn: CONTRACT_DAYS
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CONTRACT_DURATION
+		dataType: string
+		lineageTag: 8992c042-b37e-4ae1-82a0-90903a0c0d0c
+		summarizeBy: none
+		sourceColumn: CONTRACT_DURATION
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DIM_EMPLOYEE-7e783a4b-bedd-4b14-9ad6-74f935ebdf3b = m
+		mode: import
+		queryGroup: 'DIM Queries'
+		source =
+				let
+				    Source = Oracle.Database(PBI_VLT_CO8P1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    DIM_EMPLOYEE1 = PBI_VLT341{[Name="VLT_DIM_EMPLOYEE"]}[Data],
+				    #"Duplicated Column" = Table.DuplicateColumn(DIM_EMPLOYEE1, "HR_NUMBER", "HR_NUMBER - Copy"),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Duplicated Column",{{"HUMAN_RESOURCE_KEY", Int64.Type}, {"LAST_ENTRY_DATE", Int64.Type}, {"EXIT_DATE", Int64.Type}, {"LAST_ENTRY_DAYS", Int64.Type}, {"FIRST_HIRE_DATE", Int64.Type}, {"BIRTHDAY", Int64.Type}, {"DEPT_ENTRY_DATE", Int64.Type}, {"HR_NUMBER - Copy", Int64.Type}}),
+				    #"Filtered Rows" = Table.SelectRows(#"Changed Type", each ([HUMAN_RESOURCE_KEY] <> null))
+				in
+				    #"Filtered Rows"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

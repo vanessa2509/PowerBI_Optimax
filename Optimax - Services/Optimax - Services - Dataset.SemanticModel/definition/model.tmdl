@@ -1,0 +1,53 @@
+model Model
+	culture: fr-BE
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: nl-BE
+	dataAccessOptions
+		fastCombine
+		legacyRedirects
+		returnErrorValuesAsNull
+
+queryGroup 'FACT Queries'
+
+	annotation PBI_QueryGroupOrder = 1
+
+queryGroup 'DIM Queries'
+
+	annotation PBI_QueryGroupOrder = 2
+
+queryGroup Parameter
+
+	annotation PBI_QueryGroupOrder = 3
+
+/// Errors in queries that were loaded on 13/12/2021 15:07:19.
+queryGroup 'Query Errors - 13/12/2021 15:07:19'
+
+	annotation PBI_QueryGroupOrder = 4
+
+queryGroup 'ACCES - RLS - Direct Query'
+
+	annotation PBI_QueryGroupOrder = 0
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_QueryOrder = ["MASTERTABLE","DIM_CALENDAR","PBI_VLT_CO8P1","DIM_EMPLOYEE","V_PBI_DIM_REORG_VLT","Employee check","CalcType","ACCESS_DIM_USER_ACCESS_DQ"]
+
+ref table MASTERTABLE
+ref table DateTableTemplate_c2035e78-79f5-49ec-a2be-8a9485ac2159
+ref table _VARIABLES
+ref table DIM_CALENDAR
+ref table LocalDateTable_eb01b47e-4241-4ab2-b34b-e714aec3cf82
+ref table LocalDateTable_9a7e7e85-6aa2-4baa-a2fa-3244a1340826
+ref table LocalDateTable_5ff187b5-f227-4949-bb9d-5c1ae6a6ff03
+ref table DIM_EMPLOYEE
+ref table V_PBI_DIM_REORG_VLT
+ref table LocalDateTable_382c874b-6535-4302-ad15-4d1b98b5044a
+ref table LocalDateTable_41300fbb-1355-4e21-9dbc-4e341a31a17a
+ref table 'Employee check'
+ref table CalcType
+ref table ACCESS_DIM_USER_ACCESS_DQ
+
+ref role user
+
+ref cultureInfo fr-BE
+
