@@ -1,0 +1,328 @@
+table V_PBI_PERC_FNGF_RECO_PDP_ST
+	lineageTag: c4e3a906-e91c-4d73-8116-9144920e9598
+
+	column MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 72790c5c-cecd-4482-856c-aeb7294b34c4
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_POSTAL_CODE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column MUNICIPALITY_NAME_FR
+		dataType: string
+		lineageTag: aa3ee822-403d-45f5-9f20-e802fe4d8afb
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 4883be64-5514-4785-89cc-6cf95112a970
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_POSTAL_CODE
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_NAME_FR
+		dataType: string
+		lineageTag: 0cd76d1e-02a3-42e5-a14c-f705b61a414f
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column STREET_NAME_FR
+		dataType: string
+		lineageTag: a2f1e706-2bf2-4ef6-b502-8eab6c14b96d
+		summarizeBy: none
+		sourceColumn: STREET_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_ACTIVE_PP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2824c10f-c123-47e9-aa0e-5860a0c1796a
+		summarizeBy: sum
+		sourceColumn: NB_ACTIVE_PP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column NP_PP_UNDER_CONSTRUCTION
+		dataType: int64
+		formatString: #,0
+		lineageTag: efcecca9-bc73-4033-ae17-687ff0a5242f
+		summarizeBy: sum
+		sourceColumn: NP_PP_UNDER_CONSTRUCTION
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column NB_INACTIVE_PP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 89cffd1a-3f8f-4377-96bc-50ab337247a8
+		summarizeBy: sum
+		sourceColumn: NB_INACTIVE_PP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_NR_BUS_FIXED
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4bb6477c-b674-4566-ab6a-ce2296002220
+		summarizeBy: sum
+		sourceColumn: TOTAL_NR_BUS_FIXED
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_NR_BUS_TEMPORARY
+		dataType: int64
+		formatString: #,0
+		lineageTag: 466711bc-5330-4ca2-9201-e566539e22a9
+		summarizeBy: sum
+		sourceColumn: TOTAL_NR_BUS_TEMPORARY
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_BUS_NOUNADDR
+		dataType: int64
+		formatString: #,0
+		lineageTag: 142da3c3-f7c4-4be6-8fcc-61d2a5e941a8
+		summarizeBy: sum
+		sourceColumn: TOTAL_BUS_NOUNADDR
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_BUS_NOUNADDR_NO_REGION
+		dataType: int64
+		formatString: #,0
+		lineageTag: 55bc96ab-36b9-4535-a8ac-88f2c0eeef1b
+		summarizeBy: sum
+		sourceColumn: TOTAL_BUS_NOUNADDR_NO_REGION
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_ACT_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 62d51487-542d-4842-bcbe-8b7ecf2e5d59
+		summarizeBy: sum
+		sourceColumn: REC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_ACT_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: c411d987-7295-40d6-a005-15a05ee93d22
+		summarizeBy: sum
+		sourceColumn: UNREC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_ACT_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 589c41f5-cb14-45fa-af2f-af12a3d8e9d2
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_UC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: cda3ab09-057f-4fa1-a89c-c608c98f3982
+		summarizeBy: sum
+		sourceColumn: REC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_UC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 388382f6-1179-46f7-bddf-63817135b026
+		summarizeBy: sum
+		sourceColumn: UNREC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_UC_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: c7680799-710f-4c9e-8cdc-d55a07f2892a
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_INA_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: d0eeb2eb-0ab8-4a14-9013-2284d2c3b27c
+		summarizeBy: sum
+		sourceColumn: REC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_INA_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 89175c33-1cac-4ee3-b49f-4c906f00dc86
+		summarizeBy: sum
+		sourceColumn: UNREC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_INA_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 628847b3-7e57-45b5-b807-915725584bb9
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_DEL_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9f406acf-f612-4e5a-abad-b4616821f180
+		summarizeBy: sum
+		sourceColumn: REC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_DEL_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: ab5f0645-06f7-49ce-9547-45ee59e06251
+		summarizeBy: sum
+		sourceColumn: UNREC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_DEL_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 9d149332-2d89-44d8-981c-07d13341c606
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_REC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: c79464f0-a457-4156-afd5-40b1c0876b8f
+		summarizeBy: sum
+		sourceColumn: TOT_REC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_UNREC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: ea391d07-57e6-488e-ac35-a3dceb290dd7
+		summarizeBy: sum
+		sourceColumn: TOT_UNREC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_TOT_UNREC_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 20da5579-67fe-442b-b854-8b85a44b5ab8
+		summarizeBy: sum
+		sourceColumn: PERC_TOT_UNREC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column CP_BUREAU_GEOROUTE
+		dataType: int64
+		formatString: 0
+		lineageTag: 697a669a-c1e3-4cb7-a507-4f72eb5c227d
+		summarizeBy: sum
+		sourceColumn: CP_BUREAU_GEOROUTE
+
+		annotation SummarizationSetBy = Automatic
+
+	column CP_MC
+		dataType: int64
+		formatString: 0
+		lineageTag: 356747df-16f6-4953-bf70-fceaf3b4666b
+		summarizeBy: sum
+		sourceColumn: CP_MC
+
+		annotation SummarizationSetBy = Automatic
+
+	column NOM_MC
+		dataType: string
+		lineageTag: a98e93de-47e6-4d3e-ac5d-688f9541607e
+		summarizeBy: none
+		sourceColumn: NOM_MC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PERC_FNGF_RECO_PDP_ST-8230c4ff-f6f2-4f79-a763-dc933b41bfc3 = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database(mm8p1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PERC_FNGF_RECO_PDP_ST1 = PBI_VLT341{[Name="V_PBI_PERC_FNGF_RECO_PDP_ST"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_PERC_FNGF_RECO_PDP_ST1,{{"MUNICIPALITY_POSTAL_CODE", Int64.Type}, {"NB_ACTIVE_PP", Int64.Type}, {"NP_PP_UNDER_CONSTRUCTION", Int64.Type}, {"NB_INACTIVE_PP", Int64.Type}, {"TOTAL_NR_BUS_FIXED", Int64.Type}, {"TOTAL_NR_BUS_TEMPORARY", Int64.Type}, {"TOTAL_BUS_NOUNADDR", Int64.Type}, {"TOTAL_BUS_NOUNADDR_NO_REGION", Int64.Type}, {"REC_ACT_NBR_PDP", Int64.Type}, {"UNREC_ACT_NBR_PDP", Int64.Type}, {"REC_UC_NBR_PDP", Int64.Type}, {"UNREC_UC_NBR_PDP", Int64.Type}, {"REC_INA_NBR_PDP", Int64.Type}, {"UNREC_INA_NBR_PDP", Int64.Type}, {"REC_DEL_NBR_PDP", Int64.Type}, {"UNREC_DEL_NBR_PDP", Int64.Type}, {"TOT_REC_NBR_PDP", Int64.Type}, {"TOT_UNREC_NBR_PDP", Int64.Type}, {"CP_BUREAU_GEOROUTE", Int64.Type}, {"CP_MC", Int64.Type}, {"PERC_TOT_UNREC_NBR_PDP", Percentage.Type}, {"PERC_UNREC_DEL_NBR_PDP", Percentage.Type}, {"PERC_UNREC_INA_NBR_PDP", Percentage.Type}, {"PERC_UNREC_UC_NBR_PDP", Percentage.Type}, {"PERC_UNREC_ACT_NBR_PDP", Percentage.Type}, {"SUB_MUNICIPALITY_POSTAL_CODE", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

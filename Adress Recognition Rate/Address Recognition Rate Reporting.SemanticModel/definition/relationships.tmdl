@@ -1,0 +1,24 @@
+relationship dc638735-e6a7-4493-8bde-2343cf1cde3b
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: V_PBI_PERC_FNGF_RECO_CP_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+	toColumn: V_PBI_PERC_FNGF_RECO_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+
+relationship 375bae32-810f-434f-b190-9183708297b1
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: V_PBI_PERC_FNGF_STREET_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+	toColumn: V_PBI_PERC_FNGF_RECO_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+
+relationship 8fb2e05d-c10e-4dc1-bf56-53738c76862a
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: V_PBI_PERC_FNGF_RECO_CP_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+	toColumn: V_PBI_PERC_FNGF_RECO_PDP.SUB_MUNICIPALITY_POSTAL_CODE
+
+relationship b0dc40c7-d4cc-482f-8c96-523b904b4ce8
+	crossFilteringBehavior: bothDirections
+	toCardinality: many
+	fromColumn: V_PBI_PERC_FNGF_RECO_CP_AGG.SUB_MUNICIPALITY_POSTAL_CODE
+	toColumn: V_PBI_PERC_FNGF_RECO_PDP_ST.SUB_MUNICIPALITY_POSTAL_CODE
+

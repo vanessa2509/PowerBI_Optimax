@@ -1,0 +1,46 @@
+table 'Percentage reco Street'
+	lineageTag: ee058787-1522-4c6c-ab7d-53ad533eb23d
+
+	calculationGroup
+		precedence: 1
+
+		calculationItem 'FNGF MAILBOX_ID' = DIVIDE ( SUM ( V_PBI_FN_STREET[VOLUME_MAILBOX_ID] ), [#TOT_VOL_STREET] )
+
+		calculationItem 'FNGF PDP' = DIVIDE ( SUM ( V_PBI_FN_STREET[VOLUME_VENTILATED_MIR_PDP] ), [#TOT_VOL_STREET] )
+
+		calculationItem 'FNGF STREET' =
+				DIVIDE (
+				    SUM ( 'V_PBI_FN_STREET'[VOLUME_VENTILATED_MIR_STREET] ),
+				    [#TOT_VOL_STREET]
+				)
+
+		calculationItem 'FNGF CP' =
+				DIVIDE (
+				    SUM ( V_PBI_FN_STREET[VOLUME_VENTILATED_MIR_AREA] ),
+				    [#TOT_VOL_STREET]
+				)
+
+		calculationItem 'FNGF AVCS' =
+				DIVIDE (
+				    SUM ( V_PBI_FN_STREET[VOLUME_VENTILATED_AVCS_ACCODE] ),
+				    [#TOT_VOL_STREET]
+				)
+
+	column Name
+		dataType: string
+		lineageTag: aed8ada6-207f-410d-a4af-4514d8aa11d8
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 8d1930c9-12cd-41f6-91b4-90fda22b3370
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

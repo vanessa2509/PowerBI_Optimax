@@ -1,0 +1,152 @@
+table V_PBI_PERC_FNGF_STREET_AGG
+	lineageTag: b09e2530-9340-45f9-a971-5f0315203b39
+
+	measure Measure = sum(V_PBI_PERC_FNGF_STREET_AGG[TOT_PERC_RECO_MBOX])
+		lineageTag: 55f1763e-6b25-40a8-bc76-8423824fabc4
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MC_NAME
+		dataType: string
+		lineageTag: d2d23903-04c7-473b-8cba-fd0ce28dc6c8
+		summarizeBy: none
+		sourceColumn: MC_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 0e5a5f54-3292-4619-9202-b60e353e0e44
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 77c749cb-2e2e-470d-a3c3-0cdc15ffd8ca
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column STREET_NAME
+		dataType: string
+		lineageTag: a7e03522-9bb5-4e37-99de-364e74df445b
+		summarizeBy: none
+		sourceColumn: STREET_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column FN_PERC_RECO_MBOX
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 2f44fb0e-07d1-47cc-a47c-6d520dfe8a19
+		summarizeBy: sum
+		sourceColumn: FN_PERC_RECO_MBOX
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column FN_PERC_RECO_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 29f5e198-4f73-4b3f-bb4b-e5cf2e9c561c
+		summarizeBy: sum
+		sourceColumn: FN_PERC_RECO_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column FN_VOLUME_TOT
+		dataType: int64
+		formatString: #,0
+		lineageTag: 1ed2bbe3-e806-47b4-8ef1-562b8689bf83
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_TOT
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column GF_PERC_RECO_MBOX
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 64d9d7ea-f721-46fd-8980-7b46e1afad77
+		summarizeBy: sum
+		sourceColumn: GF_PERC_RECO_MBOX
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column GF_PERC_RECO_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 61be325d-d645-4cbd-8fd1-3359383cd632
+		summarizeBy: sum
+		sourceColumn: GF_PERC_RECO_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column GF_VOLUME_TOT
+		dataType: int64
+		formatString: #,0
+		lineageTag: d46010c3-b94f-4bdc-8d0b-3ac675e12105
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_TOT
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_PERC_RECO_MBOX
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: c1bb8bd0-e1c1-4029-9b93-d467296d95c3
+		summarizeBy: sum
+		sourceColumn: TOT_PERC_RECO_MBOX
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_PERC_RECO_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 863809fc-6261-45a2-9093-455805b6372c
+		summarizeBy: sum
+		sourceColumn: TOT_PERC_RECO_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column VOLUME_TOT
+		dataType: int64
+		formatString: #,0
+		lineageTag: cd8b39b6-32e8-4af0-8da4-1883bc4863db
+		summarizeBy: sum
+		sourceColumn: VOLUME_TOT
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PERC_FNGF_STREET_AGG-b91d265a-555c-427d-8308-4de3ef42f047 = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database(mm8p1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PERC_FNGF_STREET_AGG1 = PBI_VLT341{[Name="V_PBI_PERC_FNGF_STREET_AGG"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_PERC_FNGF_STREET_AGG1,{{"TOT_PERC_RECO_PDP", Percentage.Type}, {"TOT_PERC_RECO_MBOX", Percentage.Type}, {"GF_PERC_RECO_PDP", Percentage.Type}, {"GF_PERC_RECO_MBOX", Percentage.Type}, {"FN_PERC_RECO_PDP", Percentage.Type}, {"FN_PERC_RECO_MBOX", Percentage.Type}, {"FN_VOLUME_TOT", Int64.Type}, {"GF_VOLUME_TOT", Int64.Type}, {"VOLUME_TOT", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

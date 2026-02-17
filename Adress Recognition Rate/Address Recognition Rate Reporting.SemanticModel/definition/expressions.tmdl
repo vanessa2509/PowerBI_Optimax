@@ -1,0 +1,5 @@
+expression mm8p1 = "mm8p1" meta [IsParameterQuery=true, Type="Any", IsParameterQueryRequired=true]
+	lineageTag: f66f29ff-cbaa-4846-8f9b-e203bf902c4d
+
+	annotation PBI_ResultType = Text
+

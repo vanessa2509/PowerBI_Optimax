@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Address Recognition Rate Reporting"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "c5c4da0b-c5b2-ad65-48da-430b3020aff6"
+  }
+}

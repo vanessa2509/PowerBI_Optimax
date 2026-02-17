@@ -1,0 +1,31 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	discourageImplicitMeasures
+	sourceQueryCulture: fr-BE
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["V_PBI_PERC_FNGF_RECO_CP_AGG","V_PBI_PERC_FNGF_RECO_AGG","Calendar","mm8p1","V_PBI_PERC_FNGF_STREET_AGG","V_PBI_PERC_FNGF_RECO_PDP","V_PBI_PERC_FNGF_RECO_PDP_ST","V_PBI_PDP_WO_FNGF"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation __TEdtr = 1
+
+annotation PBIDesktopVersion = 2.120.731.0 (23.08)
+
+ref table DateTableTemplate_a5ff4593-92fa-4973-9bc2-e4eb2fa73ff3
+ref table 'Percentage reco CP'
+ref table 'Percentage reco Street'
+ref table Try
+ref table V_PBI_PERC_FNGF_RECO_CP_AGG
+ref table V_PBI_PERC_FNGF_RECO_AGG
+ref table Calendar
+ref table V_PBI_PERC_FNGF_STREET_AGG
+ref table V_PBI_PERC_FNGF_RECO_PDP
+ref table V_PBI_PERC_FNGF_RECO_PDP_ST
+ref table V_PBI_PDP_WO_FNGF
+
+ref cultureInfo en-US
+

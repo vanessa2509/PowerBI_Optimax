@@ -1,0 +1,39 @@
+table 'Percentage reco CP'
+	lineageTag: 6478e120-e41f-47a1-b99c-935757e0f99a
+
+	calculationGroup
+
+		calculationItem 'FN MAILBOX ID' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[FN_VOLUME_MAILBOX_ID] ), [#FN_TOT_VOL] )
+
+		calculationItem 'FN PDP' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[FN_VOLUME_VENTIL_MIR_PDP] ), [#FN_TOT_VOL] )
+
+		calculationItem 'FN STREET' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[FN_VOLUME_VENTIL_MIR_STREET] ), [#FN_TOT_VOL] )
+
+		calculationItem 'FN CP' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[FN_VOLUME_VENTIL_MIR_AREA] ), [#FN_TOT_VOL] )
+
+		calculationItem 'GF MAILBOX ID' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[GF_VOLUME_MAILBOX_ID] ), [#GF_TOT_VOL] )
+
+		calculationItem 'GF PDP' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[GF_VOLUME_VENTIL_MIR_PDP] ), [#FN_TOT_VOL] )
+
+		calculationItem 'GF STREET' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[GF_VOLUME_VENTIL_MIR_STREET] ), [#FN_TOT_VOL] )
+
+		calculationItem 'GF CP' = DIVIDE ( SUM ( 'V_PBI_FN_PAK'[GF_VOLUME_VENTIL_MIR_AREA] ), [#FN_TOT_VOL] )
+
+	column Name
+		dataType: string
+		lineageTag: 01837199-fbaa-4651-97e7-e69ee1493b8b
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: f8b73fad-7f60-42bb-9211-1854dd475fc9
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

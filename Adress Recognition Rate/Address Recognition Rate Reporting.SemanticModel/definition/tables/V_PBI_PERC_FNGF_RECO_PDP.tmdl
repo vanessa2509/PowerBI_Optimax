@@ -1,0 +1,225 @@
+table V_PBI_PERC_FNGF_RECO_PDP
+	lineageTag: e3bff841-9167-4c18-bd02-1f0482b4ea36
+
+	column SUB_MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 722acbf3-8780-4695-b874-9ae1371171a6
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_NAME_FR
+		dataType: string
+		lineageTag: b8eb4ec8-5b12-47a2-b64a-ac95be4ba3af
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_ACT_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: fc68c86d-87e2-47b1-bc5a-b1ecd28af517
+		summarizeBy: sum
+		sourceColumn: REC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_ACT_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: c2c95482-eff8-4fa8-a747-cdb1697fb547
+		summarizeBy: sum
+		sourceColumn: UNREC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_ACT_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8affbf92-c471-4967-8dbe-4304538889f1
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_ACT_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_UC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: a632ec4b-911b-4919-8734-5034ba02f954
+		summarizeBy: sum
+		sourceColumn: REC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_UC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 33065775-6441-4bfc-8fb8-bfefd07fb70f
+		summarizeBy: sum
+		sourceColumn: UNREC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_UC_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 60936122-9cd1-4ad9-bd48-eeaee78a58cf
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_UC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_INA_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2fea66ea-2201-4670-8134-c72e4730b3e7
+		summarizeBy: sum
+		sourceColumn: REC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_INA_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: bb2863db-5ed7-4c95-9741-26c12ba59180
+		summarizeBy: sum
+		sourceColumn: UNREC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_INA_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: a6b6282f-0940-4aec-8863-60d23c26aed2
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_INA_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column REC_DEL_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: d4c0f3cb-11ba-49e3-a975-dc00142c4425
+		summarizeBy: sum
+		sourceColumn: REC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column UNREC_DEL_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: bb15e2f7-ce9b-4c74-9de5-7c7afd9a6477
+		summarizeBy: sum
+		sourceColumn: UNREC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_UNREC_DEL_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 6b671909-f78f-4b41-a480-aafed889b9ec
+		summarizeBy: sum
+		sourceColumn: PERC_UNREC_DEL_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_REC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3c9471ae-303e-496c-b8ae-f536b62ab905
+		summarizeBy: sum
+		sourceColumn: TOT_REC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOT_UNREC_NBR_PDP
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8c5a21f2-5ca0-45ef-bbaa-77e1d0eb320b
+		summarizeBy: sum
+		sourceColumn: TOT_UNREC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column PERC_TOT_UNREC_NBR_PDP
+		dataType: double
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 582402c5-41d9-43dd-a9f6-62bbf2a308f2
+		summarizeBy: sum
+		sourceColumn: PERC_TOT_UNREC_NBR_PDP
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column CP_BUREAU_GEOROUTE
+		dataType: double
+		lineageTag: c681e3cd-d432-40d6-bf9b-9750c549e370
+		summarizeBy: sum
+		sourceColumn: CP_BUREAU_GEOROUTE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column CP_MC
+		dataType: double
+		lineageTag: 4ee3be56-e87e-4e1e-aa95-0e1372cf5545
+		summarizeBy: sum
+		sourceColumn: CP_MC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column NOM_MC
+		dataType: string
+		lineageTag: 0184db9c-3db2-4897-a621-1f3ca8bbe2f2
+		summarizeBy: none
+		sourceColumn: NOM_MC
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PERC_FNGF_RECO_PDP-41794e06-123d-46c5-9120-e980ecb02323 = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database(mm8p1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PERC_FNGF_RECO_PDP1 = PBI_VLT341{[Name="V_PBI_PERC_FNGF_RECO_PDP"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_PERC_FNGF_RECO_PDP1,{{"REC_ACT_NBR_PDP", Int64.Type}, {"UNREC_ACT_NBR_PDP", Int64.Type}, {"REC_UC_NBR_PDP", Int64.Type}, {"UNREC_UC_NBR_PDP", Int64.Type}, {"REC_INA_NBR_PDP", Int64.Type}, {"UNREC_INA_NBR_PDP", Int64.Type}, {"REC_DEL_NBR_PDP", Int64.Type}, {"UNREC_DEL_NBR_PDP", Int64.Type}, {"TOT_REC_NBR_PDP", Int64.Type}, {"TOT_UNREC_NBR_PDP", Int64.Type}, {"PERC_TOT_UNREC_NBR_PDP", Percentage.Type}, {"PERC_UNREC_DEL_NBR_PDP", Percentage.Type}, {"PERC_UNREC_INA_NBR_PDP", Percentage.Type}, {"PERC_UNREC_UC_NBR_PDP", Percentage.Type}, {"PERC_UNREC_ACT_NBR_PDP", Percentage.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

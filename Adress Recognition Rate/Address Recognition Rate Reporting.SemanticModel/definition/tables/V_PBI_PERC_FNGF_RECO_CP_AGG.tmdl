@@ -1,0 +1,453 @@
+table V_PBI_PERC_FNGF_RECO_CP_AGG
+	lineageTag: 69dc1ad9-8dd6-4266-a78b-c1d3a6fda11d
+
+	measure #Vol_tot_FN_agg = SUM('V_PBI_PERC_FNGF_RECO_CP_AGG'[FN_VOLUME_TOT])
+		formatString: #,0
+		lineageTag: 958eb9b6-52be-44b2-98cd-156291e6eff3
+
+		changedProperty = FormatString
+
+	measure #Vol_tot_GF_agg = ```
+			SUM('V_PBI_PERC_FNGF_RECO_CP_AGG'[GF_VOLUME_TOT])
+			
+			```
+		formatString: #,0
+		lineageTag: 12db0baa-3f8f-4ef2-9bf6-96bb4e6d00e6
+
+		changedProperty = FormatString
+
+	measure #FN_PERC_RECO_MAILBOX_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_MAILBOX_ID]) / [#Vol_tot_FN_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: e9d1b314-9057-4382-bad2-3184c210cb33
+
+		changedProperty = FormatString
+
+	measure #FN_PERC_RECO_PDP_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_VENTIL_MIR_PDP]) / [#Vol_tot_FN_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: a38edb9d-e780-436c-a040-ed98022934eb
+
+		changedProperty = FormatString
+
+	measure #FN_PERC_RECO_STREET_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_VENTIL_MIR_STREET]) / [#Vol_tot_FN_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8a637cee-a208-4e96-b6a0-7d5a54ddda59
+
+		changedProperty = FormatString
+
+	measure #FN_PERC_RECO_AREA_CP_AGG = (sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_VENTIL_MIR_AREA]) + sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_VENTIL_AVCS_ACCODE_I]))/ [#Vol_tot_FN_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 8893384b-4dc6-4830-9dae-9e04b3d1f886
+
+		changedProperty = FormatString
+
+	measure #condi_MAILBOX_FN_cp_old = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PERC_RECO_MAILBOX_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_MAILBOX_AVG_FIXED_old],1,2)
+		lineageTag: 9239b761-6958-4975-ad56-d1ff88b44833
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #GF_PERC_RECO_AREA_CP_AGG = (sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_VENTIL_MIR_AREA])  + sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_VENTIL_AVCS_ACCODE_I])) / [#Vol_tot_GF_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: d0d3d902-3071-4b00-9265-27c0d2603ca8
+
+		changedProperty = FormatString
+
+	measure #GF_PERC_RECO_MAILBOX_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_MAILBOX_ID]) / [#Vol_tot_GF_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 01c5d99c-b1b9-448a-b425-0795725506d6
+
+		changedProperty = FormatString
+
+	measure #GF_PERC_RECO_PDP_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_VENTIL_MIR_PDP]) / [#Vol_tot_GF_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 94778377-c129-4db1-9a4c-a9643b5b988c
+
+		changedProperty = FormatString
+
+	measure #GF_PERC_RECO_STREET_CP_AGG = sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_VENTIL_MIR_STREET]) / [#Vol_tot_GF_agg]
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 6f900610-d977-4a9b-9c94-8a541c94d1d6
+
+		changedProperty = FormatString
+
+	measure #condi_MAILBOX_GF_CP_old = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_PERC_RECO_MAILBOX_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_MAILBOX_AVG_FIXED_old],1,2)
+		lineageTag: ab5c9ef0-7511-4a9e-ae5e-58ddde733a55
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FN_MAILBOX_AVG_FIXED_old = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_MAILBOX_ID]) / [#Vol_tot_FN_agg]), ALL(V_PBI_PERC_FNGF_RECO_CP_AGG))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 6d9c695c-9acc-45f6-b482-20313e277d60
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #GF_MAILBOX_AVG_FIXED_old = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_MAILBOX_ID]) / [#Vol_tot_GF_agg]), ALL(V_PBI_PERC_FNGF_RECO_CP_AGG))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 35d04e66-0c50-424e-aaf5-ed0457adb2c4
+
+		changedProperty = FormatString
+
+		changedProperty = IsHidden
+
+	measure #GF_MAILBOX_AVG_FIXED = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_MAILBOX_ID]) / [#Vol_tot_GF_agg]), ALLEXCEPT(V_PBI_PERC_FNGF_RECO_CP_AGG,V_PBI_PERC_FNGF_RECO_CP_AGG[Month_name]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: 7ed92385-873e-4646-9c54-a3cd07a37994
+
+		changedProperty = FormatString
+
+	measure #condi_MAILBOX_GF_CP = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_PERC_RECO_MAILBOX_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_MAILBOX_AVG_FIXED],1,2)
+		formatString: 0
+		lineageTag: 80525b57-d52b-4e5e-8aa0-a3c4b867172f
+
+	measure #FN_MAILBOX_AVG_FIXED = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_MAILBOX_ID]) / [#Vol_tot_FN_agg]), ALLEXCEPT(V_PBI_PERC_FNGF_RECO_CP_AGG,V_PBI_PERC_FNGF_RECO_CP_AGG[Month_name]))
+		formatString: 0.00\ %;-0.00\ %;0.00\ %
+		lineageTag: c7096e8e-1b0f-4e98-ba7f-a1b2782229a7
+
+		changedProperty = FormatString
+
+	measure #condi_MAILBOX_FN_cp = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PERC_RECO_MAILBOX_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_MAILBOX_AVG_FIXED],1,2)
+		formatString: 0
+		lineageTag: 22859b90-6df9-4160-8947-e1308c2fae56
+
+	measure #FN_MAILBOX_AVG_FIXED_evo = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_MAILBOX_ID]) / [#Vol_tot_FN_agg]), ALL(V_PBI_PERC_FNGF_RECO_CP_AGG[Month_name]))
+		isHidden
+		lineageTag: 9a70b51f-0369-41cb-a764-5c5f9cf16c82
+
+		changedProperty = IsHidden
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #FN_PDP_AVG_FIXED_old = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_AGG[FN_VOLUME_VENTIL_MIR_PDP]) / [#Vol_tot_FN_agg]), ALL(V_PBI_PERC_FNGF_RECO_CP_AGG))
+		lineageTag: 49df1bc1-e38e-4681-a44d-484f84942f1f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #condi_PDP_FN_cp_old = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PERC_RECO_PDP_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PDP_AVG_FIXED_old],1,2)
+		formatString: 0
+		lineageTag: 1e5e0f63-e6cb-4a5f-8a43-979a74c859ab
+
+	measure #FN_PDP_AVG_FIXED = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[FN_VOLUME_VENTIL_MIR_PDP]) / [#Vol_tot_FN_agg]), ALLEXCEPT(V_PBI_PERC_FNGF_RECO_CP_AGG,V_PBI_PERC_FNGF_RECO_CP_AGG[Month_name]))
+		lineageTag: ebafb4cf-f84a-4607-ab14-7e9a6fc9211f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #condi_PDP_FN_cp = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PERC_RECO_PDP_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#FN_PDP_AVG_FIXED],1,2)
+		formatString: 0
+		lineageTag: 5605fa62-7cc9-45f6-b2a1-c23a86188e7c
+
+	measure #GF_PDP_AVG_FIXED = CALCULATE((sum(V_PBI_PERC_FNGF_RECO_CP_AGG[GF_VOLUME_VENTIL_MIR_PDP]) / [#Vol_tot_GF_agg]), ALLEXCEPT(V_PBI_PERC_FNGF_RECO_CP_AGG,V_PBI_PERC_FNGF_RECO_CP_AGG[Month_name]))
+		lineageTag: 1164ca09-26a4-4f7f-a686-d461ba82a62c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure #condi_PDP_GF_CP = IF(V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_PERC_RECO_PDP_CP_AGG]>V_PBI_PERC_FNGF_RECO_CP_AGG[#GF_PDP_AVG_FIXED],1,2)
+		formatString: 0
+		lineageTag: 65023e89-61fc-4523-85d9-921e16c8bc83
+
+	column DATE_YYYYMMDD
+		dataType: int64
+		formatString: 0
+		lineageTag: 3013a3f6-795b-4058-a9d0-75b54756ccbe
+		summarizeBy: sum
+		sourceColumn: DATE_YYYYMMDD
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: f817ac57-41db-4668-882c-0142ea62e61b
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 7a487a3d-4927-4709-8eb6-0654bbe948d9
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column FN_VOLUME_MAILBOX_ID
+		dataType: double
+		lineageTag: 3b90886c-1822-459c-a0e5-0431d0ae853e
+		summarizeBy: count
+		sourceColumn: FN_VOLUME_MAILBOX_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_MIR_PDP
+		dataType: double
+		lineageTag: 87985730-78a9-4df7-8cb1-b9ee8b55d571
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_PDP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_MIR_STREET
+		dataType: double
+		lineageTag: 812b4079-1f1b-4fe5-8126-e006551a378b
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_STREET
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_MIR_AREA
+		dataType: double
+		lineageTag: 4dfe2e8c-7ee0-48f6-8d8e-ad8a88993b2f
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_AREA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_AVCS_ACCODE
+		dataType: double
+		lineageTag: 9806421e-18a2-41e6-a613-c7d26d58002d
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_AVCS_ACCODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_MAILBOX_ID
+		dataType: double
+		lineageTag: ecd477d7-7772-4771-a671-404c9aae2242
+		summarizeBy: count
+		sourceColumn: GF_VOLUME_MAILBOX_ID
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_PDP
+		dataType: double
+		lineageTag: 211f6d8b-303b-4e31-a732-daeb4bfbd4a3
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_PDP
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_STREET
+		dataType: double
+		lineageTag: e18755a3-96b1-477f-a99e-a3fe215de75f
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_STREET
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_AREA
+		dataType: double
+		lineageTag: 88a5fba4-4e8b-407a-be1d-b891b498b06d
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_AREA
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_AVCS_ACCODE
+		dataType: double
+		lineageTag: 075ae35b-2ca3-465f-ad5a-8557cbb71ff8
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_AVCS_ACCODE
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Vol_GF_tot =
+			[GF_VOLUME_MAILBOX_ID]+ [GF_VOLUME_VENTIL_MIR_PDP]+[GF_VOLUME_VENTIL_MIR_STREET]+
+			[GF_VOLUME_VENTIL_MIR_AREA]
+		lineageTag: 6a47dc44-872e-450e-a83e-a4ee4b9bf7b2
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Vol_FN_tot =
+			[FN_VOLUME_MAILBOX_ID]+ [FN_VOLUME_VENTIL_MIR_PDP]+[FN_VOLUME_VENTIL_MIR_STREET]+
+			[FN_VOLUME_VENTIL_MIR_AREA]
+		lineageTag: c1dae3eb-8626-44ea-8292-f050d89edf43
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Month_name
+		dataType: string
+		lineageTag: e9acc9e1-1cd2-4985-be8c-facd01b66c1c
+		summarizeBy: none
+		sourceColumn: Month_name
+		sortByColumn: Month_nb
+
+		changedProperty = SortByColumn
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_nb
+		dataType: int64
+		formatString: 0
+		lineageTag: 7e6c8054-0e5f-4fe1-8389-a9f26f86d642
+		summarizeBy: sum
+		sourceColumn: Month_nb
+
+		annotation SummarizationSetBy = Automatic
+
+	column MC_NAME
+		dataType: string
+		lineageTag: 9efbfcd7-da41-48c9-a7ed-4869063f8dac
+		summarizeBy: none
+		sourceColumn: MC_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	column FN_VOLUME_VENTIL_MIR_PDP_I
+		dataType: double
+		lineageTag: 5e97c39b-8dae-476f-b08b-4c4bd84ac070
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_PDP_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_MIR_STREET_I
+		dataType: double
+		lineageTag: b19e69ca-762f-4da3-a9de-45a982be20e3
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_STREET_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_MIR_AREA_I
+		dataType: double
+		lineageTag: 9f6dc95b-8686-4fa8-a288-e9310bb14060
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_MIR_AREA_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_VENTIL_AVCS_ACCODE_I
+		dataType: double
+		lineageTag: b5df09c8-f0eb-4a1f-8179-16fa5095152c
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_VENTIL_AVCS_ACCODE_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column FN_VOLUME_TOT
+		dataType: double
+		lineageTag: 0520deef-a5a1-4ba7-a581-7b1e8538522b
+		summarizeBy: sum
+		sourceColumn: FN_VOLUME_TOT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_PDP_I
+		dataType: double
+		lineageTag: 410935a3-bac1-43f2-9fc8-7681f3fd6098
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_PDP_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_STREET_I
+		dataType: double
+		lineageTag: 714b1302-d4a0-413e-b197-07551015b2b4
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_STREET_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_MIR_AREA_I
+		dataType: double
+		lineageTag: ef103d5f-1066-42fd-acb1-ed880ee396b6
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_MIR_AREA_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_VENTIL_AVCS_ACCODE_I
+		dataType: double
+		lineageTag: ba72a1f8-a2c9-4bc6-9b89-16ec452dc892
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_VENTIL_AVCS_ACCODE_I
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column GF_VOLUME_TOT
+		dataType: double
+		lineageTag: f9540f40-c6b6-4af6-b70c-c1e2acd16d02
+		summarizeBy: sum
+		sourceColumn: GF_VOLUME_TOT
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	hierarchy Localisation
+		lineageTag: c537bc28-1426-42ff-9db0-ab11d68a8463
+
+		level 'MC Name'
+			lineageTag: 7fee61fb-bd82-456f-9045-a88698deeeb8
+			column: MC_NAME
+
+		level Postcode
+			lineageTag: 10efd130-84b9-4f38-8b8b-85f66d079812
+			column: SUB_MUNICIPALITY_POSTAL_CODE
+
+	partition V_PBI_PERC_FNGF_RECO_CP_AGG-9479169b-e79f-4d7d-b14f-b9a5e7fd50dc = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database(mm8p1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PERC_FNGF_RECO_CP_AGG1 = PBI_VLT341{[Name="V_PBI_PERC_FNGF_RECO_CP_AGG"]}[Data],
+				    #"Added Custom" = Table.AddColumn(V_PBI_PERC_FNGF_RECO_CP_AGG1, "Month_inter", each Text.Range ( [DATE_YYYYMMDD], 4)),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Added Custom",{{"Month_inter", Int64.Type}}),
+				    #"Added Custom1" = Table.AddColumn(#"Changed Type", "Month_name", each Date.MonthName([Month_inter]*29, "en-US")),
+				    #"Renamed Columns" = Table.RenameColumns(#"Added Custom1",{{"Month_inter", "Month_nb"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

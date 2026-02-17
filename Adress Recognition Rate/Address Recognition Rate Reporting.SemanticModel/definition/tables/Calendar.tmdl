@@ -1,0 +1,37 @@
+table Calendar
+	lineageTag: 35bb1c21-e058-43a2-aee7-9b408e79607a
+
+	column Month
+		dataType: string
+		lineageTag: 47e0d5b7-9afa-4fb7-8f2d-f820d5d46f17
+		summarizeBy: none
+		sourceColumn: Month
+
+		annotation SummarizationSetBy = Automatic
+
+	column Month_Nb
+		dataType: string
+		lineageTag: b9773924-918b-4300-b98f-5e99bc13f9b8
+		summarizeBy: none
+		sourceColumn: Month_Nb
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Calendar-720416e2-9eed-4e77-a900-ba4ce95f4b3e = m
+		mode: import
+		source =
+				let
+				    Source = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText("i45WMjBU0lHySswrTSyqVIrVAQoYAQXcUpOKECLGQBHfxKLkDAjXBMh1LCjKzIFwTcGyUKVmINNK81IhPHMwLwcqZwHSV5peWlwC4VsC+cGpBSWpuUmpRWAhQwOgkH9yST5cAOQ6v/wyJCUg57mkJkNFYgE=", BinaryEncoding.Base64), Compression.Deflate)), let _t = ((type nullable text) meta [Serialized.Text = true]) in type table [Num = _t, Month = _t]),
+				    #"Changed Type" = Table.TransformColumnTypes(Source,{{"Num", Int64.Type}, {"Month", type text}}),
+				    #"Changed Type1" = Table.TransformColumnTypes(#"Changed Type",{{"Num", type text}}),
+				    #"Added Custom" = Table.AddColumn(#"Changed Type1", "Month_Nb", each "0" &[Num]),
+				    #"Replaced Value" = Table.ReplaceValue(#"Added Custom","012","12",Replacer.ReplaceText,{"Month_Nb"}),
+				    #"Replaced Value1" = Table.ReplaceValue(#"Replaced Value","011","11",Replacer.ReplaceText,{"Month_Nb"}),
+				    #"Replaced Value2" = Table.ReplaceValue(#"Replaced Value1","010","",Replacer.ReplaceText,{"Month_Nb"}),
+				    #"Replaced Value3" = Table.ReplaceValue(#"Replaced Value2","","10",Replacer.ReplaceValue,{"Month_Nb"}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Replaced Value3",{"Num"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

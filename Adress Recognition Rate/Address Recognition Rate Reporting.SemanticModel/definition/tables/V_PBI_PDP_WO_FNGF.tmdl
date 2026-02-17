@@ -1,0 +1,293 @@
+table V_PBI_PDP_WO_FNGF
+	lineageTag: ec8cc569-15f6-4469-90da-2509e445d6fb
+
+	column PDP_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 6d56e55c-fad9-47f4-a194-e4764e006b04
+		summarizeBy: count
+		sourceColumn: PDP_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column BUS_ACCESS_TYPE
+		dataType: string
+		lineageTag: 04fdd764-43ac-416c-a8a6-ae976d8f914f
+		summarizeBy: none
+		sourceColumn: BUS_ACCESS_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column HOUSE_TYPE
+		dataType: string
+		lineageTag: 41cbacc5-a8bd-4a7b-ac2b-df5359998bca
+		summarizeBy: none
+		sourceColumn: HOUSE_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column NORMAL_SEQUENCE
+		dataType: int64
+		formatString: 0
+		lineageTag: e2080b77-19c3-46a4-ac30-df7c442010f1
+		summarizeBy: sum
+		sourceColumn: NORMAL_SEQUENCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column BUS_FREE_ACCESS
+		dataType: string
+		lineageTag: 19b3f73f-979c-4387-8f67-14aa8dce0ec6
+		summarizeBy: none
+		sourceColumn: BUS_FREE_ACCESS
+
+		annotation SummarizationSetBy = Automatic
+
+	column OUT_OF_RANGE
+		dataType: string
+		lineageTag: 2d60fc73-3065-441f-ac78-358d48dbbdc9
+		summarizeBy: none
+		sourceColumn: OUT_OF_RANGE
+
+		annotation SummarizationSetBy = Automatic
+
+	column OUT_OF_CIVIC_NUMBER_TYPE
+		dataType: string
+		lineageTag: 4bea828c-1355-42e7-864d-b43c224f34c8
+		summarizeBy: none
+		sourceColumn: OUT_OF_CIVIC_NUMBER_TYPE
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_NR_BUS_TEMPORARY
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fece07e-5a79-4050-ac4d-26df128a5a6f
+		summarizeBy: sum
+		sourceColumn: TOTAL_NR_BUS_TEMPORARY
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_NR_BUS_FIXED
+		dataType: int64
+		formatString: 0
+		lineageTag: 9c3a3680-45a5-4734-a466-f48b6e0297b4
+		summarizeBy: sum
+		sourceColumn: TOTAL_NR_BUS_FIXED
+
+		annotation SummarizationSetBy = Automatic
+
+	column CURRENT_STATUS
+		dataType: string
+		lineageTag: 21af7b39-6f22-41f7-b33c-76db40b6ca32
+		summarizeBy: none
+		sourceColumn: CURRENT_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column PREVIOUS_STATUS
+		dataType: string
+		lineageTag: d36311e8-f95a-4ccd-a4c1-890aa4a2ce8e
+		summarizeBy: none
+		sourceColumn: PREVIOUS_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACTIVITY_SEGMENT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: b1fe3983-57ce-4e29-861a-62cb263b4172
+		summarizeBy: count
+		sourceColumn: ACTIVITY_SEGMENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_BUS_NOUNADDR
+		dataType: int64
+		formatString: 0
+		lineageTag: c59d2b63-e38b-4f4b-ad7f-f99f7a040c2b
+		summarizeBy: sum
+		sourceColumn: TOTAL_BUS_NOUNADDR
+
+		annotation SummarizationSetBy = Automatic
+
+	column TOTAL_BUS_NOUNADDR_NO_REGION
+		dataType: int64
+		formatString: 0
+		lineageTag: 10c226ba-ba3f-41ce-83f1-99f732869b92
+		summarizeBy: sum
+		sourceColumn: TOTAL_BUS_NOUNADDR_NO_REGION
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACTUAL_CIVIC_NUMBER_ROM
+		dataType: string
+		lineageTag: 10c3edfe-9179-4b3a-bd4e-a7a5591a03ab
+		summarizeBy: none
+		sourceColumn: ACTUAL_CIVIC_NUMBER_ROM
+
+		annotation SummarizationSetBy = Automatic
+
+	column BLACK_POINT
+		dataType: string
+		lineageTag: e956a8a3-5320-4834-8b35-98c2bd6e38ba
+		summarizeBy: none
+		sourceColumn: BLACK_POINT
+
+		annotation SummarizationSetBy = Automatic
+
+	column BLACK_POINT_SATURDAY
+		dataType: string
+		lineageTag: 34461169-03d0-4395-9d1e-41b06c364d44
+		summarizeBy: none
+		sourceColumn: BLACK_POINT_SATURDAY
+
+		annotation SummarizationSetBy = Automatic
+
+	column DANGEROUS_DOG
+		dataType: string
+		lineageTag: ae7ce331-7b27-4e83-8dd5-0ab33c2196b6
+		summarizeBy: none
+		sourceColumn: DANGEROUS_DOG
+
+		annotation SummarizationSetBy = Automatic
+
+	column SEQUENCED_ON_MAILBOX_LEVEL
+		dataType: string
+		lineageTag: 41624e25-725e-4c29-b662-fe4b942f096d
+		summarizeBy: none
+		sourceColumn: SEQUENCED_ON_MAILBOX_LEVEL
+
+		annotation SummarizationSetBy = Automatic
+
+	column NO_CIVIC_NUMBER
+		dataType: string
+		lineageTag: 13d5f094-fe2b-4465-85ed-102762369c0d
+		summarizeBy: none
+		sourceColumn: NO_CIVIC_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column DUPLICATE_CIVIC_NUMBER
+		dataType: string
+		lineageTag: fd431792-8cb8-4293-94b2-67130a43ba85
+		summarizeBy: none
+		sourceColumn: DUPLICATE_CIVIC_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column NEARBY_SOURCE
+		dataType: string
+		lineageTag: a93a8864-0b6f-4010-8a95-2d6ee68ceb8b
+		summarizeBy: none
+		sourceColumn: NEARBY_SOURCE
+
+		annotation SummarizationSetBy = Automatic
+
+	column PDP_STATUS
+		dataType: string
+		lineageTag: 974c4033-0703-49b6-94d5-55f38a22140a
+		summarizeBy: none
+		sourceColumn: PDP_STATUS
+
+		annotation SummarizationSetBy = Automatic
+
+	column DELIVERY_SEGMENT_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: b76f0c83-420f-46ec-b8fb-2fbb04c0ca31
+		summarizeBy: count
+		sourceColumn: DELIVERY_SEGMENT_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column STREET_NAME_FR
+		dataType: string
+		lineageTag: 1fcd4921-e02b-4509-9858-f887fbc19bbe
+		summarizeBy: none
+		sourceColumn: STREET_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column STREET_ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 6206cbc1-294a-4320-bc81-4bffc6b76dfe
+		summarizeBy: count
+		sourceColumn: STREET_ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column ACTUAL_CIVIC_NUMBER
+		dataType: string
+		lineageTag: 3051b36d-5f8b-45fc-8d0b-32110c1c3d39
+		summarizeBy: none
+		sourceColumn: ACTUAL_CIVIC_NUMBER
+
+		annotation SummarizationSetBy = Automatic
+
+	column MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 0ea5468d-37ce-4aa5-81e5-2af8cbef0ff8
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_POSTAL_CODE
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+	column MUNICIPALITY_NAME_FR
+		dataType: string
+		lineageTag: 071761a8-bb9d-4f0f-b4d6-d137e2624abb
+		summarizeBy: none
+		sourceColumn: MUNICIPALITY_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_POSTAL_CODE
+		dataType: string
+		lineageTag: 04da2ce2-cfa4-4c9b-98ab-baaea487b4a4
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_POSTAL_CODE
+
+		annotation SummarizationSetBy = Automatic
+
+	column SUB_MUNICIPALITY_NAME_FR
+		dataType: string
+		lineageTag: a3fffc50-c860-4c0a-800e-49742f67d919
+		summarizeBy: none
+		sourceColumn: SUB_MUNICIPALITY_NAME_FR
+
+		annotation SummarizationSetBy = Automatic
+
+	column CP_MC
+		dataType: double
+		lineageTag: f6e66a90-9643-43da-af50-faa6344bb699
+		summarizeBy: sum
+		sourceColumn: CP_MC
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column MC_NAME
+		dataType: string
+		lineageTag: bb6335a5-78f7-42f5-b93f-e62484141ffa
+		summarizeBy: none
+		sourceColumn: MC_NAME
+
+		annotation SummarizationSetBy = Automatic
+
+	partition V_PBI_PDP_WO_FNGF-776fad2f-e58e-448c-8472-2fd864978b66 = m
+		mode: import
+		source =
+				let
+				    Source = Oracle.Database(mm8p1, [HierarchicalNavigation=true]),
+				    PBI_VLT341 = Source{[Schema="PBI_VLT341"]}[Data],
+				    V_PBI_PDP_WO_FNGF1 = PBI_VLT341{[Name="V_PBI_PDP_WO_FNGF"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(V_PBI_PDP_WO_FNGF1,{{"PDP_ID", Int64.Type}, {"NORMAL_SEQUENCE", Int64.Type}, {"TOTAL_NR_BUS_TEMPORARY", Int64.Type}, {"TOTAL_NR_BUS_FIXED", Int64.Type}, {"ACTIVITY_SEGMENT_ID", Int64.Type}, {"TOTAL_BUS_NOUNADDR", Int64.Type}, {"TOTAL_BUS_NOUNADDR_NO_REGION", Int64.Type}, {"DELIVERY_SEGMENT_ID", Int64.Type}, {"STREET_ID", Int64.Type}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

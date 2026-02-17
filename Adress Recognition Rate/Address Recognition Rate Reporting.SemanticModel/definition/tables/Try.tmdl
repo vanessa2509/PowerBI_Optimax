@@ -1,0 +1,36 @@
+table Try
+	isHidden
+	lineageTag: c9b9832c-d94b-47e5-a182-f411bec8c849
+
+	calculationGroup
+		precedence: 2
+
+		calculationItem TOT_FN_ByCP = DIVIDE ( SUM ( SELECTEDMEASURE  (), [#FN_TOT_VOL_AREA] )
+
+		calculationItem TOT_GF_ByCP = DIVIDE ( SUM ( SELECTEDMEASURE  (), [#GF_TOT_VOL_AREA] )
+
+	column Name
+		dataType: string
+		isHidden
+		lineageTag: bdd6e89e-716c-4f36-aab6-b969f57fbab3
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		isHidden
+		lineageTag: 9393048a-e0cb-4dd1-8589-083d3e351305
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	changedProperty = IsHidden
+
