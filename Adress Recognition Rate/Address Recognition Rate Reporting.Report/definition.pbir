@@ -3,7 +3,7 @@
   "version": "4.0",
   "datasetReference": {
     "byPath": {
-      "path": "../../Adress Recognition Rate/Address Recognition Rate Reporting.SemanticModel"
+      "path": "../Address Recognition Rate Reporting.SemanticModel"
     }
   }
 }
