@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Optimax - Services - Infos"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "43e83f60-d297-aebe-4944-8d03c3b7dc3e"
+  }
+}
